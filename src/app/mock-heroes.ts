@@ -16,4 +16,40 @@ export const HEROES: Hero[] = [
            },
        ]
    },
+   {
+    id: 2,
+    name: 'Superman',
+    abilities: [
+        {
+            name: 'super strength',
+            description: 'unbeatable with this ability',
+        },
+        {
+            name: 'heat vision',
+            description: 'laserbeams out of his eyes',
+        },
+    ]
+},{
+    id: 3,
+    name: 'Wonderwoman',
+    abilities: [
+        {
+            name: 'fly',
+            description: '',
+        },
+        {
+            name: 'swordswoman',
+            description: 'a master with a sword',
+        },
+    ]
+},{
+    id: 4,
+    name: 'The Flash',
+    abilities: [
+        {
+            name: 'superspeed',
+            description: 'faster than light',
+        },
+    ]
+},
 ]

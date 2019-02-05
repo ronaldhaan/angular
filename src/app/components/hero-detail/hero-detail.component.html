@@ -3,8 +3,18 @@
   <div><span>id: </span>{{hero.id}}</div>
   <div>
     <label>name:
-      <input [(ngModel)]="hero.name" placeholder="name"/>
-    </label>
+    </label> 
+      <input [(ngModel)]="hero.name" placeholder="name"/>  
+  </div>
+  <div>
+    <label>abilities:</label>
+      <ul class="heroes-abilities">
+        <li *ngFor="let ability of hero.abilities">
+          <a href="#">
+            <span class="badge">{{ability.id}}</span> {{ability.name}} - {{ability.description}}
+          </a>
+        </li>
+      </ul>
   </div>
   <button (click)="goBack()">go back</button>
 </div>
