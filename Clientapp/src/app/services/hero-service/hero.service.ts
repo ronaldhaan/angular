@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-
+//components
 import { Hero } from '../../models/hero';
 import { MessageService } from '../message-service/message.service';
 import { ErrorHandlerHelper } from '../../Helpers/error-handler-helper';
@@ -31,7 +31,10 @@ export class HeroService {
       );
   }
 
-  /** GET hero by id. Return `undefined` when id not found */
+  /**
+   * GETs `Hero` by id. Return `undefined` when id not found
+   * @param id The id of the `Hero`.
+   */
   getHeroNo404<Data>(id: number): Observable<Hero> {
     const url = `${this.heroesUrl}/${id}`;
     return this.http.get<Hero[]>(url)
@@ -45,7 +48,10 @@ export class HeroService {
       );
   }
 
-  /** GET hero by id. Will 404 if id not found */
+  /**
+   *  GET `Hero` by id. Will `404` if id not found
+   * @param id The id of the `Hero`
+   */
   getHero(id: string): Observable<Hero> {
     const url = `${this.heroesUrl}/${id}`;
     return this.http.get<Hero>(url)
@@ -54,8 +60,11 @@ export class HeroService {
         catchError(this.errorHandler.handleError<Hero>(`getHero id=${id}`))
       );
   }
-
-  /* GET heroes whose name contains search term */
+ 
+  /**
+   * Gets all Heroes whose `name` contains search term 
+   * @param term The search term.
+   */
   searchHeroes(term: string): Observable<Hero[]> {
     if (!term.trim()) {
       // if not search term, return empty hero array.
@@ -70,7 +79,10 @@ export class HeroService {
 
   //////// Save methods //////////
 
-  /** POST: add a new hero to the server */
+  /**
+   * `POST`: add a new `Hero` to the server
+   * @param hero The new `Hero` to create
+   */
   addHero (hero: Hero): Observable<Hero> {
     return this.http.post<Hero>(this.heroesUrl, hero, httpOptions)
       .pipe(
@@ -79,7 +91,10 @@ export class HeroService {
       );
   }
 
-  /** DELETE: delete the hero from the server */
+  /**
+   * `DELETE`: delete the `Hero` from the server
+   * @param hero The `Hero` to be deleted.
+   */
   deleteHero (hero: Hero | number): Observable<Hero> {
     const id = typeof hero === 'number' ? hero : hero.id;
     const url = `${this.heroesUrl}/${id}`;
@@ -91,7 +106,10 @@ export class HeroService {
       );
   }
 
-  /** PUT: update the hero on the server */
+  /**
+   * `PUT`: update the `Hero` on the server
+   * @param hero The `Hero` to be updated
+   */
   updateHero (hero: Hero): Observable<any> {
     const url = `${this.heroesUrl}/${hero.id}`;
 

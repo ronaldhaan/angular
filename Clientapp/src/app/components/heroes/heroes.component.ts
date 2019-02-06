@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+//components
 import { Hero } from '../../models/hero';
 import { HeroService } from '../../services/hero-service/hero.service';
 
@@ -16,12 +16,18 @@ export class HeroesComponent implements OnInit {
   ngOnInit() {
     this.getHeroes();
   }
-
+  /**
+   * Gets the heroes.
+   */
   getHeroes(): void {
     this.heroService.getHeroes()
     .subscribe(heroes => this.heroes = heroes);
   }
 
+  /**
+   * Creates a new Hero.
+   * @param name The name of the new Hero.
+   */
   add(name: string): void {
     name = name.trim();
     if (!name) { return; }
@@ -31,6 +37,10 @@ export class HeroesComponent implements OnInit {
       });
   }
 
+  /**
+   * Deletes a hero.
+   * @param hero the hero that's about to be deleted
+   */
   delete(hero: Hero): void {
     this.heroes = this.heroes.filter(h => h !== hero);
     this.heroService.deleteHero(hero).subscribe();
