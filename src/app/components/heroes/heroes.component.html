@@ -10,12 +10,19 @@
   </button>
 </div>
  
-<ul class="heroes">
-  <li *ngFor="let hero of heroes">
-    <a routerLink="/detail/{{hero.id}}">
-      <span class="badge">{{hero.id}}</span> {{hero.name}}
-    </a>
+<table class="heroes">
+  <tr *ngFor="let hero of heroes">
+    <td>
+      <a routerLink="/detail/{{hero.id}}">
+        <span class="badge">{{hero.id}}</span>
+      </a>
+    </td>
+    <td>
+        {{hero.name}}
+    </td>
+    <td>
     <button class="delete" title="delete hero"
       (click)="delete(hero)">x</button>
-  </li>
-</ul>
+    </td>
+  </tr>
+</table>

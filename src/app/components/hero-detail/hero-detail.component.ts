@@ -12,6 +12,7 @@ import { HeroService }  from '../../services/hero-service/hero.service';
 })
 export class HeroDetailComponent implements OnInit {
   @Input() hero: Hero;
+  heroes: Hero[];
 
   constructor(
     private route: ActivatedRoute,
@@ -24,13 +25,33 @@ export class HeroDetailComponent implements OnInit {
   }
 
   getHero(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
+    console.log('id', id);
     this.heroService.getHero(id)
       .subscribe(hero => this.hero = hero);
   }
 
+  getHeroes(): void {
+    this.heroService.getHeroes()
+    .subscribe(heroes => this.heroes = heroes);
+  }
+
   goBack(): void {
     this.location.back();
+  }
+
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return; }
+    this.heroService.addHero({ name } as Hero)
+      .subscribe(hero => {
+        this.heroes.push(hero);
+      });
+  }
+
+  delete(hero: Hero): void {
+    this.heroes = this.heroes.filter(h => h !== hero);
+    this.heroService.deleteHero(hero).subscribe();
   }
 
  save(): void {

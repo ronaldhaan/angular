@@ -2,19 +2,39 @@
   <h2>{{hero.name | uppercase}} Details</h2>
   <div><span>id: </span>{{hero.id}}</div>
   <div>
-    <label>name:
-    </label> 
-      <input [(ngModel)]="hero.name" placeholder="name"/>  
+    <label>name:</label> 
+    <input [(ngModel)]="hero.name" placeholder="name"/> 
+    <button (click)="save()">Save changes</button> 
   </div>
   <div>
-    <label>abilities:</label>
-      <ul class="heroes-abilities">
-        <li *ngFor="let ability of hero.abilities">
-          <a href="#">
-            <span class="badge">{{ability.id}}</span> {{ability.name}} - {{ability.description}}
-          </a>
-        </li>
-      </ul>
+    <div>
+      <label>Ability name:
+        <input #abilityname />
+      </label>
+    </div>
+    <div>
+      <label>Ability description:
+        <input #abilitydesc />
+      </label>
+    </div>
+    <div>
+      <!-- (click) passes input value to add() and then clears the input -->
+      <button (click)="add(abilityname.value, abilitydesc.value); abilityname.value=''; abilitydesc.value=''">
+        add
+      </button>
+    </div>
+  </div>
+  <div>
+    <label>abilities:</label>        
+    <ul class="heroes-ability">
+      <li *ngFor="let ability of hero.abilities">
+        <a>
+          <span class="badge">{{ability.id}}</span> {{ability.name}}
+        </a>
+        <button class="delete" title="delete hero"
+          (click)="delete(ability)">x</button>
+      </li>
+    </ul>
   </div>
   <button (click)="goBack()">go back</button>
 </div>
