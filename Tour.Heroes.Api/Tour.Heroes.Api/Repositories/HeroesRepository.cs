@@ -19,9 +19,7 @@ namespace Tour.Heroes.Api.Repositories
 
         public IQueryable<Hero> GetAll()
         {
-            var query = context
-                .Heroes
-            as IQueryable<Hero>;
+            var query = context.Heroes as IQueryable<Hero>;
                     
             query = this.GetAbilities(query)
                     .OrderBy(x => x.Name);            
@@ -36,9 +34,8 @@ namespace Tour.Heroes.Api.Repositories
                 throw new ArgumentNullException("id");
             }
 
-            var query = context
-                .Heroes
-                .Where(h => h.Id == id)
+            var query = context.Heroes
+                .Where(x => x.Id == id)
             as IQueryable<Hero>;
 
             query = this.GetAbilities(query);
