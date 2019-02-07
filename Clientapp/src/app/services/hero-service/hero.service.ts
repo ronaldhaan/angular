@@ -8,6 +8,8 @@ import { Hero } from '../../models/hero';
 import { MessageService } from '../message-service/message.service';
 import { ErrorHandlerHelper } from '../../Helpers/error-handler-helper';
 
+import { UTILITIES } from 'src/app/utilities';
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -15,7 +17,7 @@ const httpOptions = {
 @Injectable({ providedIn: 'root' })
 export class HeroService {
 
-  private heroesUrl = 'https://localhost:44393/api/heroes';  // URL to web api
+  private heroesUrl = UTILITIES.apiServerUrl + '/api/heroes';  // URL to web api
   private errorHandler: ErrorHandlerHelper = new ErrorHandlerHelper();
 
   constructor(

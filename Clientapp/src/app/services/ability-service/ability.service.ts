@@ -4,9 +4,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { Hero } from '../../models/hero';
+import { Ability } from '../../models/ability';
 import { MessageService } from '../message-service/message.service';
 import { ErrorHandlerHelper } from '../../Helpers/error-handler-helper';
+
+import { UTILITIES } from 'src/app/utilities';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -17,61 +19,73 @@ const httpOptions = {
 })
 export class AbilityService {
 
-  private heroesUrl = 'api/hero';  // URL to web api
+  private abilitiesUrl = UTILITIES.apiServerUrl + '/api/abilities';  // URL to web api
   private errorHandler: ErrorHandlerHelper = new ErrorHandlerHelper();
 
   constructor(
     private http: HttpClient,
     private messageService: MessageService) { }
 
-  /** GET hero by id. Will 404 if id not found */
-  getHero(id: number): Observable<Hero> {
-    const url = `${this.heroesUrl}/${id}`;
-    return this.http.get<Hero>(url).pipe(
-      tap(_ => this.errorHandler.log(`fetched hero id=${id}`)),
-      catchError(this.errorHandler.handleError<Hero>(`getHero id=${id}`))
+    /** GET abilities from the server */
+  getAbilities(): Observable<Ability[]> {
+    console.log(this.abilitiesUrl);
+    return this.http.get<Ability[]>(this.abilitiesUrl)
+      .pipe(
+        tap(_ => this.errorHandler.log('fetched abilities')),
+        catchError(this.errorHandler.handleError('getAbilities', []))
+      );
+  }
+
+  /** GET ability by id. Will 404 if id not found */
+  getAbility(id: string): Observable<Ability> {
+    const url = `${this.abilitiesUrl}/${id}`;
+    return this.http.get<Ability>(url).pipe(
+      tap(_ => this.errorHandler.log(`fetched ability id=${id}`)),
+      catchError(this.errorHandler.handleError<Ability>(`getAbility id=${id}`))
     );
   }
 
-  /* GET heroes whose name contains search term */
-  searchAbilities(hero: Hero | number, term: string): Observable<Hero[]> {
-    let id = typeof hero === 'number' ? hero : hero.id; 
+  /* GET abilities whose name contains search term */
+  searchAbilities(ability: Ability | number, term: string): Observable<Ability[]> {
+    let id = typeof ability === 'number' ? ability : ability.id; 
     if (!term.trim()) {
-      // if not search term, return empty hero array.
+      // if not search term, return empty ability array.
       return of([]);
     }
-    return this.http.get<Hero[]>(`${this.heroesUrl}/${id}/?name=${term}`).pipe(
-      tap(_ => this.errorHandler.log(`found heroes abilities matching "${term}"`)),
-      catchError(this.errorHandler.handleError<Hero[]>('searchAbilities', []))
+    return this.http.get<Ability[]>(`${this.abilitiesUrl}/${id}/?name=${term}`).pipe(
+      tap(_ => this.errorHandler.log(`found abilities abilities matching "${term}"`)),
+      catchError(this.errorHandler.handleError<Ability[]>('searchAbilities', []))
     );
   }
 
   //////// Save methods //////////
 
-  /** POST: add a new hero to the server */
-  addAbility (hero: Hero): Observable<Hero> {
-    return this.http.post<Hero>(this.heroesUrl, hero, httpOptions).pipe(
-      tap((newHero: Hero) => this.errorHandler.log(`added ability to hero w/ id=${newHero.id}`)),
-      catchError(this.errorHandler.handleError<Hero>('addAbility'))
+  /** POST: add a new ability to the server */
+  addAbility (ability: Ability): Observable<Ability> {
+    return this.http.post<Ability>(this.abilitiesUrl, ability, httpOptions).pipe(
+      tap((newAbility: Ability) => this.errorHandler.log(`added ability to ability w/ id=${newAbility.id}`)),
+      catchError(this.errorHandler.handleError<Ability>('addAbility'))
     );
   }
 
-  /** DELETE: delete the hero from the server */
-  deleteAbility (hero: Hero | number): Observable<Hero> {
-    const id = typeof hero === 'number' ? hero : hero.id;
-    const url = `${this.heroesUrl}/${id}`;
+  /** DELETE: delete the ability from the server */
+  deleteAbility (ability: Ability | number): Observable<Ability> {
+    const id = typeof ability === 'number' ? ability : ability.id;
+    const url = `${this.abilitiesUrl}/${id}`;
 
-    return this.http.delete<Hero>(url, httpOptions).pipe(
-      tap(_ => this.errorHandler.log(`deleted hero id=${id}`)),
-      catchError(this.errorHandler.handleError<Hero>('deleteHero'))
+    return this.http.delete<Ability>(url, httpOptions).pipe(
+      tap(_ => this.errorHandler.log(`deleted ability id=${id}`)),
+      catchError(this.errorHandler.handleError<Ability>('deleteAbility'))
     );
   }
 
-  /** PUT: update the hero on the server */
-  updateAbility (hero: Hero): Observable<any> {
-    return this.http.put(this.heroesUrl, hero, httpOptions).pipe(
-      tap(_ => this.errorHandler.log(`updated hero id=${hero.id}`)),
-      catchError(this.errorHandler.handleError<any>('updateHero'))
+  /** PUT: update the ability on the server */
+  updateAbility (ability: Ability): Observable<any> {
+    const url = `${this.abilitiesUrl}/${ability.id}`;
+    return this.http.put(url, ability, httpOptions)
+    .pipe(
+      tap(_ => this.errorHandler.log(`updated ability id=${ability.id}`)),
+      catchError(this.errorHandler.handleError<any>('updateAbility'))
     );
   }
 }

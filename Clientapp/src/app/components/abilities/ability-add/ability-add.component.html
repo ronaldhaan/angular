@@ -1,0 +1,18 @@
+<!-- Add ability to hero -->
+<div class="card mt-25">
+    <div class="card-header">Add abilities</div>
+    <div class="card-body">
+      <div class="form-group">
+          <label for="abilityname">Ability name:</label>  
+          <input class="form-control" #abilityname />
+      </div>
+      <div class="form-group">
+        <label for="abilitydesc">Ability description:</label>
+          <input class="form-control" #abilitydesc />
+      </div>
+        <!-- (click) passes input value to add() and then clears the input -->
+      <button class="btn btn-primary" (click)="add(abilityname.value, abilitydesc.value); abilityname.value=''; abilitydesc.value=''">
+        add Ability
+      </button>
+    </div>
+  </div>

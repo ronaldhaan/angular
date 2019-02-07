@@ -1,0 +1,16 @@
+<div class="card mb-5">
+    <div class="card-header"> Add Hero </div>
+    <div class="card-body">
+      <div class="form-group">
+        <label for="heroName">Hero name:</label>
+          <input class="form-control" #heroName />
+        <!-- (click) passes input value to add() and then clears the input -->
+      </div>
+      <button class="btn btn-primary" 
+              (click)="add(heroName.value); heroName.value=''">
+              add Hero
+      </button>
+  </div>
+</div>
+
+<button class="btn btn-primary" (click)="goBack()"><i class="fa fa-arrow-left"></i> Back</button>

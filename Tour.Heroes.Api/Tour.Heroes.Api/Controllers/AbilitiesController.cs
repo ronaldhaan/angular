@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Tour.Abilities.Api.Repositories;
 using Tour.Heroes.Api;
 using Tour.Heroes.Api.Models;
+using Tour.Heroes.Api.Models.RequestModels;
+using Tour.Heroes.Api.Models.ViewModels;
 
 namespace Tour.Heroes.Api.Controllers
 {
@@ -14,30 +17,70 @@ namespace Tour.Heroes.Api.Controllers
     [ApiController]
     public class AbilitiesController : ControllerBase
     {
-        private readonly HeroDbContext _context;
+        private readonly AbilitiesRepository abilitiesRepository;
 
         public AbilitiesController(HeroDbContext context)
         {
-            _context = context;
+            this.abilitiesRepository = new AbilitiesRepository(context);
         }
 
         // GET: api/Abilities
         [HttpGet]
-        public IEnumerable<Ability> GetAbilities()
+        public ActionResult GetAbilities([FromQuery]CollectionRequestModel model)
         {
-            return _context.Abilities;
+            int skip = 0;
+            var query = this.abilitiesRepository.GetAll() as IQueryable<Ability>;
+
+            if(!string.IsNullOrEmpty(model.Name))
+            {
+                query = query.Where(x => x.Name.Contains(model.Name));
+            }
+
+            if (model.Skip != null && model.Skip > 0)
+            {
+                skip = (int)model.Skip;
+            }
+
+            query = query
+                .Skip(skip)
+                .Take(25);
+
+            var viewQuery = SelectViewModel(query);
+
+            return Ok(viewQuery.ToList());
+        }
+
+        private IQueryable<AbilityViewModel> SelectViewModel(IQueryable<Ability> query)
+        {
+            return query.Select(ability => new AbilityViewModel
+            {
+                Id = ability.Id,
+                Name = ability.Name,
+                Description = ability.Description,
+                Heroes = ability.HeroesAbilities
+                            .Select(link => link.Hero)
+                                .Select(hero => new HeroViewModel()
+                                {
+                                    Id = hero.Id,
+                                    Name = hero.Name
+                                })
+            });
         }
 
         // GET: api/Abilities/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAbility([FromRoute] Guid id)
+        public async Task<IActionResult> Get([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var ability = await _context.Abilities.FindAsync(id);
+            var q = this.abilitiesRepository.GetOne(id) as IQueryable<Ability>;
+
+            var viewQuery = SelectViewModel(q);
+
+            AbilityViewModel ability = await viewQuery.FirstAsync();
 
             if (ability == null)
             {
@@ -60,16 +103,14 @@ namespace Tour.Heroes.Api.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(ability).State = EntityState.Modified;
-
+            
             try
             {
-                await _context.SaveChangesAsync();
+                await this.abilitiesRepository.UpdateAsync(id, ability);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AbilityExists(id))
+                if (!this.abilitiesRepository.EntityExists(id))
                 {
                     return NotFound();
                 }
@@ -91,8 +132,7 @@ namespace Tour.Heroes.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Abilities.Add(ability);
-            await _context.SaveChangesAsync();
+            await this.abilitiesRepository.AddAsync(ability);
 
             return CreatedAtAction("GetAbility", new { id = ability.Id }, ability);
         }
@@ -106,21 +146,12 @@ namespace Tour.Heroes.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var ability = await _context.Abilities.FindAsync(id);
-            if (ability == null)
+            if (!(await this.abilitiesRepository.DeleteAsync(id) is Ability ability))
             {
                 return NotFound();
             }
 
-            _context.Abilities.Remove(ability);
-            await _context.SaveChangesAsync();
-
             return Ok(ability);
-        }
-
-        private bool AbilityExists(Guid id)
-        {
-            return _context.Abilities.Any(e => e.Id == id);
         }
     }
 }

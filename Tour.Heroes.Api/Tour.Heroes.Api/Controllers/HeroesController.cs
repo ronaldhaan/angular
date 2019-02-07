@@ -17,12 +17,12 @@ namespace Tour.Heroes.Api.Controllers
     [ApiController]
     public class HeroesController : ControllerBase
     {
-        private readonly HeroDbContext _context;
-        private HeroesRepository heroesRepository;
+        //private readonly HeroDbContext _context;
+        private readonly HeroesRepository heroesRepository;
 
         public HeroesController(HeroDbContext context)
         {
-            _context = context;
+            //_context = context;
             this.heroesRepository = new HeroesRepository(context);
         }
 
@@ -37,7 +37,7 @@ namespace Tour.Heroes.Api.Controllers
 
             int skip = 0;
 
-            var query = this.heroesRepository.GetAll();
+            var query = this.heroesRepository.GetAll() as IQueryable<Hero>;
 
             if (model.AbilityCount > 0)
             {
@@ -65,17 +65,17 @@ namespace Tour.Heroes.Api.Controllers
 
         private IQueryable<HeroViewModel> SelectViewModel(IQueryable<Hero> query)
         {
-            return query.Select(x => new HeroViewModel
+            return query.Select(hero => new HeroViewModel
             {
-                Id = x.Id,
-                Name = x.Name,
-                Abilities = x.AbilitiesHeroes
-                                .Select(c => c.Ability)
-                                .Select(c => new AbilityViewModel()
+                Id = hero.Id,
+                Name = hero.Name,
+                Abilities = hero.AbilitiesHeroes
+                                .Select(link => link.Ability)
+                                .Select(ability => new AbilityViewModel()
                                 {
-                                    Id = c.Id,
-                                    Name = c.Name,
-                                    Description = c.Description
+                                    Id = ability.Id,
+                                    Name = ability.Name,
+                                    Description = ability.Description
                                 })
             });
         }
@@ -89,7 +89,7 @@ namespace Tour.Heroes.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var q = this.heroesRepository.GetOne(id);
+            var q = this.heroesRepository.GetOne(id) as IQueryable<Hero>;
 
             var viewQuery = SelectViewModel(q);
 
@@ -117,15 +117,13 @@ namespace Tour.Heroes.Api.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(hero).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await this.heroesRepository.UpdateAsync(id, hero);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!HeroExists(id))
+                if (!this.heroesRepository.EntityExists(id))
                 {
                     return NotFound();
                 }
@@ -147,8 +145,8 @@ namespace Tour.Heroes.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.Heroes.Add(hero);
-            await _context.SaveChangesAsync();
+            await this.heroesRepository.AddAsync(hero);
+            
 
             return CreatedAtAction("GetHero", new { id = hero.Id }, hero);
         }
@@ -162,21 +160,13 @@ namespace Tour.Heroes.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var hero = await _context.Heroes.FindAsync(id);
-            if (hero == null)
+
+            if (!(await this.heroesRepository.DeleteAsync(id) is Hero hero))
             {
                 return NotFound();
             }
 
-            _context.Heroes.Remove(hero);
-            await _context.SaveChangesAsync();
-
             return Ok(hero);
-        }
-
-        private bool HeroExists(Guid id)
-        {
-            return _context.Heroes.Any(e => e.Id == id);
         }
     }
 }

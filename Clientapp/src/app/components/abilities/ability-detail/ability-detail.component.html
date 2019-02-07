@@ -1,0 +1,35 @@
+<div class="card mb-5">
+    <div class="card-header">{{ability.name | uppercase}} Details</div>
+    <div class="card-body">
+      <div><span>id: </span>{{ability.id}}</div>
+      <div class="form-group">
+        <label for="abilityName">name</label> 
+        <input class="form-control" #abilityName [(ngModel)]="ability.name" placeholder="name"/> 
+      </div>
+      <button class="btn btn-primary" (click)="save()">Save changes</button> 
+    </div>
+  </div>
+  <!-- List of the abilities of the ability -->
+  <div class="card mb-5">
+    <div class="card-header">Heroes with this ability</div>
+    <div class="card-body">      
+      <table *ngIf="ability.heroes.length > 0" class="table table-striped table-hover">
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+          </tr>
+          <tr *ngFor="let hero of ability.heroes">
+            <td routerLink="/heroes/{{hero.id}}/detail">
+                {{hero.id}}
+            </td>
+            <td>
+                {{hero.name}}
+            </td>
+          </tr>
+      </table>
+      <div *ngIf="ability.heroes.length == 0">
+        This ability has no heroes (yet). Feel free to <a routerLink="/heroes/create">add</a> one.
+      </div>
+    </div>  
+  </div>
+  <button class="btn btn-primary" (click)="goBack()"><i class="fa fa-arrow-left"></i> Back</button>
