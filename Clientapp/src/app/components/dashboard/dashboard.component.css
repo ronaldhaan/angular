@@ -10,15 +10,15 @@
     color: #eee;
     max-height: 120px;
     min-width: 120px;
-    background-color: #607d8b;
+    background-color: #af0001;
     border-radius: 2px;
+    margin: 5px;
   }
   .module:hover {
-    background-color: #eee;
+    background-color: #fe0000;
     cursor: pointer;
-    color: #607d8b;
   }
   
-  .module:hover > a {
+  /* .module:hover > a {
     color: #000;
-  }
+  } */

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tour.Heroes.Api.Models.ViewModels
 {
-    public class AbilityViewModel
+    public class AbilityViewModel : IEntityViewModel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,6 +17,6 @@ namespace Tour.Heroes.Api.Models.ViewModels
 
         public string Description { get; set; }
 
-        public IEnumerable<HeroViewModel> Heroes { get; set; }
+        public IEnumerable<MetaHumanViewModel> Metahumans { get; set; }
     }
 }

@@ -1,8 +1,8 @@
-import { Injectable, ErrorHandler } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 import { Ability } from '../../models/ability';
 import { MessageService } from '../message-service/message.service';
@@ -10,9 +10,6 @@ import { ErrorHandlerHelper } from '../../Helpers/error-handler-helper';
 
 import { UTILITIES } from 'src/app/utilities';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +44,7 @@ export class AbilityService {
 
   /* GET abilities whose name contains search term */
   searchAbilities(ability: Ability | number, term: string): Observable<Ability[]> {
-    let id = typeof ability === 'number' ? ability : ability.id; 
+    const id = typeof ability === 'number' ? ability : ability.id;
     if (!term.trim()) {
       // if not search term, return empty ability array.
       return of([]);
@@ -62,7 +59,7 @@ export class AbilityService {
 
   /** POST: add a new ability to the server */
   addAbility (ability: Ability): Observable<Ability> {
-    return this.http.post<Ability>(this.abilitiesUrl, ability, httpOptions).pipe(
+    return this.http.post<Ability>(this.abilitiesUrl, ability, UTILITIES.httpOptions).pipe(
       tap((newAbility: Ability) => this.errorHandler.log(`added ability to ability w/ id=${newAbility.id}`)),
       catchError(this.errorHandler.handleError<Ability>('addAbility'))
     );
@@ -73,7 +70,7 @@ export class AbilityService {
     const id = typeof ability === 'number' ? ability : ability.id;
     const url = `${this.abilitiesUrl}/${id}`;
 
-    return this.http.delete<Ability>(url, httpOptions).pipe(
+    return this.http.delete<Ability>(url, UTILITIES.httpOptions).pipe(
       tap(_ => this.errorHandler.log(`deleted ability id=${id}`)),
       catchError(this.errorHandler.handleError<Ability>('deleteAbility'))
     );
@@ -82,7 +79,7 @@ export class AbilityService {
   /** PUT: update the ability on the server */
   updateAbility (ability: Ability): Observable<any> {
     const url = `${this.abilitiesUrl}/${ability.id}`;
-    return this.http.put(url, ability, httpOptions)
+    return this.http.put(url, ability, UTILITIES.httpOptions)
     .pipe(
       tap(_ => this.errorHandler.log(`updated ability id=${ability.id}`)),
       catchError(this.errorHandler.handleError<any>('updateAbility'))

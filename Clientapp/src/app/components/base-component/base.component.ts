@@ -4,9 +4,9 @@ import { Location } from '@angular/common';
 
 /** The Base component */
 export class BaseComponent {
+    protected static hasChanged: Boolean = false;
     private route: ActivatedRoute;
     private location: Location;
-
     constructor(
         route: ActivatedRoute,
         location: Location
@@ -19,10 +19,16 @@ export class BaseComponent {
         return this.route.snapshot.paramMap.get(paramName);
     }
 
-    /** 
+    /**
      * Redirects back to the previous page.
      */
-    goBack(): void {
+    goBack(hasChanged: Boolean = false): void {
+        BaseComponent.hasChanged = hasChanged;
+        this.hasChanged();
         this.location.back();
+    }
+
+    hasChanged(): void {
+        console.log('has changed');
     }
 }

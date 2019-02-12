@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Tour.Abilities.Api.Repositories;
 using Tour.Heroes.Api;
 using Tour.Heroes.Api.Models;
+using Tour.Heroes.Api.Models.Entities;
 using Tour.Heroes.Api.Models.RequestModels;
 using Tour.Heroes.Api.Models.ViewModels;
+using Tour.Heroes.Api.Repositories;
+using Tour.Heroes.Api.Repositories.EntityRepositories;
 
 namespace Tour.Heroes.Api.Controllers
 {
@@ -24,12 +26,14 @@ namespace Tour.Heroes.Api.Controllers
             this.abilitiesRepository = new AbilitiesRepository(context);
         }
 
+        #region Actions
         // GET: api/Abilities
         [HttpGet]
         public ActionResult GetAbilities([FromQuery]CollectionRequestModel model)
         {
             int skip = 0;
             var query = this.abilitiesRepository.GetAll() as IQueryable<Ability>;
+            query = GetHeroes(query);
 
             if(!string.IsNullOrEmpty(model.Name))
             {
@@ -50,23 +54,6 @@ namespace Tour.Heroes.Api.Controllers
             return Ok(viewQuery.ToList());
         }
 
-        private IQueryable<AbilityViewModel> SelectViewModel(IQueryable<Ability> query)
-        {
-            return query.Select(ability => new AbilityViewModel
-            {
-                Id = ability.Id,
-                Name = ability.Name,
-                Description = ability.Description,
-                Heroes = ability.HeroesAbilities
-                            .Select(link => link.Hero)
-                                .Select(hero => new HeroViewModel()
-                                {
-                                    Id = hero.Id,
-                                    Name = hero.Name
-                                })
-            });
-        }
-
         // GET: api/Abilities/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id)
@@ -77,6 +64,7 @@ namespace Tour.Heroes.Api.Controllers
             }
 
             var q = this.abilitiesRepository.GetOne(id) as IQueryable<Ability>;
+            q = this.GetHeroes(q);
 
             var viewQuery = SelectViewModel(q);
 
@@ -88,6 +76,12 @@ namespace Tour.Heroes.Api.Controllers
             }
 
             return Ok(ability);
+        }
+
+        private IQueryable<Ability> GetHeroes(IQueryable<Ability> query)
+        {
+            return query.Include(x => x.MetaHumanAbilities)
+                        .ThenInclude(x => x.MetaHuman);
         }
 
         // PUT: api/Abilities/5
@@ -131,10 +125,16 @@ namespace Tour.Heroes.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
+            try
+            {
+                await this.abilitiesRepository.AddAsync(ability);
 
-            await this.abilitiesRepository.AddAsync(ability);
-
-            return CreatedAtAction("GetAbility", new { id = ability.Id }, ability);
+                return CreatedAtAction("GetAbility", new { id = ability.Id }, ability);
+            }
+            catch(DbUpdateException ex)
+            {
+                return new JsonResult(ex.Message);
+            }
         }
 
         // DELETE: api/Abilities/5
@@ -152,6 +152,24 @@ namespace Tour.Heroes.Api.Controllers
             }
 
             return Ok(ability);
+        }
+        #endregion Actions
+
+        private IQueryable<AbilityViewModel> SelectViewModel(IQueryable<Ability> query)
+        {
+            return query.Select(ability => new AbilityViewModel
+            {
+                Id = ability.Id,
+                Name = ability.Name,
+                Description = ability.Description,
+                Metahumans = ability.MetaHumanAbilities
+                            .Select(link => link.MetaHuman)
+                                .Select(hero => new MetaHumanViewModel()
+                                {
+                                    Id = hero.Id,
+                                    Name = hero.Name
+                                })
+            });
         }
     }
 }

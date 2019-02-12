@@ -1,29 +1,51 @@
-/* AppComponent's private CSS styles
-h1 {
-    font-size: 1.2em;
-    color: #999;
-    margin-bottom: 0;
+/* AppComponent's private CSS styles */
+  .header {
+    color: #fff;
+    margin-bottom:0;
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-image: url("../assets/img/hero_banner.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 30vh;
+    /* background-size:  */
   }
-  h2 {
-    font-size: 2em;
-    margin-top: 0;
-    padding-top: 0;
+
+  nav.navbar, footer {
+    background-image: linear-gradient(to right, #af0001 ,#fe0000);
   }
-  nav a {
-    padding: 5px 10px;
-    text-decoration: none;
-    margin-top: 10px;
-    display: inline-block;
-    background-color: #eee;
-    border-radius: 4px;
+
+  .content {
+    margin-top: 25vh;
+    background-color: white;
+    z-index: 2;
+    min-height: 80vh;
+    margin-bottom: 400px;
   }
-  nav a:visited, a:link {
-    color: #607d8b;
+
+  /* if screen >  576px and screen < 688px */
+  @media all and (min-width: 576px) and (max-width: 688px) {
+    .content {
+      margin-top: 30vh;
+    }
   }
-  nav a:hover {
-    color: #039be5;
-    background-color: #cfd8dc;
+
+  /* if screen < 373 */
+  @media all and (max-width: 373px) {
+    .content {
+      margin-top: 30vh;
+    }
   }
-  nav a.active {
-    color: #039be5;
-  } */
+
+  .footer {
+    margin-bottom:0;
+    position: fixed;
+    z-index: -1;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }

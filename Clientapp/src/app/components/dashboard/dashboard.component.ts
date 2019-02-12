@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Hero } from '../../models/hero';
-import { HeroService } from '../../services/hero-service/hero.service';
+import { Metahuman } from '../../models/metahuman';
+import { MetahumanService } from '../../services/metahuman-service/metahuman.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,19 +8,19 @@ import { HeroService } from '../../services/hero-service/hero.service';
   styleUrls: [ './dashboard.component.css' ]
 })
 export class DashboardComponent implements OnInit {
-  heroes: Hero[] = [];
+  metahumen: Metahuman[] = [];
 
-  constructor(private heroService: HeroService) { }
+  constructor(private metahumanService: MetahumanService) { }
 
   ngOnInit() {
     this.getHeroes();
   }
 
   /**
-   * Gets all heroes.
+   * Gets all metahumans.
    */
   getHeroes(): void {
-    this.heroService.getHeroes()
-      .subscribe(heroes => this.heroes = heroes.slice(1, 5));
+    this.metahumanService.getHeroes()
+      .subscribe(metahuman => this.metahumen = metahuman.slice(1, 5));
   }
 }

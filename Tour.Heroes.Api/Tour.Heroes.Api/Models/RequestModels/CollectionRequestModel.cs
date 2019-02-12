@@ -12,5 +12,6 @@ namespace Tour.Heroes.Api.Models.RequestModels
         public int? Skip { get; set; }
 
         public string Name { get; set; }
+
     }
 }

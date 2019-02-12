@@ -16,6 +16,7 @@ using Tour.Heroes.Api.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Tour.Heroes.Api
 {
@@ -39,6 +40,9 @@ namespace Tour.Heroes.Api
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
             // Add db context to application
             services.AddDbContext<HeroDbContext>
                 (

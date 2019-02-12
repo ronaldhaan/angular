@@ -30,7 +30,7 @@ export class ErrorHandlerHelper {
   }
 
   /**
-   * Logs a HeroService message with the MessageService
+   * Logs a MetahumanService message with the MessageService
    * @param message The message to be logged.
    */
   public log(message: string): void {

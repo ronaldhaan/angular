@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Tour.Heroes.Api.Models
 {
     public interface ITourModel
     {
-        Guid Id { get; set; }
+        DateTime CreateAt { get; }
+        DateTime UpdatedAt { get; set; }
     }
 }

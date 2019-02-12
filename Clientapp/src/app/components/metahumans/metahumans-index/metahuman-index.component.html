@@ -1,0 +1,31 @@
+<div class="card">
+  <div class="card-header">
+    <h2>My Heroes</h2>
+  </div>
+  <div class="card-body">
+    <div *ngIf="metahumans.length == 0" class="spinner-border"></div>
+    <div *ngIf="metahumans.length > 0" class="form-group">
+      <a routerLink="/heroes/create">Create Hero</a>
+      
+      <table class="table table-striped table-hover">
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>#</th>
+        </tr>
+        <tr *ngFor="let hero of metahumans">
+          <td routerLink="/heroes/{{hero.id}}/detail">
+              {{hero.id}}
+          </td>
+          <td>
+              {{hero.name}}
+          </td>
+          <td>
+          <button class="btn btn-danger btn-sm" title="delete hero"
+            (click)="delete(hero)"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

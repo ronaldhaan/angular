@@ -6,15 +6,16 @@ import { FormsModule }    from '@angular/forms';
 import { HttpClientModule }    from '@angular/common/http';
 //components
 import { AppComponent } from './app.component';
-import { HeroesComponent } from './components/heroes/heroes-index/heroes-index.component';
-import { HeroDetailComponent } from './components/heroes/hero-detail/hero-detail.component';
-import { HeroSearchComponent } from './components/heroes/hero-search/hero-search.component';
+import { MetaHumanIndexComponent } from './components/metahumans/metahumans-index/metahuman-index.component';
+import { MetahumanDetailComponent } from './components/metahumans/metahuman-detail/metahuman-detail.component';
+import { MetahumanSearchComponent } from './components/metahumans/metahuman-search/metahuman-search.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { HeroCreateComponent } from './components/heroes/hero-create/hero-create.component';
-import { AbilityAddComponent } from './components/abilities/ability-add/ability-add.component';
+import { MetahumanCreateComponent } from './components/metahumans/metahuman-create/metahuman-create.component';
+import { AbilityCreateComponent } from './components/abilities/ability-create/ability-create.component';
 import { AbilityDetailComponent } from './components/abilities/ability-detail/ability-detail.component';
 import { AbilitiesIndexComponent } from './components/abilities/abilities-index/abilities-index.component';
+import { MetahumanAbilityAddComponent } from './components/metahumans/metahuman-ability-add/metahuman-ability-add.component';
 
 @NgModule({
   imports: [
@@ -27,14 +28,15 @@ import { AbilitiesIndexComponent } from './components/abilities/abilities-index/
     AppComponent,
     // BaseComponent,
     DashboardComponent,
-    HeroesComponent,
-    HeroDetailComponent,
-    HeroSearchComponent,
+    MetaHumanIndexComponent,
+    MetahumanDetailComponent,
+    MetahumanSearchComponent,
     MessagesComponent,
-    HeroCreateComponent,
-    AbilityAddComponent,
+    MetahumanCreateComponent,
+    AbilityCreateComponent,
     AbilityDetailComponent,
-    AbilitiesIndexComponent
+    AbilitiesIndexComponent,
+    MetahumanAbilityAddComponent
   ],
   bootstrap: [ AppComponent ]
 })

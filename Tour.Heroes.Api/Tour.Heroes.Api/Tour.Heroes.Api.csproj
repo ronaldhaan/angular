@@ -14,9 +14,20 @@
     <Compile Remove="Migrations\20190205152642_InitializeDatabase.Designer.cs" />
     <Compile Remove="Migrations\20190206114402_changeIdentifiersToGuid.cs" />
     <Compile Remove="Migrations\20190206114402_changeIdentifiersToGuid.Designer.cs" />
+    <Compile Remove="Migrations\20190206114705_InitializeDatabase.cs" />
+    <Compile Remove="Migrations\20190206114705_InitializeDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20190208151730_RenameLink.cs" />
+    <Compile Remove="Migrations\20190208151730_RenameLink.Designer.cs" />
+    <Compile Remove="Migrations\20190211130444_test.cs" />
+    <Compile Remove="Migrations\20190211130444_test.Designer.cs" />
+    <Compile Remove="Migrations\20190212093636_InitializeDatabase.cs" />
+    <Compile Remove="Migrations\20190212093636_InitializeDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20190212103641_InitializeDatabase.cs" />
+    <Compile Remove="Migrations\20190212103641_InitializeDatabase.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

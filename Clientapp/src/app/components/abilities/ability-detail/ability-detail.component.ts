@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-//components
+// components
 import { BaseComponent } from 'src/app/components/base-component/base.component';
 
 import { Ability } from 'src/app/models/ability';
@@ -22,14 +22,9 @@ export class AbilityDetailComponent extends BaseComponent implements OnInit {
     abilityService: AbilityService,
     location: Location
   ) {
-    super(route, location); 
+    super(route, location);
     this.abilityService = abilityService;
-    this.ability = {
-      id: '',
-      name: '',
-      description: '',
-      heroes: []
-    }
+    this.ability = Ability.Empty();
   }
 
   ngOnInit(): void {
@@ -40,7 +35,7 @@ export class AbilityDetailComponent extends BaseComponent implements OnInit {
    * Gets the ability from the url.
    */
   getAbility(): void {
-    const id = this.getParam("id");
+    const id = this.getParam('id');
     console.log(id);
     this.abilityService.getAbility(id)
       .subscribe(ability => {

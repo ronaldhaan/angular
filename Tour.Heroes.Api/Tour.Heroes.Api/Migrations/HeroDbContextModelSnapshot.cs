@@ -19,84 +19,199 @@ namespace Tour.Heroes.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Tour.Heroes.Api.Models.Ability", b =>
+            modelBuilder.Entity("Tour.Heroes.Api.Models.Entities.Ability", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("CreateAt");
+
                     b.Property<string>("Description");
 
                     b.Property<string>("Name");
+
+                    b.Property<DateTime>("UpdatedAt");
 
                     b.HasKey("Id");
 
                     b.ToTable("Abilities");
 
                     b.HasData(
-                        new { Id = new Guid("e8d8f446-131f-456f-9031-0f36eec37d95"), Description = "Specialized in combat", Name = "Martial Arts" },
-                        new { Id = new Guid("46cc7990-e44f-4b5d-9436-7c0b55b71f76"), Description = "Speaks for itself", Name = "Super strength" },
-                        new { Id = new Guid("a2105d1e-7a93-4152-aa54-d7adcb7147b5"), Description = "Super fast for its opponent, but for it feels normal for the speedster", Name = "Super speed" },
-                        new { Id = new Guid("79ee5b6d-bf67-4ce3-b315-bda73879a854"), Description = "Specialized with a sword", Name = "Swordsmaster" },
-                        new { Id = new Guid("dbe15c06-3c00-48bd-9358-9a130408351d"), Description = "Speaks for itself", Name = "Marmot de graaf" },
-                        new { Id = new Guid("5b1f4217-1b6c-4a5a-8090-9d88b5efcdc8"), Description = "Super fast for its opponent, but for it feels normal for the speedster", Name = "harinak" },
-                        new { Id = new Guid("95d99eab-93f8-4eb4-bce8-a1296e757bc8"), Description = "Specialized with a sword", Name = "haha" }
+                        new { Id = new Guid("1e5e2647-f6e6-4766-938a-c5cd4ce98858"), CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 337, DateTimeKind.Local), Description = "Specialized in combat", Name = "Martial Arts", UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 340, DateTimeKind.Local) },
+                        new { Id = new Guid("fe903516-c842-4ddd-aea9-e424b11accf2"), CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 340, DateTimeKind.Local), Description = "Speaks for itself", Name = "Super strength", UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 340, DateTimeKind.Local) },
+                        new { Id = new Guid("18f36731-1594-41ce-ad8c-448b3b5fdad7"), CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 340, DateTimeKind.Local), Description = "Super fast for its opponent, but for it feels normal for the speedster", Name = "Super speed", UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 340, DateTimeKind.Local) },
+                        new { Id = new Guid("400cd7c0-fb2d-4ce7-8ecf-9173781e3051"), CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 340, DateTimeKind.Local), Description = "Specialized with a sword", Name = "Swordsmaster", UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 340, DateTimeKind.Local) },
+                        new { Id = new Guid("7c87589d-fb8f-463d-800d-1b56796143bb"), CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 340, DateTimeKind.Local), Description = "Speaks for itself", Name = "Marmot de graaf", UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 340, DateTimeKind.Local) },
+                        new { Id = new Guid("f26dd53c-0a6c-4ad9-855a-7e42b44cb30f"), CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 340, DateTimeKind.Local), Description = "Super fast for its opponent, but for it feels normal for the speedster", Name = "harinak", UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 340, DateTimeKind.Local) },
+                        new { Id = new Guid("70274856-ea1d-4f7d-8d89-af760ddef79c"), CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 340, DateTimeKind.Local), Description = "Specialized with a sword", Name = "haha", UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 340, DateTimeKind.Local) },
+                        new { Id = new Guid("4dc1453b-35e5-4870-8313-c1ed97cbf1a2"), CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 340, DateTimeKind.Local), Description = "Overthrows his opponent with spells", Name = "Magic", UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 340, DateTimeKind.Local) }
                     );
                 });
 
-            modelBuilder.Entity("Tour.Heroes.Api.Models.Hero", b =>
+            modelBuilder.Entity("Tour.Heroes.Api.Models.Entities.LinkEntities.MetaHumanAbility", b =>
+                {
+                    b.Property<Guid>("MetaHumanId");
+
+                    b.Property<Guid>("AbilityId");
+
+                    b.HasKey("MetaHumanId", "AbilityId");
+
+                    b.HasIndex("AbilityId");
+
+                    b.ToTable("MetahumansAbilities");
+
+                    b.HasData(
+                        new { MetaHumanId = new Guid("1c4dad1a-997c-45b0-9b93-aba549621d21"), AbilityId = new Guid("1e5e2647-f6e6-4766-938a-c5cd4ce98858") },
+                        new { MetaHumanId = new Guid("1f3ed50f-9fdb-421c-83c9-92643ecc295a"), AbilityId = new Guid("fe903516-c842-4ddd-aea9-e424b11accf2") },
+                        new { MetaHumanId = new Guid("bd8b06b5-52e8-4016-911d-c41dbb6fbd41"), AbilityId = new Guid("400cd7c0-fb2d-4ce7-8ecf-9173781e3051") },
+                        new { MetaHumanId = new Guid("fa812295-9675-40da-bb5a-8eca623835f3"), AbilityId = new Guid("18f36731-1594-41ce-ad8c-448b3b5fdad7") },
+                        new { MetaHumanId = new Guid("61356b02-0c9b-4425-8835-d1960bcebc9d"), AbilityId = new Guid("18f36731-1594-41ce-ad8c-448b3b5fdad7") },
+                        new { MetaHumanId = new Guid("bd8b06b5-52e8-4016-911d-c41dbb6fbd41"), AbilityId = new Guid("7c87589d-fb8f-463d-800d-1b56796143bb") },
+                        new { MetaHumanId = new Guid("61356b02-0c9b-4425-8835-d1960bcebc9d"), AbilityId = new Guid("f26dd53c-0a6c-4ad9-855a-7e42b44cb30f") },
+                        new { MetaHumanId = new Guid("61356b02-0c9b-4425-8835-d1960bcebc9d"), AbilityId = new Guid("70274856-ea1d-4f7d-8d89-af760ddef79c") },
+                        new { MetaHumanId = new Guid("9faf0ff4-1391-4bf0-9d86-9932b646ede1"), AbilityId = new Guid("7c87589d-fb8f-463d-800d-1b56796143bb") },
+                        new { MetaHumanId = new Guid("2950955b-1176-4157-853c-a85c244051ed"), AbilityId = new Guid("fe903516-c842-4ddd-aea9-e424b11accf2") },
+                        new { MetaHumanId = new Guid("93734b67-39cc-4862-9d02-96d30cb15382"), AbilityId = new Guid("18f36731-1594-41ce-ad8c-448b3b5fdad7") },
+                        new { MetaHumanId = new Guid("b0ee81e3-6209-4464-b1c3-b2730a5aeabc"), AbilityId = new Guid("1e5e2647-f6e6-4766-938a-c5cd4ce98858") },
+                        new { MetaHumanId = new Guid("54ff83f0-6a3f-4c46-ab61-3da14d3b4296"), AbilityId = new Guid("7c87589d-fb8f-463d-800d-1b56796143bb") },
+                        new { MetaHumanId = new Guid("a4d11ce7-5d01-4627-b562-5d4c11a1baab"), AbilityId = new Guid("4dc1453b-35e5-4870-8313-c1ed97cbf1a2") },
+                        new { MetaHumanId = new Guid("d8b9d732-be9b-4c7d-b28a-b2b47782c8da"), AbilityId = new Guid("400cd7c0-fb2d-4ce7-8ecf-9173781e3051") }
+                    );
+                });
+
+            modelBuilder.Entity("Tour.Heroes.Api.Models.Entities.LinkEntities.MetaHumanTeam", b =>
+                {
+                    b.Property<Guid>("MetaHumanId");
+
+                    b.Property<Guid>("TeamId");
+
+                    b.Property<DateTime>("CreateAt");
+
+                    b.Property<DateTime>("UpdatedAt");
+
+                    b.HasKey("MetaHumanId", "TeamId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("MetaHumanTeam");
+
+                    b.HasData(
+                        new { MetaHumanId = new Guid("9faf0ff4-1391-4bf0-9d86-9932b646ede1"), TeamId = new Guid("eace5a32-51c5-46af-b44f-714921eba78a"), CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { MetaHumanId = new Guid("2950955b-1176-4157-853c-a85c244051ed"), TeamId = new Guid("eace5a32-51c5-46af-b44f-714921eba78a"), CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { MetaHumanId = new Guid("93734b67-39cc-4862-9d02-96d30cb15382"), TeamId = new Guid("eace5a32-51c5-46af-b44f-714921eba78a"), CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { MetaHumanId = new Guid("b0ee81e3-6209-4464-b1c3-b2730a5aeabc"), TeamId = new Guid("eace5a32-51c5-46af-b44f-714921eba78a"), CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { MetaHumanId = new Guid("7fe2ae42-d90a-4b4d-81ba-0987ce4b8afa"), TeamId = new Guid("eace5a32-51c5-46af-b44f-714921eba78a"), CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { MetaHumanId = new Guid("083b5d73-03e0-4ee2-b47c-5bd77293f50f"), TeamId = new Guid("eace5a32-51c5-46af-b44f-714921eba78a"), CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { MetaHumanId = new Guid("713d4e73-9fc7-4a16-9e14-630878037a51"), TeamId = new Guid("034b692d-23d6-4ffe-b4bf-9ec087fa04c8"), CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { MetaHumanId = new Guid("eddccc01-45a2-45f5-bd63-643b4067efa7"), TeamId = new Guid("034b692d-23d6-4ffe-b4bf-9ec087fa04c8"), CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { MetaHumanId = new Guid("0a306629-2dd5-407b-90e7-7c9eff7addfc"), TeamId = new Guid("034b692d-23d6-4ffe-b4bf-9ec087fa04c8"), CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { MetaHumanId = new Guid("cc5fca44-0e32-49da-8356-cfa0a75872c7"), TeamId = new Guid("034b692d-23d6-4ffe-b4bf-9ec087fa04c8"), CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { MetaHumanId = new Guid("c64e64a3-89a8-446b-ae78-f2c8f47e0764"), TeamId = new Guid("034b692d-23d6-4ffe-b4bf-9ec087fa04c8"), CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { MetaHumanId = new Guid("68fa0f30-8f63-4932-bd00-91ac23bae938"), TeamId = new Guid("034b692d-23d6-4ffe-b4bf-9ec087fa04c8"), CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { MetaHumanId = new Guid("9515769b-756f-4f28-9e7c-ff7d830a6b61"), TeamId = new Guid("034b692d-23d6-4ffe-b4bf-9ec087fa04c8"), CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { MetaHumanId = new Guid("a6acbbcb-e046-4de7-b56b-a15a6c43cce7"), TeamId = new Guid("034b692d-23d6-4ffe-b4bf-9ec087fa04c8"), CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { MetaHumanId = new Guid("deccab1d-e3fb-4812-8b2a-c48aba9d619e"), TeamId = new Guid("034b692d-23d6-4ffe-b4bf-9ec087fa04c8"), CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { MetaHumanId = new Guid("9d45c45d-0b12-4a9c-9777-b1e3bf7324c5"), TeamId = new Guid("034b692d-23d6-4ffe-b4bf-9ec087fa04c8"), CreateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    );
+                });
+
+            modelBuilder.Entity("Tour.Heroes.Api.Models.Entities.MetaHuman", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("AlterEgo");
+
+                    b.Property<DateTime>("CreateAt");
+
+                    b.Property<string>("Description");
+
                     b.Property<string>("Name");
+
+                    b.Property<int>("Status");
+
+                    b.Property<DateTime>("UpdatedAt");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Heroes");
+                    b.ToTable("Metahumans");
 
                     b.HasData(
-                        new { Id = new Guid("170f3b78-7267-49ed-a44d-bce86ccb9d60"), Name = "Batman" },
-                        new { Id = new Guid("708d8976-a5c8-4afa-bcb3-ba2d93f913e3"), Name = "Superman" },
-                        new { Id = new Guid("f063751e-604e-42b5-b0bb-202fff920239"), Name = "WonderWoman" },
-                        new { Id = new Guid("17cf5e2e-2417-412f-bf01-f66f978c5f68"), Name = "The Flash" },
-                        new { Id = new Guid("2df360a7-8691-4316-8283-21b997a5d241"), Name = "Jay Garrick" }
+                        new { Id = new Guid("1c4dad1a-997c-45b0-9b93-aba549621d21"), AlterEgo = "", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 340, DateTimeKind.Local), Description = "", Name = "Deathstroke", Status = 1, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 340, DateTimeKind.Local) },
+                        new { Id = new Guid("1f3ed50f-9fdb-421c-83c9-92643ecc295a"), AlterEgo = "None", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "", Name = "Darkseid", Status = 1, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("bd8b06b5-52e8-4016-911d-c41dbb6fbd41"), AlterEgo = "Eobard Thawne", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "", Name = "Reverse Flash", Status = 1, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("fa812295-9675-40da-bb5a-8eca623835f3"), AlterEgo = "", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "", Name = "Cicada", Status = 1, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("61356b02-0c9b-4425-8835-d1960bcebc9d"), AlterEgo = "", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "", Name = "Prometheus", Status = 1, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("2c84ec27-0d21-456c-96f7-338b220525eb"), AlterEgo = "None", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "", Name = "General Zodd", Status = 1, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("9faf0ff4-1391-4bf0-9d86-9932b646ede1"), AlterEgo = "Bruce Wayne", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "", Name = "Batman", Status = 0, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("2950955b-1176-4157-853c-a85c244051ed"), AlterEgo = "Clark Kent", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "", Name = "Superman", Status = 0, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("93734b67-39cc-4862-9d02-96d30cb15382"), AlterEgo = "Diana Prince", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "", Name = "WonderWoman", Status = 0, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("b0ee81e3-6209-4464-b1c3-b2730a5aeabc"), AlterEgo = "Barry Allen", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "", Name = "The Flash", Status = 0, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("54ff83f0-6a3f-4c46-ab61-3da14d3b4296"), AlterEgo = "Henry Allen", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "", Name = "Jay Garrick", Status = 0, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("a4d11ce7-5d01-4627-b562-5d4c11a1baab"), AlterEgo = "None", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "", Name = "John Constantine", Status = 2, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("d8b9d732-be9b-4c7d-b28a-b2b47782c8da"), AlterEgo = "", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "", Name = "Deadpool", Status = 2, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("7fe2ae42-d90a-4b4d-81ba-0987ce4b8afa"), AlterEgo = "Hall Jordan", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "", Name = "Green Lantern", Status = 0, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("083b5d73-03e0-4ee2-b47c-5bd77293f50f"), AlterEgo = "Joh", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "", Name = "Martian Manhunter", Status = 0, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("713d4e73-9fc7-4a16-9e14-630878037a51"), AlterEgo = "None", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "Twisted duplicate of Superman created from a Duplication Ray By Lex On Earth", Name = "Bizarro", Status = 1, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("eddccc01-45a2-45f5-bd63-643b4067efa7"), AlterEgo = "David Hyde", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "Deep sea diver and would-be ocean conquero", Name = "Black Manta", Status = 1, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("0a306629-2dd5-407b-90e7-7c9eff7addfc"), AlterEgo = "Vril dox", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "Evil alien android", Name = "Brainiac", Status = 1, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("cc5fca44-0e32-49da-8356-cfa0a75872c7"), AlterEgo = "Leonard Snart", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "Blue-suited master of low temperatures", Name = "Captain Cold", Status = 1, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("c64e64a3-89a8-446b-ae78-f2c8f47e0764"), AlterEgo = "Priscilla Rich", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "Cheetah suit-wearing woman", Name = "Cheetah", Status = 1, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("68fa0f30-8f63-4932-bd00-91ac23bae938"), AlterEgo = "Doris Zeul", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "Stole Apache Chief's magic powder to duplicate his powers", Name = "Giganta", Status = 1, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("9515769b-756f-4f28-9e7c-ff7d830a6b61"), AlterEgo = "Grodd", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "Megalomaniacal exile from Gorilla City", Name = "Gorrilla Grodd", Status = 1, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("a6acbbcb-e046-4de7-b56b-a15a6c43cce7"), AlterEgo = "None", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "Mad scientist and founder/leader of the Legion of Doom", Name = "Lex Luthor", Status = 1, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("deccab1d-e3fb-4812-8b2a-c48aba9d619e"), AlterEgo = "Edward Nygma", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "Megalomaniacal exile from Gorilla City", Name = "Riddler", Status = 1, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("9d45c45d-0b12-4a9c-9777-b1e3bf7324c5"), AlterEgo = "Thaal Sinestro", CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Description = "Renegade ex-Green Lantern", Name = "Sinestro", Status = 1, UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) }
                     );
                 });
 
-            modelBuilder.Entity("Tour.Heroes.Api.Models.HeroAbilities", b =>
+            modelBuilder.Entity("Tour.Heroes.Api.Models.Entities.Team", b =>
                 {
-                    b.Property<Guid>("HeroId");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("AbilityId");
+                    b.Property<DateTime>("CreateAt");
 
-                    b.HasKey("HeroId", "AbilityId");
+                    b.Property<string>("Description");
 
-                    b.HasIndex("AbilityId");
+                    b.Property<string>("Name");
 
-                    b.ToTable("HeroAbilities");
+                    b.Property<DateTime>("UpdatedAt");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Team");
 
                     b.HasData(
-                        new { HeroId = new Guid("170f3b78-7267-49ed-a44d-bce86ccb9d60"), AbilityId = new Guid("e8d8f446-131f-456f-9031-0f36eec37d95") },
-                        new { HeroId = new Guid("708d8976-a5c8-4afa-bcb3-ba2d93f913e3"), AbilityId = new Guid("46cc7990-e44f-4b5d-9436-7c0b55b71f76") },
-                        new { HeroId = new Guid("f063751e-604e-42b5-b0bb-202fff920239"), AbilityId = new Guid("79ee5b6d-bf67-4ce3-b315-bda73879a854") },
-                        new { HeroId = new Guid("17cf5e2e-2417-412f-bf01-f66f978c5f68"), AbilityId = new Guid("a2105d1e-7a93-4152-aa54-d7adcb7147b5") },
-                        new { HeroId = new Guid("2df360a7-8691-4316-8283-21b997a5d241"), AbilityId = new Guid("a2105d1e-7a93-4152-aa54-d7adcb7147b5") },
-                        new { HeroId = new Guid("f063751e-604e-42b5-b0bb-202fff920239"), AbilityId = new Guid("dbe15c06-3c00-48bd-9358-9a130408351d") },
-                        new { HeroId = new Guid("2df360a7-8691-4316-8283-21b997a5d241"), AbilityId = new Guid("5b1f4217-1b6c-4a5a-8090-9d88b5efcdc8") },
-                        new { HeroId = new Guid("2df360a7-8691-4316-8283-21b997a5d241"), AbilityId = new Guid("95d99eab-93f8-4eb4-bce8-a1296e757bc8") }
+                        new { Id = new Guid("eace5a32-51c5-46af-b44f-714921eba78a"), CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Name = "Justice League", UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("034b692d-23d6-4ffe-b4bf-9ec087fa04c8"), CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Name = "Legion of Doom", UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) },
+                        new { Id = new Guid("14f4bc50-550c-4876-86ab-e1f7eca2a91f"), CreateAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local), Name = "Avengers", UpdatedAt = new DateTime(2019, 2, 12, 12, 39, 6, 341, DateTimeKind.Local) }
                     );
                 });
 
-            modelBuilder.Entity("Tour.Heroes.Api.Models.HeroAbilities", b =>
+            modelBuilder.Entity("Tour.Heroes.Api.Models.Entities.LinkEntities.MetaHumanAbility", b =>
                 {
-                    b.HasOne("Tour.Heroes.Api.Models.Ability", "Ability")
-                        .WithMany("HeroesAbilities")
+                    b.HasOne("Tour.Heroes.Api.Models.Entities.Ability", "Ability")
+                        .WithMany("MetaHumanAbilities")
                         .HasForeignKey("AbilityId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Tour.Heroes.Api.Models.Hero", "Hero")
+                    b.HasOne("Tour.Heroes.Api.Models.Entities.MetaHuman", "MetaHuman")
                         .WithMany("AbilitiesHeroes")
-                        .HasForeignKey("HeroId")
+                        .HasForeignKey("MetaHumanId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Tour.Heroes.Api.Models.Entities.LinkEntities.MetaHumanTeam", b =>
+                {
+                    b.HasOne("Tour.Heroes.Api.Models.Entities.MetaHuman", "MetaHuman")
+                        .WithMany("MetaHumanTeams")
+                        .HasForeignKey("MetaHumanId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Tour.Heroes.Api.Models.Entities.Team", "Team")
+                        .WithMany("MetaHumanTeams")
+                        .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

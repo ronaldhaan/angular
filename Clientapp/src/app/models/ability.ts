@@ -1,9 +1,17 @@
-import { Hero } from './hero';
+import { Metahuman } from './metahuman';
 
 export class Ability {
-    id: number;
+    id: string;
     name: string;
     description: string;
-    heroes: Hero[];
+    heroes: Metahuman[];
 
+    public static Empty(): Ability {
+        return {
+            id: '',
+            name: '',
+            description: '',
+            heroes: []
+          };
+    }
 }

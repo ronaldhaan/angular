@@ -20,7 +20,7 @@ export class AbilitiesIndexComponent extends BaseComponent implements OnInit {
     abilityService: AbilityService,
     location: Location
   ) {
-    super(route, location); 
+    super(route, location);
     this.abilityService = abilityService;
   }
 
@@ -34,9 +34,9 @@ export class AbilitiesIndexComponent extends BaseComponent implements OnInit {
    */
   getAbilities(): void {
     this.abilityService.getAbilities()
-    .subscribe(abilities => this.abilities = abilities);
+      .subscribe(abilities => this.abilities = abilities);
 
-    console.log(this.abilities)
+    console.log(this.abilities);
   }
 
   /**
@@ -44,8 +44,7 @@ export class AbilitiesIndexComponent extends BaseComponent implements OnInit {
    * @param ability the ability that's about to be deleted
    */
   delete(ability: Ability): void {
-    this.abilities = this.abilities.filter(h => h !== ability);
-    this.abilityService.deleteAbility(ability).subscribe();
+    this.abilityService.deleteAbility(ability)
+        .subscribe( () => this.abilities = this.abilities.filter(h => h !== ability));
   }
-
 }

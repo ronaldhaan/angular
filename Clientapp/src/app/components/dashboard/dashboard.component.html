@@ -1,14 +1,16 @@
-
 <div class="card mb-5">
   <h5 class="card-header">Top Heroes</h5>
   <div class="card-body">
     <div class="card-text">
-        <div class="row">
-          <div *ngFor="let hero of heroes" class="col-md-3">
-            <div class="module">
-              <a routerLink="/heroes/{{hero.id}}/detail">
-                  <h4>{{hero.name}}</h4>
-              </a>
+        <div *ngIf="metahumen.length == 0" class="spinner-border text-center"></div>
+        <div *ngIf="metahumen.length > 0">
+          <div class="row">
+            <div *ngFor="let metahuman of metahumen" class="col-md-3">
+              <div class="module">
+                <a routerLink="/heroes/{{metahuman.id}}/detail">
+                    <h4>{{metahuman.name}}</h4>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -16,4 +18,4 @@
   </div>
 </div>  
 
-<app-hero-search></app-hero-search>
+<app-metahuman-search></app-metahuman-search>
