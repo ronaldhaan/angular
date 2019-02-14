@@ -1,11 +1,11 @@
 <div class="card">
   <div class="card-header">
-    <h2>My Heroes</h2>
+    <h2>My Metas</h2>
   </div>
   <div class="card-body">
     <div *ngIf="metahumans.length == 0" class="spinner-border"></div>
     <div *ngIf="metahumans.length > 0" class="form-group">
-      <a routerLink="/heroes/create">Create Hero</a>
+      <a routerLink="/metas/create">Create Meta</a>
       
       <table class="table table-striped table-hover">
         <tr>
@@ -13,16 +13,16 @@
           <th>Name</th>
           <th>#</th>
         </tr>
-        <tr *ngFor="let hero of metahumans">
-          <td routerLink="/heroes/{{hero.id}}/detail">
-              {{hero.id}}
+        <tr *ngFor="let meta of metahumans">
+          <td routerLink="/metas/{{meta.id}}/detail">
+              {{meta.id}}
           </td>
           <td>
-              {{hero.name}}
+              {{meta.name}}
           </td>
           <td>
-          <button class="btn btn-danger btn-sm" title="delete hero"
-            (click)="delete(hero)"><i class="fa fa-trash"></i></button>
+          <button class="btn btn-danger btn-sm" title="delete meta"
+            (click)="delete(meta)"><i class="fa fa-trash"></i></button>
           </td>
         </tr>
       </table>

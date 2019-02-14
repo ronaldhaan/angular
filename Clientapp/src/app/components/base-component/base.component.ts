@@ -1,18 +1,24 @@
 // import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import {MessageService} from '../../services/message-service/message.service';
 
 /** The Base component */
 export class BaseComponent {
     protected static hasChanged: Boolean = false;
     private route: ActivatedRoute;
     private location: Location;
+
+    protected messageService: MessageService;
+
     constructor(
         route: ActivatedRoute,
-        location: Location
+        location: Location,
+        messageService: MessageService
     ) {
         this.route = route;
         this.location = location;
+        this.messageService = messageService;
      }
 
     getParam(paramName: string): string {

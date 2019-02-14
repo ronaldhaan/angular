@@ -6,6 +6,7 @@ import { BaseComponent } from 'src/app/components/base-component/base.component'
 
 import { Ability } from 'src/app/models/ability';
 import { AbilityService } from 'src/app/services/ability-service/ability.service';
+import {MessageService} from '../../../services/message-service/message.service';
 
 @Component({
   selector: 'app-ability-detail',
@@ -20,9 +21,10 @@ export class AbilityDetailComponent extends BaseComponent implements OnInit {
   constructor(
     route: ActivatedRoute,
     abilityService: AbilityService,
+    messageService: MessageService,
     location: Location
   ) {
-    super(route, location);
+    super(route, location, messageService);
     this.abilityService = abilityService;
     this.ability = Ability.Empty();
   }
@@ -36,14 +38,10 @@ export class AbilityDetailComponent extends BaseComponent implements OnInit {
    */
   getAbility(): void {
     const id = this.getParam('id');
-    console.log(id);
     this.abilityService.getAbility(id)
       .subscribe(ability => {
-        console.log('1', ability);
         this.ability = ability;
       });
-
-      console.log(this.ability);
   }
 
   /**

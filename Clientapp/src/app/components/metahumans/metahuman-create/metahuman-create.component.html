@@ -1,14 +1,24 @@
 <div class="card mb-5">
-    <div class="card-header"> Add Hero </div>
+    <div class="card-header"> Add Meta </div>
     <div class="card-body">
       <div class="form-group">
-        <label for="heroName">Hero name:</label>
-          <input class="form-control" #heroName />
+        <label for="metaName">name:</label>
+          <input class="form-control" id="metaName" #name />
         <!-- (click) passes input value to add() and then clears the input -->
       </div>
-      <button class="btn btn-primary" 
-              (click)="add(heroName.value); heroName.value=''">
-              add Hero
+        <div class="form-group">
+            <label for="metaDescription">Description:</label>
+            <input class="form-control" id="metaDescription" #description />
+            <!-- (click) passes input value to add() and then clears the input -->
+        </div>
+        <div class="form-group">
+            <label for="metaEgo">Meta name:</label>
+            <input class="form-control" id="metaEgo" #ego />
+            <!-- (click) passes input value to add() and then clears the input -->
+        </div>
+      <button class="btn btn-primary"
+              (click)="handleForm(name, description, ego)">
+              add Meta
       </button>
   </div>
 </div>

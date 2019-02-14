@@ -7,7 +7,7 @@ namespace Tour.Heroes.Api.Models
 {
     public interface ITourModel
     {
-        DateTime CreateAt { get; }
-        DateTime UpdatedAt { get; set; }
+        DateTimeOffset CreateAt { get; }
+        DateTimeOffset UpdatedAt { get; set; }
     }
 }

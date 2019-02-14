@@ -1,10 +1,10 @@
-//modules
+// modules
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule }    from '@angular/forms';
-import { HttpClientModule }    from '@angular/common/http';
-//components
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+// components
 import { AppComponent } from './app.component';
 import { MetaHumanIndexComponent } from './components/metahumans/metahumans-index/metahuman-index.component';
 import { MetahumanDetailComponent } from './components/metahumans/metahuman-detail/metahuman-detail.component';
@@ -16,6 +16,9 @@ import { AbilityCreateComponent } from './components/abilities/ability-create/ab
 import { AbilityDetailComponent } from './components/abilities/ability-detail/ability-detail.component';
 import { AbilitiesIndexComponent } from './components/abilities/abilities-index/abilities-index.component';
 import { MetahumanAbilityAddComponent } from './components/metahumans/metahuman-ability-add/metahuman-ability-add.component';
+import { TeamIndexComponent } from './components/teams/team-index/team-index.component';
+import { TeamDetailsComponent } from './components/teams/team-details/team-details.component';
+import { TeamCreateComponent } from './components/teams/team-create/team-create.component';
 
 @NgModule({
   imports: [
@@ -36,7 +39,10 @@ import { MetahumanAbilityAddComponent } from './components/metahumans/metahuman-
     AbilityCreateComponent,
     AbilityDetailComponent,
     AbilitiesIndexComponent,
-    MetahumanAbilityAddComponent
+    MetahumanAbilityAddComponent,
+    TeamIndexComponent,
+    TeamDetailsComponent,
+    TeamCreateComponent
   ],
   bootstrap: [ AppComponent ]
 })

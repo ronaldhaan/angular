@@ -1,0 +1,64 @@
+import {Component, Input, OnInit} from '@angular/core';
+import { BaseComponent } from '../../base-component/base.component';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
+import {Team} from '../../../models/team';
+import {TeamService} from '../../../services/team-service/team.service';
+import {Metahuman} from '../../../models/metahuman';
+import {MessageService} from '../../../services/message-service/message.service';
+import {TeamMetahumanService} from '../../../services/team-metahuman-service/team-metahuman.service';
+
+@Component({
+  selector: 'app-team-details',
+  templateUrl: './team-details.component.html',
+  styleUrls: ['./team-details.component.css']
+})
+export class TeamDetailsComponent extends BaseComponent implements OnInit {
+  private teamService: TeamService;
+  private teamMetahumanService: TeamMetahumanService;
+  @Input() team: Team;
+
+  constructor(route: ActivatedRoute,
+              location: Location,
+              service: TeamService,
+              messageService: MessageService,
+              metaService: TeamMetahumanService) {
+    super(route, location, messageService);
+    this.teamService = service;
+    this.teamMetahumanService = metaService;
+    this.team = Team.Empty();
+  }
+
+  ngOnInit() {
+    this.getTeam();
+    console.log('ngOnInit', this.team);
+  }
+
+  getTeam() {
+    const id = this.getParam('id');
+    this.teamService.getOne(id)
+            .subscribe(
+                    team => {
+                            this.team = team;
+                            console.log('sub', team);
+                    });
+  }
+
+  /**
+   * Updates a meta.
+   */
+  save(): void {
+    this.teamService.update(this.team)
+        .subscribe(() => this.goBack());
+  }
+
+  remove(meta: Metahuman): void {
+    const teamId = this.getParam('id');
+    this.teamMetahumanService.remove(teamId, meta).subscribe(() => {
+      this.getTeam();
+    });
+
+  }
+
+}

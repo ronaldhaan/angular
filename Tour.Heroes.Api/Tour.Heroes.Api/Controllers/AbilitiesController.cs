@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +18,11 @@ namespace Tour.Heroes.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AbilitiesController : ControllerBase
+    public class AbilitiesController : BaseController
     {
         private readonly AbilitiesRepository abilitiesRepository;
 
-        public AbilitiesController(HeroDbContext context)
+        public AbilitiesController(HeroDbContext context, IMapper mapper) : base(mapper)
         {
             this.abilitiesRepository = new AbilitiesRepository(context);
         }
@@ -33,25 +34,27 @@ namespace Tour.Heroes.Api.Controllers
         {
             int skip = 0;
             var query = this.abilitiesRepository.GetAll() as IQueryable<Ability>;
-            query = GetHeroes(query);
+            query = this.abilitiesRepository.GetRelations(query) as IQueryable<Ability>;
 
             if(!string.IsNullOrEmpty(model.Name))
             {
                 query = query.Where(x => x.Name.Contains(model.Name));
             }
 
-            if (model.Skip != null && model.Skip > 0)
+            if (model.Skip > 0)
             {
                 skip = (int)model.Skip;
             }
 
             query = query
+                .OrderBy(x => x.Name)
                 .Skip(skip)
                 .Take(25);
 
-            var viewQuery = SelectViewModel(query);
+            IQueryable<AbilityViewModel> viewQuery = query.Select(x => ViewModelHelper.BuildAbilityViewModel(x, true));
 
             return Ok(viewQuery.ToList());
+            //return Ok(this.mapper.Map<AbilityViewModel>(query));
         }
 
         // GET: api/Abilities/5
@@ -63,25 +66,18 @@ namespace Tour.Heroes.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var q = this.abilitiesRepository.GetOne(id) as IQueryable<Ability>;
-            q = this.GetHeroes(q);
+            var query = await this.abilitiesRepository.GetOne(id) as IQueryable<Ability>;
+            query = this.abilitiesRepository.GetRelations(query) as IQueryable<Ability>;
 
-            var viewQuery = SelectViewModel(q);
+            var response = query.Select(x => ViewModelHelper.BuildAbilityViewModel(x, true));
+            //this.mapper.Map<AbilityViewModel>(query);
 
-            AbilityViewModel ability = await viewQuery.FirstAsync();
-
-            if (ability == null)
+            if (response == null)
             {
                 return NotFound();
             }
 
-            return Ok(ability);
-        }
-
-        private IQueryable<Ability> GetHeroes(IQueryable<Ability> query)
-        {
-            return query.Include(x => x.MetaHumanAbilities)
-                        .ThenInclude(x => x.MetaHuman);
+            return Ok(response);
         }
 
         // PUT: api/Abilities/5
@@ -155,21 +151,23 @@ namespace Tour.Heroes.Api.Controllers
         }
         #endregion Actions
 
-        private IQueryable<AbilityViewModel> SelectViewModel(IQueryable<Ability> query)
-        {
-            return query.Select(ability => new AbilityViewModel
-            {
-                Id = ability.Id,
-                Name = ability.Name,
-                Description = ability.Description,
-                Metahumans = ability.MetaHumanAbilities
-                            .Select(link => link.MetaHuman)
-                                .Select(hero => new MetaHumanViewModel()
-                                {
-                                    Id = hero.Id,
-                                    Name = hero.Name
-                                })
-            });
-        }
+        //private IQueryable<AbilityViewModel> SelectViewModel(IQueryable<Ability> query)
+        //{
+        //    return query
+        //    //    .Select(ability => new AbilityViewModel
+        //    //{
+        //    //    Id = ability.Id,
+        //    //    Name = ability.Name,
+        //    //    Description = ability.Description,
+        //    //    Metahumans = ability.MetaHumanAbilities
+        //    //                .Select(link => link.MetaHuman)
+        //    //                    .Select(hero => new MetaHumanViewModel()
+        //    //                    {
+        //    //                        Id = hero.Id,
+        //    //                        Name = hero.Name
+        //    //                    })
+        //    //})
+        //    ;
+        //}
     }
 }

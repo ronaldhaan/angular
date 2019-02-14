@@ -8,6 +8,6 @@ namespace Tour.Heroes.Api.Repositories
 {
     public interface ITourRepository
     {
-        IQueryable<ITourEntityModel> GetChildren(IQueryable<ITourEntityModel> query);
+        IQueryable<ITourEntityModel> GetRelations(IQueryable<ITourEntityModel> query);
     }
 }

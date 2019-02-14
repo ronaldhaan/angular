@@ -5,7 +5,7 @@ import { MessageService } from '../services/message-service/message.service';
 /** Helper to handle the errors. */
 export class ErrorHandlerHelper {
 
-    public className: string = '';
+    public className = '';
 
     public messageService: MessageService = new MessageService();
 

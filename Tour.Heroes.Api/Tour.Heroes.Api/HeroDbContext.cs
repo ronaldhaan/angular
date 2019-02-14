@@ -24,7 +24,7 @@ namespace Tour.Heroes.Api
             modelBuilder.Entity<MetaHumanAbility>()
             // create a one to many relation between the metahuman table and the link table MetahumanAbility
                 .HasOne(ha => ha.MetaHuman)
-                .WithMany(h => h.AbilitiesHeroes)
+                .WithMany(h => h.MetaHumanAbilities)
             // set foreign key from the metahuman table to the link table MetahumanAbility.
                 .HasForeignKey(ha => ha.MetaHumanId);
 

@@ -6,6 +6,7 @@ import { BaseComponent } from 'src/app/components/base-component/base.component'
 
 import { Metahuman } from 'src/app/models/metahuman';
 import { MetahumanService } from 'src/app/services/metahuman-service/metahuman.service';
+import {MessageService} from '../../../services/message-service/message.service';
 
 @Component({
   selector: 'app-metahuman-index',
@@ -19,9 +20,10 @@ export class MetaHumanIndexComponent extends BaseComponent implements OnInit {
   constructor(
     route: ActivatedRoute,
     metahumanService: MetahumanService,
-    location: Location
+    location: Location,
+    messageService: MessageService
   ) {
-    super(route, location);
+    super(route, location, messageService);
     this.metahumanService = metahumanService;
     this.metahumans = [];
   }
@@ -34,8 +36,8 @@ export class MetaHumanIndexComponent extends BaseComponent implements OnInit {
    * Gets the metahumans.
    */
   getMetahumans(): void {
-    this.metahumanService.getHeroes()
-    .subscribe(metahuman => this.metahumans = metahuman);
+    this.metahumanService.getMetas()
+    .subscribe(metahumans => { console.log('meta: ', metahumans); this.metahumans = metahumans });
   }
 
   /**
@@ -44,7 +46,7 @@ export class MetaHumanIndexComponent extends BaseComponent implements OnInit {
    */
   delete(metahuman: Metahuman): void {
     this.metahumans = this.metahumans.filter(h => h !== metahuman);
-    this.metahumanService.deleteHero(metahuman).subscribe();
+    this.metahumanService.deleteMeta(metahuman).subscribe();
   }
 
 }

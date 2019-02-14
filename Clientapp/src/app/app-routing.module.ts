@@ -9,25 +9,37 @@ import { AbilityDetailComponent } from './components/abilities/ability-detail/ab
 import { AbilityCreateComponent } from './components/abilities/ability-create/ability-create.component';
 import { AbilitiesIndexComponent } from './components/abilities/abilities-index/abilities-index.component';
 import { MetahumanAbilityAddComponent } from './components/metahumans/metahuman-ability-add/metahuman-ability-add.component';
+import {TeamIndexComponent} from './components/teams/team-index/team-index.component';
+import {TeamDetailsComponent} from './components/teams/team-details/team-details.component';
+import {TeamCreateComponent} from './components/teams/team-create/team-create.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent },
-  // Heroes routes
-  { path: 'metahuman', children: [
-      { path: '', component: MetaHumanIndexComponent },
-      { path: 'create', component: MetahumanCreateComponent },
-      { path: ':id/detail', component: MetahumanDetailComponent },
-      { path: ':id/add', component: MetahumanAbilityAddComponent },
-    ]
-  },
-  // abilities routes
-  { path: 'abilities', children: [
-      { path: '', component: AbilitiesIndexComponent },
-      { path: ':id/detail', component: AbilityDetailComponent},
-      { path: 'add', component: AbilityCreateComponent },
-    ]
-  }
+    { path: 'dashboard', component: DashboardComponent },
+    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+    // Metas routes
+    { path: 'metas', children: [
+            { path: '', component: MetaHumanIndexComponent },
+            { path: 'create', component: MetahumanCreateComponent },
+            { path: ':id/detail', component: MetahumanDetailComponent },
+            { path: ':id/add', component: MetahumanAbilityAddComponent },
+        ]
+    },
+    // abilities routes
+    { path: 'abilities', children: [
+            { path: '', component: AbilitiesIndexComponent },
+            { path: ':id/detail', component: AbilityDetailComponent},
+            { path: 'add', component: AbilityCreateComponent },
+        ]
+    },
+    // teams routes
+    {
+        path: 'teams', children: [
+            { path: '', component: TeamIndexComponent },
+            { path: ':id/detail', component: TeamDetailsComponent },
+            { path: 'add', component: TeamCreateComponent },
+        ]
+    }
+
 ];
 
 @NgModule({

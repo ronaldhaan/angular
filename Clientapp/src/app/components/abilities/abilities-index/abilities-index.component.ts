@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { Ability } from 'src/app/models/ability';
 import { AbilityService } from 'src/app/services/ability-service/ability.service';
 import { BaseComponent } from '../../base-component/base.component';
+import {MessageService} from '../../../services/message-service/message.service';
 
 @Component({
   selector: 'app-abilities-index',
@@ -18,9 +19,10 @@ export class AbilitiesIndexComponent extends BaseComponent implements OnInit {
   constructor(
     route: ActivatedRoute,
     abilityService: AbilityService,
+    messageService: MessageService,
     location: Location
   ) {
-    super(route, location);
+    super(route, location, messageService);
     this.abilityService = abilityService;
   }
 
@@ -35,8 +37,6 @@ export class AbilitiesIndexComponent extends BaseComponent implements OnInit {
   getAbilities(): void {
     this.abilityService.getAbilities()
       .subscribe(abilities => this.abilities = abilities);
-
-    console.log(this.abilities);
   }
 
   /**

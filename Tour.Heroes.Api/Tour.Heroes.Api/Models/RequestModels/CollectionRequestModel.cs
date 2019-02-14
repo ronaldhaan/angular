@@ -7,9 +7,9 @@ namespace Tour.Heroes.Api.Models.RequestModels
 {
     public class CollectionRequestModel
     {
-        public int? AbilityCount { get; set; }
+        public int AbilityCount { get; set; }
 
-        public int? Skip { get; set; }
+        public int Skip { get; set; }
 
         public string Name { get; set; }
 

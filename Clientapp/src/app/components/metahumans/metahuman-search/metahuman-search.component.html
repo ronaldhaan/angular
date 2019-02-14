@@ -1,17 +1,17 @@
 <div id="search-component">  
   <div class="card">
-    <div class="card-header">Search for a hero</div>
+    <div class="card-header">Search for a meta</div>
     <div class="card-body">
         <div class="form-group">
-            <label for="searchBox">Hero Search</label>
+            <label for="search-box">Meta Search</label>
             <input #searchBox id="search-box" (input)="search(searchBox.value)" class="form-control" />
         </div>
       
         <div class="form-group">
           <ul class="list-group">
-            <li *ngFor="let hero of heroes$ | async" class="list-group-item" >
-              <a routerLink="/heroes/{{hero.id}}/detail">
-                {{hero.name}}
+            <li *ngFor="let meta of metas$ | async" class="list-group-item" >
+              <a routerLink="/metas/{{meta.id}}/detail">
+                {{meta.name}}
               </a>
             </li>
           </ul>

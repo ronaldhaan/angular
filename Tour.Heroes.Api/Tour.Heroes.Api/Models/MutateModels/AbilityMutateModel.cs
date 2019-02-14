@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 
 namespace Tour.Heroes.Api.Models.MutateModels
 {
-    public class AbilityMutateModel
+    public class AbilityMutateModel : BaseMutateModel
     {
-        public string Name { get; set; }
     }
 }

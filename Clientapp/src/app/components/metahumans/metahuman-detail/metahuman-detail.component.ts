@@ -7,6 +7,7 @@ import { MetahumanService } from 'src/app/services/metahuman-service/metahuman.s
 import { BaseComponent } from 'src/app/components/base-component/base.component';
 import {Ability} from 'src/app/models/ability';
 import {MetahumanAbilityService} from 'src/app/services/metahuman-ability-service/metahuman-ability.service';
+import {MessageService} from '../../../services/message-service/message.service';
 
 @Component({
   selector: 'app-metahuman-detail',
@@ -14,46 +15,54 @@ import {MetahumanAbilityService} from 'src/app/services/metahuman-ability-servic
   styleUrls: [ './metahuman-detail.component.css' ]
 })
 export class MetahumanDetailComponent extends BaseComponent implements OnInit {
-  @Input() public hero: Metahuman;
-  private heroService: MetahumanService;
-  private heroAbilityService: MetahumanAbilityService;
+  @Input() public meta: Metahuman;
+  private metaService: MetahumanService;
+  private metaAbilityService: MetahumanAbilityService;
+  public metaStatus: string[] = ['hero', 'villain', 'antihero'];
 
   constructor(
     route: ActivatedRoute,
     location: Location,
-    heroService: MetahumanService,
+    metaService: MetahumanService,
+    messageService: MessageService,
     haService: MetahumanAbilityService
   ) {
-    super(route, location);
-    this.heroService = heroService;
-    this.heroAbilityService = haService;
-    this.hero = Metahuman.Empty();
+    super(route, location, messageService);
+    this.metaService = metaService;
+    this.metaAbilityService = haService;
+    this.meta = Metahuman.Empty();
   }
 
   ngOnInit(): void {
-    this.getHero();
+    this.getMeta();
   }
 
   /**
-   * Gets the hero from the url.
+   * Gets the meta from the url.
    */
-  getHero(): void {
+  getMeta(): void {
     const id = this.getParam('id');
 
-    this.heroService.getHero(id)
-      .subscribe(hero => this.hero = hero);
+    this.metaService.getMeta(id)
+      .subscribe(meta => { console.log('meta: ', meta); this.meta = meta; });
   }
 
   /**
-   * Updates a hero.
+   * Updates a meta.
    */
- save(): void {
-    this.heroService.updateHero(this.hero)
+  save(): void {
+    this.metaService.updateMeta(this.meta)
       .subscribe(() => this.goBack());
   }
 
   remove(ability: Ability): void {
-    this.heroAbilityService.remove(ability, this.getParam('id')).subscribe(ability =>
-    this.getHero());
+    this.metaAbilityService.remove(ability, this.getParam('id')).subscribe(() =>
+    this.getMeta());
+  }
+
+  hasChanged(): void {
+      super.hasChanged();
+      this.getMeta();
+      console.log('overriding haschanged');
   }
 }

@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Tour-of-Heroes with .NET Core API';
+  routes = [
+    { link: '/dashboard', name: 'Dashboard' },
+    { link: '/metas', name: 'Metas' },
+    { link: '/abilities', name: 'Abilities' },
+    { link: '/teams', name: 'Teams' }
+  ];
 }

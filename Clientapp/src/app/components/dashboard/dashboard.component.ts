@@ -13,14 +13,14 @@ export class DashboardComponent implements OnInit {
   constructor(private metahumanService: MetahumanService) { }
 
   ngOnInit() {
-    this.getHeroes();
+    this.getMetas();
   }
 
   /**
    * Gets all metahumans.
    */
-  getHeroes(): void {
-    this.metahumanService.getHeroes()
+  getMetas(): void {
+    this.metahumanService.getMetas()
       .subscribe(metahuman => this.metahumen = metahuman.slice(1, 5));
   }
 }

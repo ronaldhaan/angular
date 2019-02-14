@@ -7,50 +7,55 @@ import { Metahuman } from 'src/app/models/metahuman';
 import { Ability } from 'src/app/models/ability';
 import { MetahumanService } from 'src/app/services/metahuman-service/metahuman.service';
 import { MetahumanAbilityService } from 'src/app/services/metahuman-ability-service/metahuman-ability.service';
+import {MessageService} from '../../../services/message-service/message.service';
 
 @Component({
-  selector: 'app-hero-ability-add',
+  selector: 'app-meta-ability-add',
   templateUrl: './metahuman-ability-add.component.html',
   styleUrls: ['./metahuman-ability-add.component.css']
 })
 export class MetahumanAbilityAddComponent extends BaseComponent implements OnInit {
 
   public abilityService: AbilityService;
-  public heroService: MetahumanService;
-  public heroAbilityService: MetahumanAbilityService;
+  public metaService: MetahumanService;
+  public metaAbilityService: MetahumanAbilityService;
 
   public chosenAbilities: Ability[];
 
-  public hero: Metahuman;
+  public meta: Metahuman;
   public abilities: Ability[];
 
   constructor(
     route: ActivatedRoute,
     location: Location,
+    messageService: MessageService,
     abilityService: AbilityService,
-    heroService: MetahumanService,
+    metaService: MetahumanService,
     haService: MetahumanAbilityService
   ) {
-    super(route, location);
+    super(route, location, messageService);
     this.abilityService = abilityService;
-    this.heroService = heroService;
-    this.heroAbilityService = haService;
+    this.metaService = metaService;
+    this.metaAbilityService = haService;
 
-    this.hero = Metahuman.Empty();
+    this.meta = Metahuman.Empty();
     this.abilities = [];
     this.chosenAbilities = [];
    }
 
   ngOnInit() {
-    this.getHero();
-    this.getAbilities();
+    const a = this.getData();
+  }
 
-    console.log('hero', this.hero, 'abilities', this.abilities);
+  getData() {
+    this.getMeta();
   }
 
   push(ability: Ability): void {
     if (this.chosenAbilities.indexOf(ability) === -1) {
       this.chosenAbilities.push(ability);
+    } else {
+  ///TODO give message back
     }
   }
 
@@ -67,37 +72,45 @@ export class MetahumanAbilityAddComponent extends BaseComponent implements OnIni
     }
   }
 
-  getHero(): void {
+  getMeta() {
     const id = this.getParam('id');
-    this.heroService.getHero(id)
-            .subscribe(hero => this.hero = hero);
+    this.metaService.getMeta(id)
+            .subscribe(meta => {
+              this.meta = meta;
+              this.getAbilities();
+            });
   }
 
-  getAbilities(): void {
+  getAbilities() {
     this.abilityService.getAbilities().subscribe(abilities => {
-      if (this.hero.abilities.length > 0) {
         abilities.forEach(ability => {
-          if (this.hero.abilities.indexOf(ability) === -1) {
+          let hasAbility = false;
+          console.log('meta', this.meta);
+          this.meta.abilities.forEach(metaAbility => {
+            if (ability.id === metaAbility.id) {
+              hasAbility = true;
+            }
+          });
+
+          if (!hasAbility) {
             this.abilities.push(ability);
           }
         });
-      } else {
-        this.abilities = abilities;
-      }
     });
+
+    console.log('meta', this.meta);
   }
 
   add(): void {
-    console.log('ca', this.chosenAbilities, 'a', this.abilities);
-
     if (this.chosenAbilities.length > 0) {
-      console.log('true');
       const id = this.getParam('id');
       this.chosenAbilities
           .forEach(
-              ability => this.heroAbilityService.add(ability, id).subscribe()
+              ability => this.metaAbilityService.add(ability, id).subscribe()
           );
       this.goBack();
+    } else {
+      this.messageService.add('First you need to choose an ability');
     }
   }
 

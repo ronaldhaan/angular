@@ -11,10 +11,10 @@ import { MetahumanService } from 'src/app/services/metahuman-service/metahuman.s
   styleUrls: [ './metahuman-search.component.css' ]
 })
 export class MetahumanSearchComponent implements OnInit {
-  heroes$: Observable<Metahuman[]>;
+  metas$: Observable<Metahuman[]>;
   private searchTerms = new Subject<string>();
 
-  constructor(private heroService: MetahumanService) {}
+  constructor(private metaService: MetahumanService) {}
 
   /**
    * Push a search term into the observable stream.
@@ -25,7 +25,7 @@ export class MetahumanSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.heroes$ = this.searchTerms.pipe(
+    this.metas$ = this.searchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
 
@@ -33,7 +33,7 @@ export class MetahumanSearchComponent implements OnInit {
       distinctUntilChanged(),
 
       // switch to new search observable each time the term changes
-      switchMap((term: string) => this.heroService.searchHeroes(term)),
+      switchMap((term: string) => this.metaService.searchMetas(term)),
     );
   }
 }

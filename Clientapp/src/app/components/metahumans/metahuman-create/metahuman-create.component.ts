@@ -5,6 +5,7 @@ import { Metahuman } from 'src/app/models/metahuman';
 import { MetahumanService } from 'src/app/services/metahuman-service/metahuman.service';
 import { BaseComponent } from '../../base-component/base.component';
 import { ActivatedRoute } from '@angular/router';
+import {MessageService} from '../../../services/message-service/message.service';
 
 @Component({
   selector: 'app-metahuman-create',
@@ -15,11 +16,12 @@ export class MetahumanCreateComponent extends BaseComponent implements OnInit {
   metahuman: Metahuman[];
   private MetahumanService: MetahumanService;
 
-  constructor(heroService: MetahumanService,
+  constructor(metaService: MetahumanService,
     route: ActivatedRoute,
+    messageService: MessageService,
     location: Location) {
-    super(route, location);
-    this.MetahumanService = heroService;
+    super(route, location, messageService);
+    this.MetahumanService = metaService;
     this.metahuman = [];
   }
 
@@ -30,15 +32,30 @@ export class MetahumanCreateComponent extends BaseComponent implements OnInit {
    * Creates a new Metahuman.
    * @param name The name of the new Metahuman.
    */
-  add(name: string): void {
-    name = name.trim();
-    if (!name) { return; }
-    this.MetahumanService.addHero({ name } as Metahuman)
-      .subscribe(hero => {
-        console.log(hero);
-        this.metahuman.push(hero);
+  add(newMeta: Metahuman): void {
+    newMeta.name = newMeta.name.trim();
+    newMeta.description = newMeta.description.trim();
+    newMeta.alterEgo = newMeta.alterEgo.trim();
+
+
+    this.MetahumanService.addMeta(newMeta)
+      .subscribe(meta => {
+        this.metahuman.push(meta);
         this.goBack();
       });
+  }
+
+  handleForm(name: string, description: string, ego: string): void {
+
+    if (!name) { return; }
+
+    const meta: Metahuman = {
+      name: name,
+      description: description,
+      alterEgo: ego
+    } as Metahuman;
+
+    this.add(meta);
   }
 
 }

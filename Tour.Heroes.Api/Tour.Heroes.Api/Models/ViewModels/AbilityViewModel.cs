@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Tour.Heroes.Api.Models.ViewModels.LinkViewModels;
 
 namespace Tour.Heroes.Api.Models.ViewModels
 {
@@ -17,6 +19,7 @@ namespace Tour.Heroes.Api.Models.ViewModels
 
         public string Description { get; set; }
 
-        public IEnumerable<MetaHumanViewModel> Metahumans { get; set; }
+        [JsonProperty("metahumans")]
+        public IEnumerable<MetaHumanViewModel> MetaHumans { get; set; }
     }
 }
