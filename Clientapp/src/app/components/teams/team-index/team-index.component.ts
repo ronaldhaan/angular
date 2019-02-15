@@ -29,13 +29,16 @@ export class TeamIndexComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.getTeams();
-    this.location.subscribe(x => {
+    this.location.subscribe(() => {
       this.getTeams();
     });
   }
 
   getTeams(): void {
-    this.service.getAll().subscribe(teams => this.teams = teams);
+    this.service.getAll().subscribe(teams => {
+      this.teams = teams;
+      console.log(this.teams);
+    });
   }
 
 

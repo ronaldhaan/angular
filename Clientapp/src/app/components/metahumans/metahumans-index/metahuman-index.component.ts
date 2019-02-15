@@ -35,7 +35,7 @@ export class MetaHumanIndexComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.getMetahumans();
-    this.location.subscribe(x => {
+    this.location.subscribe(() => {
       this.getMetahumans();
     });
   }

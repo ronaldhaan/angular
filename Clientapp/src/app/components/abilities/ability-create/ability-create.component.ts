@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -14,7 +14,7 @@ import {MessageService} from '../../../services/message-service/message.service'
   styleUrls: ['./ability-create.component.css']
 })
 export class AbilityCreateComponent extends BaseComponent implements OnInit {
-  public ability: Ability;
+  @Input() public ability: Ability;
   private abilityService: AbilityService;
 
   constructor(
@@ -31,14 +31,15 @@ export class AbilityCreateComponent extends BaseComponent implements OnInit {
 
   }
 
-  add(ability: Ability): void {
-    ability.name = ability.name.trim();
-    ability.description = ability.description.trim();
+  add(): void {
+    this.ability.name = this.ability.name.trim();
+    this.ability.description = this.ability.description.trim();
 
-    if (!ability.name) { return; }
+    if (!this.ability.name) { return; }
 
-    this.abilityService.addAbility(ability)
+    this.abilityService.addAbility(this.ability)
       .subscribe(() => {
+        this.ability = Ability.Empty();
         this.goBack();
       });
   }

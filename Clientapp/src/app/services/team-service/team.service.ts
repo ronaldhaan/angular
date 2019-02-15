@@ -68,7 +68,7 @@ export class TeamService {
 
     return this.http.put(url, meta, Utilities.httpOptions)
         .pipe(
-            tap(_ => this.errorHandler.log(`updated team id=${meta.id}`)),
+            tap(() => this.errorHandler.log(`updated team id=${meta.id}`)),
             catchError(this.errorHandler.handleError<any>('update Team'))
         );
   }
@@ -83,7 +83,7 @@ export class TeamService {
 
     return this.http.delete<Team>(url, Utilities.httpOptions)
         .pipe(
-            tap(_ => this.errorHandler.log(`deleted team id=${id}`)),
+            tap(() => this.errorHandler.log(`deleted team id=${id}`)),
             catchError(this.errorHandler.handleError<Team>('deleteMeta'))
         );
   }

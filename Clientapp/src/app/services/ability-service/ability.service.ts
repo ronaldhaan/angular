@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { Ability } from '../../models/ability';
-import { MessageService } from '../message-service/message.service';
 import { ErrorHandlerHelper } from '../../Helpers/error-handler-helper';
 
 import { Utilities } from 'src/app/utilities';
@@ -19,14 +18,13 @@ export class AbilityService {
   private errorHandler: ErrorHandlerHelper = new ErrorHandlerHelper();
 
   constructor(
-    private http: HttpClient,
-    private messageService: MessageService) { }
+    private http: HttpClient) { }
 
     /** GET abilities from the server */
   getAbilities(): Observable<Ability[]> {
     return this.http.get<Ability[]>(this.abilitiesUrl)
       .pipe(
-        tap(_ => this.errorHandler.log('fetched abilities')),
+        tap(() => this.errorHandler.log('fetched abilities')),
         catchError(this.errorHandler.handleError('getAbilities', []))
       );
   }
@@ -35,21 +33,8 @@ export class AbilityService {
   getAbility(id: string): Observable<Ability> {
     const url = `${this.abilitiesUrl}/${id}`;
     return this.http.get<Ability>(url).pipe(
-      tap(_ => this.errorHandler.log(`fetched ability id=${id}`)),
+      tap(() => this.errorHandler.log(`fetched ability id=${id}`)),
       catchError(this.errorHandler.handleError<Ability>(`getAbility id=${id}`))
-    );
-  }
-
-  /* GET abilities whose name contains search term */
-  searchAbilities(ability: Ability | number, term: string): Observable<Ability[]> {
-    const id = typeof ability === 'number' ? ability : ability.id;
-    if (!term.trim()) {
-      // if not search term, return empty ability array.
-      return of([]);
-    }
-    return this.http.get<Ability[]>(`${this.abilitiesUrl}/${id}/?name=${term}`).pipe(
-      tap(_ => this.errorHandler.log(`found abilities abilities matching "${term}"`)),
-      catchError(this.errorHandler.handleError<Ability[]>('searchAbilities', []))
     );
   }
 
@@ -69,7 +54,7 @@ export class AbilityService {
     const url = `${this.abilitiesUrl}/${id}`;
 
     return this.http.delete<Ability>(url, Utilities.httpOptions).pipe(
-      tap(_ => this.errorHandler.log(`deleted ability id=${id}`)),
+      tap(() => this.errorHandler.log(`deleted ability id=${id}`)),
       catchError(this.errorHandler.handleError<Ability>('deleteAbility'))
     );
   }
@@ -79,7 +64,7 @@ export class AbilityService {
     const url = `${this.abilitiesUrl}/${ability.id}`;
     return this.http.put(url, ability, Utilities.httpOptions)
     .pipe(
-      tap(_ => this.errorHandler.log(`updated ability id=${ability.id}`)),
+      tap(() => this.errorHandler.log(`updated ability id=${ability.id}`)),
       catchError(this.errorHandler.handleError<any>('updateAbility'))
     );
   }

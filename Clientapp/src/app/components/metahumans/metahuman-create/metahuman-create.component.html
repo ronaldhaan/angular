@@ -3,22 +3,22 @@
     <div class="card-body">
       <div class="form-group">
         <label for="metaName">name:</label>
-          <input class="form-control" id="metaName" #name />
+          <input class="form-control" id="metaName" [(ngModel)]="metahuman.name"/>
         <!-- (click) passes input value to add() and then clears the input -->
       </div>
         <div class="form-group">
             <label for="metaDescription">Description:</label>
-            <input class="form-control" id="metaDescription" #description />
+            <input class="form-control" id="metaDescription" [(ngModel)]="metahuman.description"/>
             <!-- (click) passes input value to add() and then clears the input -->
         </div>
         <div class="form-group">
             <label for="metaEgo">Meta name:</label>
-            <input class="form-control" id="metaEgo" #ego />
+            <input class="form-control" id="metaEgo" [(ngModel)]="metahuman.alterEgo" />
             <!-- (click) passes input value to add() and then clears the input -->
         </div>
         <div class="form-group text-right">
           <button class="btn btn-secondary"
-                  (click)="handleForm(name, description, ego)">
+                  (click)="add()">
                   add Meta
           </button>
         </div>

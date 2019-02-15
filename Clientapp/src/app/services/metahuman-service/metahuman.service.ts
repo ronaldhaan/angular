@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
 // components
 import { Metahuman } from '../../models/metahuman';
 import { ErrorHandlerHelper } from '../../Helpers/error-handler-helper';
@@ -17,7 +16,7 @@ export class MetahumanService {
   private metasUrl = Utilities.apiServerUrl + '/api/metahumans';  // URL to web api
   private errorHandler: ErrorHandlerHelper;
   private messageService: MessageService;
-  private http: HttpClient
+  private http: HttpClient;
 
   constructor(http: HttpClient, messageService: MessageService) {
     this.http = http;
@@ -41,14 +40,15 @@ export class MetahumanService {
 
   /**
    * Gets all Metas whose `name` contains search term
+   * @param qname the query name.
    * @param term The search term.
    */
-  searchMetas(queryname: string, term: string): Observable<Metahuman[]> {
+  searchMetas(qname: string, term: string): Observable<Metahuman[]> {
     if (!term.trim()) {
       // if not search term, return empty meta array.
       return of([]);
     }
-    return this.http.get<Metahuman[]>(`${this.metasUrl}/?${queryname}=${term}`);
+    return this.http.get<Metahuman[]>(`${this.metasUrl}/?${qname}=${term}`);
   }
 
   //////// Save methods //////////

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from  '@angular/common';
+import { Location } from '@angular/common';
 import { BaseComponent } from '../../base-component/base.component';
 import { ActivatedRoute } from '@angular/router';
 import { TeamService } from '../../../services/team-service/team.service';
@@ -28,16 +28,16 @@ export class TeamCreateComponent extends BaseComponent implements OnInit {
   }
 
   /**
-   * Creates a new Metahuman.
-   * @param name The name of the new Metahuman.
+   * Creates a new `Team`.
+   * @param team The name of the new `Team`.
    */
   add(team: Team): void {
     team.name = team.name.trim();
     team.description = team.description.trim();
     console.log(team);
     this.teamService.add(team)
-        .subscribe(meta => {
-          this.goBack(true);
+        .subscribe(() => {
+          this.goBack();
         });
   }
 

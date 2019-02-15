@@ -44,7 +44,7 @@ export class MetahumanAbilityAddComponent extends BaseComponent implements OnIni
    }
 
   ngOnInit() {
-    const a = this.getData();
+    this.getData();
   }
 
   getData() {
@@ -55,7 +55,7 @@ export class MetahumanAbilityAddComponent extends BaseComponent implements OnIni
     if (this.chosenAbilities.indexOf(ability) === -1) {
       this.chosenAbilities.push(ability);
     } else {
-  ///TODO give message back
+      // TODO give message back
     }
   }
 

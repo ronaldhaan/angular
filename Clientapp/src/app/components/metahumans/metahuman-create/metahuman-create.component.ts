@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { Location } from '@angular/common';
 
 import { Metahuman } from 'src/app/models/metahuman';
@@ -13,7 +13,7 @@ import {MessageService} from '../../../services/message-service/message.service'
   styleUrls: ['./metahuman-create.component.css']
 })
 export class MetahumanCreateComponent extends BaseComponent implements OnInit {
-  metahuman: Metahuman[];
+  @Input() metahuman: Metahuman;
   private MetahumanService: MetahumanService;
 
   constructor(metaService: MetahumanService,
@@ -22,7 +22,7 @@ export class MetahumanCreateComponent extends BaseComponent implements OnInit {
     location: Location) {
     super(route, location, messageService);
     this.MetahumanService = metaService;
-    this.metahuman = [];
+    this.metahuman = Metahuman.Empty();
   }
 
   ngOnInit() {
@@ -30,32 +30,19 @@ export class MetahumanCreateComponent extends BaseComponent implements OnInit {
 
   /**
    * Creates a new Metahuman.
-   * @param name The name of the new Metahuman.
    */
-  add(newMeta: Metahuman): void {
-    newMeta.name = newMeta.name.trim();
-    newMeta.description = newMeta.description.trim();
-    newMeta.alterEgo = newMeta.alterEgo.trim();
+  add(): void {
+    this.metahuman.name = this.metahuman.name.trim();
+    this.metahuman.description = this.metahuman.description.trim();
+    this.metahuman.alterEgo = this.metahuman.alterEgo.trim();
 
+    if (!this.metahuman.name) { return; }
 
-    this.MetahumanService.addMeta(newMeta)
-      .subscribe(meta => {
-        this.metahuman.push(meta);
+    this.MetahumanService.addMeta(this.metahuman)
+      .subscribe(() => {
+        this.metahuman = Metahuman.Empty();
         this.goBack();
       });
-  }
-
-  handleForm(name: string, description: string, ego: string): void {
-
-    if (!name) { return; }
-
-    const meta: Metahuman = {
-      name: name,
-      description: description,
-      alterEgo: ego
-    } as Metahuman;
-
-    this.add(meta);
   }
 
 }

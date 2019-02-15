@@ -4,14 +4,14 @@
     <div class="card-body">
       <div class="form-group">
           <label for="abilityname">Ability name:</label>  
-          <input class="form-control" id="abilityname" #abilityname />
+          <input class="form-control" id="abilityname" [(ngModel)]="ability.name" />
       </div>
       <div class="form-group">
         <label for="abilitydesc">Ability description:</label>
-          <input class="form-control" id="abilitydesc" #abilitydesc />
+          <input class="form-control" id="abilitydesc" [(ngModel)]="ability.description" />
       </div>
         <!-- (click) passes input value to add() and then clears the input -->
-      <button class="btn btn-secondary" (click)="add({ name: abilityname.value, description: abilitydesc.value }); abilityname.value=''; abilitydesc.value=''">
+      <button class="btn btn-secondary" (click)="add();">
         add Ability
       </button>
     </div>

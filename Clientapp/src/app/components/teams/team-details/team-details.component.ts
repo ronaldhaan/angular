@@ -32,7 +32,7 @@ export class TeamDetailsComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.getTeam();
-    this.location.subscribe(x => {
+    this.location.subscribe(() => {
       this.getTeam();
     });
   }

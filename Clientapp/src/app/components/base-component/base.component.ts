@@ -32,7 +32,6 @@ export class BaseComponent {
     goBack(hasChanged: Boolean = false): void {
         BaseComponent.hasChanged = hasChanged;
         this.hasChanged();
-        this.location.subscribe( l => console.log('location subscribe', l));
         this.location.back();
     }
 
