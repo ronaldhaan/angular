@@ -25,8 +25,8 @@
                     <th>Id</th>
                     <th>Name</th>
                 </tr>
-                <tr *ngFor="let meta of ability.metas">
-                    <td routerLink="/metas/{{meta.id}}/detail">
+                <tr *ngFor="let meta of ability.metas" routerLink="/metas/{{meta.id}}/detail">
+                    <td>
                         {{meta.id}}
                     </td>
                     <td>

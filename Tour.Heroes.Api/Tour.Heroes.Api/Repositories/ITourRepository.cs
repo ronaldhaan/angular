@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Tour.Heroes.Api.Models;
+﻿using System.Linq;
 using Tour.Heroes.Api.Models.Entities;
 
 namespace Tour.Heroes.Api.Repositories

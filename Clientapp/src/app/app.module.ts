@@ -20,6 +20,7 @@ import { TeamIndexComponent } from './components/teams/team-index/team-index.com
 import { TeamDetailsComponent } from './components/teams/team-details/team-details.component';
 import { TeamCreateComponent } from './components/teams/team-create/team-create.component';
 import { TeamMetahumanAddComponent } from './components/teams/team-metahuman-add/team-metahuman-add.component';
+import {TruncatePipe} from './Pipes/truncate-pipe';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { TeamMetahumanAddComponent } from './components/teams/team-metahuman-add
     TeamIndexComponent,
     TeamDetailsComponent,
     TeamCreateComponent,
-    TeamMetahumanAddComponent
+    TeamMetahumanAddComponent,
+    TruncatePipe,
   ],
   bootstrap: [ AppComponent ]
 })

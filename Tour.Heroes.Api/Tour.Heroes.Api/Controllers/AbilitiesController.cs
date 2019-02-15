@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Tour.Heroes.Api;
-using Tour.Heroes.Api.Models;
 using Tour.Heroes.Api.Models.Entities;
 using Tour.Heroes.Api.Models.RequestModels;
 using Tour.Heroes.Api.Models.ViewModels;
-using Tour.Heroes.Api.Repositories;
 using Tour.Heroes.Api.Repositories.EntityRepositories;
 
 namespace Tour.Heroes.Api.Controllers
@@ -114,11 +109,11 @@ namespace Tour.Heroes.Api.Controllers
             
             try
             {
-                await this.abilitiesRepository.UpdateAsync(id, ability);
+                await this.abilitiesRepository.UpdateAsync(ability);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!this.abilitiesRepository.EntityExists(id))
+                if (!await this.abilitiesRepository.EntityExists(id))
                 {
                     return NotFound();
                 }

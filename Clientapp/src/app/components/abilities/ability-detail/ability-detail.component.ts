@@ -7,11 +7,12 @@ import { BaseComponent } from 'src/app/components/base-component/base.component'
 import { Ability } from 'src/app/models/ability';
 import { AbilityService } from 'src/app/services/ability-service/ability.service';
 import {MessageService} from '../../../services/message-service/message.service';
+import {TruncatePipe} from '../../../Pipes/truncate-pipe';
 
 @Component({
   selector: 'app-ability-detail',
   templateUrl: './ability-detail.component.html',
-  styleUrls: ['./ability-detail.component.css']
+  styleUrls: ['./ability-detail.component.css'],
 })
 export class AbilityDetailComponent extends BaseComponent implements OnInit {
   @Input() public ability: Ability;

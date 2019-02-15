@@ -28,9 +28,9 @@
           <th>Alter ego</th>
           <th>#</th>
         </tr>
-        <tr *ngFor="let meta of team.metahumans">
-          <td routerLink="/metas/{{meta.id}}/detail">
-            {{meta.id}}
+        <tr *ngFor="let meta of team.metahumans" routerLink="/metas/{{meta.id}}/detail">
+          <td>
+            {{meta.id | truncate:[5]}}
           </td>
           <td>
             {{meta.name}}

@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using Tour.Heroes.Api.Models;
 using Tour.Heroes.Api.Models.Entities;
 using Tour.Heroes.Api.Models.Entities.LinkEntities;
 

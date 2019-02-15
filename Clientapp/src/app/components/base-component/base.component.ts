@@ -1,8 +1,10 @@
-// import { Component } from '@angular/core';
+import {Component, NgModule} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import {MessageService} from '../../services/message-service/message.service';
 import { NavigationStart } from '@angular/router';
+import { TruncatePipe } from '../../Pipes/truncate-pipe';
+import {AppModule} from '../../app.module';
 
 /** The Base component */
 export class BaseComponent {

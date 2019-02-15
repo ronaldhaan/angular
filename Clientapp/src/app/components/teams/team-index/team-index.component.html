@@ -11,14 +11,18 @@
         <tr>
           <th>Id</th>
           <th>Name</th>
+          <th>Description</th>
           <th>#</th>
         </tr>
-        <tr *ngFor="let team of teams">
-          <td routerLink="/teams/{{team.id}}/detail">
+        <tr *ngFor="let team of teams" routerLink="/teams/{{team.id}}/detail">
+          <td>
             {{team.id}}
           </td>
           <td>
             {{team.name}}
+          </td>
+          <td>
+            {{team.description | truncate}}
           </td>
           <td>
             <button class="btn btn-danger btn-sm" title="delete meta"

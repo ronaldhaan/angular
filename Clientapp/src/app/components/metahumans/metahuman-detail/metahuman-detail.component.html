@@ -43,15 +43,15 @@
               <th>description</th>
               <th>#</th>
             </tr>
-            <tr *ngFor="let ability of meta.abilities">
-              <td routerLink="/abilities/{{ability.id}}/detail">
-                {{ability.id}}
+            <tr *ngFor="let ability of meta.abilities" routerLink="/abilities/{{ability.id}}/detail">
+              <td>
+                {{ability.id | truncate:[5]}}
               </td>
               <td>
                 {{ability.name}}
               </td>
               <td>
-                {{ability.description}}
+                {{ability.description | truncate}}
               </td>
               <td>
                 <button class="btn btn-danger btn-sm" title="remove ability"
