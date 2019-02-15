@@ -16,10 +16,12 @@
             <input class="form-control" id="metaEgo" #ego />
             <!-- (click) passes input value to add() and then clears the input -->
         </div>
-      <button class="btn btn-primary"
-              (click)="handleForm(name, description, ego)">
-              add Meta
-      </button>
+        <div class="form-group text-right">
+          <button class="btn btn-secondary"
+                  (click)="handleForm(name, description, ego)">
+                  add Meta
+          </button>
+        </div>
   </div>
 </div>
 

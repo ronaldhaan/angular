@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { BaseComponent } from '../../base-component/base.component';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, NavigationStart} from '@angular/router';
 import { Location } from '@angular/common';
 
 import {Team} from '../../../models/team';
@@ -32,17 +32,15 @@ export class TeamDetailsComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.getTeam();
-    console.log('ngOnInit', this.team);
+    this.location.subscribe(x => {
+      this.getTeam();
+    });
   }
 
   getTeam() {
     const id = this.getParam('id');
     this.teamService.getOne(id)
-            .subscribe(
-                    team => {
-                            this.team = team;
-                            console.log('sub', team);
-                    });
+            .subscribe(team => this.team = team);
   }
 
   /**
@@ -58,7 +56,16 @@ export class TeamDetailsComponent extends BaseComponent implements OnInit {
     this.teamMetahumanService.remove(teamId, meta).subscribe(() => {
       this.getTeam();
     });
+  }
 
+  hasChanged(): void {
+    super.hasChanged();
+    this.getTeam();
+  }
+
+  onPageReturn(event: NavigationStart): void {
+    super.onPageReturn(event);
+    console.log('overriding on page return in ', typeof this);
   }
 
 }

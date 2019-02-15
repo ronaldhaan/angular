@@ -1,50 +1,52 @@
-<div class="card mb-5">
-  <div class="card-header">{{team.name | uppercase}} Details</div>
-  <div class="card-body">
-    <div><span>id: </span>{{team.id}}</div>
-    <div class="form-group">
-      <label for="teamName">name</label>
-      <input class="form-control" id="teamName" [(ngModel)]="team.name" placeholder="name"/>
-    </div>
-    <div class="form-group">
-      <label for="teamDescription">Description</label>
-      <textarea class="form-control" id="teamDescription" [(ngModel)]="team.description" placeholder="description"></textarea>
-    </div>
-    <div class="form-group text-right">
-      <button class="btn btn-primary" (click)="save()">Save changes</button>
+<div *ngIf="team">
+  <div class="card mb-5">
+    <div class="card-header">{{team.name | uppercase}} Details</div>
+    <div class="card-body">
+      <div><span>id: </span>{{team.id}}</div>
+      <div class="form-group">
+        <label for="teamName">name</label>
+        <input class="form-control" id="teamName" [(ngModel)]="team.name" placeholder="name"/>
+      </div>
+      <div class="form-group">
+        <label for="teamDescription">Description</label>
+        <textarea class="form-control" id="teamDescription" [(ngModel)]="team.description" placeholder="description"></textarea>
+      </div>
+      <div class="form-group text-right">
+        <button class="btn btn-secondary" (click)="save()">Save changes</button>
+      </div>
     </div>
   </div>
-</div>
-<!-- List of the abilities of the team -->
-<div class="card mb-5">
-  <div class="card-header">Members</div>
-  <div class="card-body">
-    <a routerLink="/teams/{{team.id}}/add">Add meta</a>
-    <table *ngIf="team.metahumans.length > 0" class="table table-striped table-hover">
-      <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Alter ego</th>
-        <th>#</th>
-      </tr>
-      <tr *ngFor="let meta of team.metahumans">
-        <td routerLink="/metas/{{meta.id}}/detail">
-          {{meta.id}}
-        </td>
-        <td>
-          {{meta.name}}
-        </td>
-        <td>
-          {{meta.alterEgo}}
-        </td>
-        <td>
-          <button class="btn btn-danger btn-sm" title="remove meta"
-                  (click)="remove(meta)"><i class="fa fa-trash"></i></button>
-        </td>
-      </tr>
-    </table>
-    <div *ngIf="team.metahumans.length == 0">
-      This team has no abilities (yet). Feel free to <a routerLink="/teams/{{team.id}}/add">add</a> one.
+  <!-- List of the abilities of the team -->
+  <div class="card mb-5" *ngIf="team.metahumans">
+    <div class="card-header">Members</div>
+    <div class="card-body">
+      <a routerLink="/teams/{{team.id}}/add">Add meta</a>
+      <table *ngIf="team.metahumans.length > 0" class="table table-striped table-hover">
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Alter ego</th>
+          <th>#</th>
+        </tr>
+        <tr *ngFor="let meta of team.metahumans">
+          <td routerLink="/metas/{{meta.id}}/detail">
+            {{meta.id}}
+          </td>
+          <td>
+            {{meta.name}}
+          </td>
+          <td>
+            {{meta.alterEgo}}
+          </td>
+          <td>
+            <button class="btn btn-danger btn-sm" title="remove meta"
+                    (click)="remove(meta)"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </table>
+      <div *ngIf="team.metahumans.length == 0">
+        This team has no abilities (yet). Feel free to <a routerLink="/teams/{{team.id}}/add">add</a> one.
+      </div>
     </div>
   </div>
 </div>

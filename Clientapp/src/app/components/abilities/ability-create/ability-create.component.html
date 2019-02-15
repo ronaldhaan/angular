@@ -1,5 +1,5 @@
 <!-- Add ability to meta -->
-<div class="card mt-25">
+<div class="card mb-5">
     <div class="card-header">Create abilities</div>
     <div class="card-body">
       <div class="form-group">
@@ -11,8 +11,9 @@
           <input class="form-control" id="abilitydesc" #abilitydesc />
       </div>
         <!-- (click) passes input value to add() and then clears the input -->
-      <button class="btn btn-primary" (click)="add({ name: abilityname.value, description: abilitydesc.value }); abilityname.value=''; abilitydesc.value=''">
+      <button class="btn btn-secondary" (click)="add({ name: abilityname.value, description: abilitydesc.value }); abilityname.value=''; abilitydesc.value=''">
         add Ability
       </button>
     </div>
-  </div>
+</div>
+<button class="btn btn-primary" (click)="goBack()"><i class="fa fa-arrow-left"></i> Back</button>

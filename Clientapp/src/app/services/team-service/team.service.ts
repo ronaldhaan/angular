@@ -49,12 +49,12 @@ export class TeamService {
 
   /**
    * `POST`: add a new `Team` to the server
-   * @param meta The new `Team` to create
+   * @param team The new `Team` to create
    */
-  add(meta: Team): Observable<Team> {
-    return this.http.post<Team>(this.url, meta, Utilities.httpOptions)
+  add(team: Team): Observable<Team> {
+    return this.http.post<Team>(this.url, team, Utilities.httpOptions)
         .pipe(
-            tap((newMeta: Team) => this.errorHandler.log(`added meta w/ id=${newMeta.id}`)),
+            tap((newTeam: Team) => this.errorHandler.log(`added meta w/ id=${newTeam.id}`)),
             catchError(this.errorHandler.handleError<Team>('addMeta'))
         );
   }

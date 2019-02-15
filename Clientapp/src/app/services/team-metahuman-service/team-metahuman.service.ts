@@ -36,8 +36,8 @@ export class TeamMetahumanService {
   }
 
   /** DELETE: delete the ability from the server */
-  remove(ability: Team | string, meta: Metahuman | string): Observable<TeamMetahuman> {
-    const metaTeam: TeamMetahuman = this.getObject(ability, meta);
+  remove(team: Team | string, meta: Metahuman | string): Observable<TeamMetahuman> {
+    const metaTeam: TeamMetahuman = this.getObject(team, meta);
     const url = `${this.teamMetaHumanUrl}/delete`;
 
     return this.http.post<TeamMetahuman>(url, metaTeam, Utilities.httpOptions).pipe(

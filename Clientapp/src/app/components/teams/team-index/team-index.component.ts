@@ -29,6 +29,9 @@ export class TeamIndexComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.getTeams();
+    this.location.subscribe(x => {
+      this.getTeams();
+    });
   }
 
   getTeams(): void {
@@ -38,8 +41,9 @@ export class TeamIndexComponent extends BaseComponent implements OnInit {
 
 
   delete(team: Team): void {
-
-    this.service.delete(team).subscribe();
+    this.service.delete(team).subscribe( () => {
+      this.getTeams();
+    });
   }
 
 }

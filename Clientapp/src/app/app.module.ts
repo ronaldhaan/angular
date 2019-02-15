@@ -19,6 +19,7 @@ import { MetahumanAbilityAddComponent } from './components/metahumans/metahuman-
 import { TeamIndexComponent } from './components/teams/team-index/team-index.component';
 import { TeamDetailsComponent } from './components/teams/team-details/team-details.component';
 import { TeamCreateComponent } from './components/teams/team-create/team-create.component';
+import { TeamMetahumanAddComponent } from './components/teams/team-metahuman-add/team-metahuman-add.component';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { TeamCreateComponent } from './components/teams/team-create/team-create.
     MetahumanAbilityAddComponent,
     TeamIndexComponent,
     TeamDetailsComponent,
-    TeamCreateComponent
+    TeamCreateComponent,
+    TeamMetahumanAddComponent
   ],
   bootstrap: [ AppComponent ]
 })

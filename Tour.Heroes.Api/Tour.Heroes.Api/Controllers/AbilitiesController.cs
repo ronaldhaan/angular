@@ -32,28 +32,35 @@ namespace Tour.Heroes.Api.Controllers
         [HttpGet]
         public ActionResult GetAbilities([FromQuery]CollectionRequestModel model)
         {
-            int skip = 0;
-            var query = this.abilitiesRepository.GetAll() as IQueryable<Ability>;
-            query = this.abilitiesRepository.GetRelations(query) as IQueryable<Ability>;
-
-            if(!string.IsNullOrEmpty(model.Name))
+            try
             {
-                query = query.Where(x => x.Name.Contains(model.Name));
-            }
+                int skip = 0;
+                var query = this.abilitiesRepository.GetAll() as IQueryable<Ability>;
+                query = this.abilitiesRepository.GetRelations(query) as IQueryable<Ability>;
 
-            if (model.Skip > 0)
+                if (!string.IsNullOrEmpty(model.Name))
+                {
+                    query = query.Where(x => x.Name.Contains(model.Name));
+                }
+
+                if (model.Skip > 0)
+                {
+                    skip = (int)model.Skip;
+                }
+
+                query = query
+                    .OrderBy(x => x.Name)
+                    .Skip(skip)
+                    .Take(25);
+
+                IQueryable<AbilityViewModel> viewQuery = query.Select(x => ViewModelHelper.BuildAbilityViewModel(x, true));
+
+                return Ok(viewQuery.ToList());
+            }
+            catch (Exception ex)
             {
-                skip = (int)model.Skip;
+                return BadRequest(new JsonResult(ex.Message));
             }
-
-            query = query
-                .OrderBy(x => x.Name)
-                .Skip(skip)
-                .Take(25);
-
-            IQueryable<AbilityViewModel> viewQuery = query.Select(x => ViewModelHelper.BuildAbilityViewModel(x, true));
-
-            return Ok(viewQuery.ToList());
             //return Ok(this.mapper.Map<AbilityViewModel>(query));
         }
 
@@ -61,23 +68,34 @@ namespace Tour.Heroes.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var query = this.abilitiesRepository.GetAll()
+                                .Where(x => x.Id.Equals(id)) 
+                            as IQueryable<Ability>;
+
+                query = this.abilitiesRepository.GetRelations(query) as IQueryable<Ability>;
+
+                var viewModel = await query.Select(x => ViewModelHelper.BuildAbilityViewModel(x, true))
+                                            .FirstOrDefaultAsync();
+                //this.mapper.Map<AbilityViewModel>(query);
+
+                if (viewModel == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(viewModel);
             }
-
-            var query = await this.abilitiesRepository.GetOne(id) as IQueryable<Ability>;
-            query = this.abilitiesRepository.GetRelations(query) as IQueryable<Ability>;
-
-            var response = query.Select(x => ViewModelHelper.BuildAbilityViewModel(x, true));
-            //this.mapper.Map<AbilityViewModel>(query);
-
-            if (response == null)
+            catch(Exception ex)
             {
-                return NotFound();
+                return BadRequest(new JsonResult(ex.Message));
             }
-
-            return Ok(response);
         }
 
         // PUT: api/Abilities/5
@@ -129,7 +147,7 @@ namespace Tour.Heroes.Api.Controllers
             }
             catch(DbUpdateException ex)
             {
-                return new JsonResult(ex.Message);
+                return BadRequest(new JsonResult(ex.Message));
             }
         }
 
@@ -137,37 +155,25 @@ namespace Tour.Heroes.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAbility([FromRoute] Guid id)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
-            if (!(await this.abilitiesRepository.DeleteAsync(id) is Ability ability))
+                if (!(await this.abilitiesRepository.DeleteAsync(id) is Ability ability))
+                {
+                    return NotFound();
+                }
+
+                return Ok(ability);
+            }
+            catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest(new JsonResult(ex.Message));
             }
-
-            return Ok(ability);
         }
         #endregion Actions
-
-        //private IQueryable<AbilityViewModel> SelectViewModel(IQueryable<Ability> query)
-        //{
-        //    return query
-        //    //    .Select(ability => new AbilityViewModel
-        //    //{
-        //    //    Id = ability.Id,
-        //    //    Name = ability.Name,
-        //    //    Description = ability.Description,
-        //    //    Metahumans = ability.MetaHumanAbilities
-        //    //                .Select(link => link.MetaHuman)
-        //    //                    .Select(hero => new MetaHumanViewModel()
-        //    //                    {
-        //    //                        Id = hero.Id,
-        //    //                        Name = hero.Name
-        //    //                    })
-        //    //})
-        //    ;
-        //}
     }
 }

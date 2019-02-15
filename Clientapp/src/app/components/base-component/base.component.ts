@@ -2,12 +2,13 @@
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import {MessageService} from '../../services/message-service/message.service';
+import { NavigationStart } from '@angular/router';
 
 /** The Base component */
 export class BaseComponent {
     protected static hasChanged: Boolean = false;
     private route: ActivatedRoute;
-    private location: Location;
+    protected location: Location;
 
     protected messageService: MessageService;
 
@@ -31,10 +32,15 @@ export class BaseComponent {
     goBack(hasChanged: Boolean = false): void {
         BaseComponent.hasChanged = hasChanged;
         this.hasChanged();
+        this.location.subscribe( l => console.log('location subscribe', l));
         this.location.back();
     }
 
     hasChanged(): void {
         console.log('has changed');
+    }
+
+    onPageReturn(event: NavigationStart): void {
+        console.log('return to ', event.restoredState.navigationId);
     }
 }

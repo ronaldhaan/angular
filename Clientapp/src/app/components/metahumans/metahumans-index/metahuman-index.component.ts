@@ -14,8 +14,12 @@ import {MessageService} from '../../../services/message-service/message.service'
   styleUrls: ['./metahuman-index.component.css']
 })
 export class MetaHumanIndexComponent extends BaseComponent implements OnInit {
+  private filteredMetas: Metahuman[];
   public metahumans: Metahuman[];
+
   private metahumanService: MetahumanService;
+  public metaStatus: string[] = ['All', 'Hero', 'Villain', 'Antihero'];
+  public status = -1;
 
   constructor(
     route: ActivatedRoute,
@@ -31,13 +35,16 @@ export class MetaHumanIndexComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.getMetahumans();
+    this.location.subscribe(x => {
+      this.getMetahumans();
+    });
   }
   /**
    * Gets the metahumans.
    */
   getMetahumans(): void {
     this.metahumanService.getMetas()
-    .subscribe(metahumans => { console.log('meta: ', metahumans); this.metahumans = metahumans });
+    .subscribe(metahumans => { this.metahumans = metahumans; this.filteredMetas = metahumans; });
   }
 
   /**
@@ -46,7 +53,16 @@ export class MetaHumanIndexComponent extends BaseComponent implements OnInit {
    */
   delete(metahuman: Metahuman): void {
     this.metahumans = this.metahumans.filter(h => h !== metahuman);
+    this.filteredMetas = this.filteredMetas.filter( m => m !== metahuman);
     this.metahumanService.deleteMeta(metahuman).subscribe();
   }
 
+  search(status: number): void {
+    this.status = status;
+    if (status === -1) {
+      this.filteredMetas = this.metahumans;
+    } else if (status <= 2) {
+      this.filteredMetas = this.metahumans.filter(m => m.status === status);
+    }
+  }
 }

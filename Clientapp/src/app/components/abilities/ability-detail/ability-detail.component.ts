@@ -38,10 +38,9 @@ export class AbilityDetailComponent extends BaseComponent implements OnInit {
    */
   getAbility(): void {
     const id = this.getParam('id');
+
     this.abilityService.getAbility(id)
-      .subscribe(ability => {
-        this.ability = ability;
-      });
+          .subscribe(ability => this.ability = ability);
   }
 
   /**

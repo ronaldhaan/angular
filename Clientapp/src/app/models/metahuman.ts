@@ -7,8 +7,8 @@ export class Metahuman {
     name: string;
     description: string;
     alterEgo: string;
-    abilities: Ability[];
     status: number;
+    abilities: Ability[];
     teams: Team[];
 
     public static Empty(): Metahuman {

@@ -1,6 +1,16 @@
 <div class="card">
   <div class="card-header">
     <h2>My Metas</h2>
+    <div class="dropdown">
+      <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+        {{metaStatus[status+1]}}
+      </button>
+      <div class="dropdown-menu">
+        <div class="dropdown-item" *ngFor="let status of metaStatus; let i = index" (click)="search(i-1)">
+          <div>{{status}}</div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="card-body">
     <div *ngIf="metahumans.length == 0" class="spinner-border"></div>
@@ -11,14 +21,18 @@
         <tr>
           <th>Id</th>
           <th>Name</th>
+          <th>Status</th>
           <th>#</th>
         </tr>
-        <tr *ngFor="let meta of metahumans">
+        <tr *ngFor="let meta of filteredMetas">
           <td routerLink="/metas/{{meta.id}}/detail">
               {{meta.id}}
           </td>
           <td>
-              {{meta.name}}
+            {{meta.name}}
+          </td>
+          <td>
+            {{metaStatus[meta.status+1]}}
           </td>
           <td>
           <button class="btn btn-danger btn-sm" title="delete meta"

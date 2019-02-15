@@ -1,66 +1,68 @@
-<div class="card mb-5">
-  <div class="card-header">{{meta.name | uppercase}} Details</div>
-  <div class="card-body">
-    <div><span>id: </span>{{meta.id}}</div>
-    <div class="form-group">
-      <label for="metaName">name</label>
-      <input class="form-control" id="metaName" [(ngModel)]="meta.name" placeholder="name"/>
-    </div>
-    <div class="form-group">
-      <label for="metaAlterEgo">alter ego</label>
-      <input class="form-control" id="metaAlterEgo" [(ngModel)]="meta.alterEgo" placeholder="name"/>
-    </div>
-    <div class="form-group">
-      <label for="metaDescription">description</label>
-      <textarea class="form-control" id="metaDescription" [(ngModel)]="meta.description" placeholder="name"></textarea>
-    </div>
-    <div class="form-group">
-      <div class="dropdown">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-          {{metaStatus[meta.status] | uppercase}}
-        </button>
-        <div class="dropdown-menu">
-          <div class="dropdown-item" *ngFor="let status of metaStatus; let i = index" (click)="meta.status = i; ">
-            <div>{{status | uppercase}}</div>
+<div *ngIf="meta">
+    <div class="card mb-5">
+    <div class="card-header">{{meta.name | uppercase}} Details</div>
+    <div class="card-body">
+        <div><span>id: </span>{{meta.id}}</div>
+        <div class="form-group">
+            <label for="metaName">name</label>
+          <input class="form-control" id="metaName" [(ngModel)]="meta.name" placeholder="name"/>
+        </div>
+        <div class="form-group">
+          <label for="metaAlterEgo">alter ego</label>
+          <input class="form-control" id="metaAlterEgo" [(ngModel)]="meta.alterEgo" placeholder="name"/>
+        </div>
+        <div class="form-group">
+          <label for="metaDescription">description</label>
+          <textarea class="form-control" id="metaDescription" [(ngModel)]="meta.description" placeholder="name"></textarea>
+        </div>
+        <div class="form-group">
+          <div class="dropdown">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+              {{metaStatus[meta.status] | uppercase}}
+            </button>
+            <div class="dropdown-menu">
+              <div class="dropdown-item" *ngFor="let status of metaStatus; let i = index" (click)="meta.status = i; ">
+                <div>{{status | uppercase}}</div>
+              </div>
+            </div>
           </div>
+        </div>
+        <div class="form-group text-right">
+        <button class="btn btn-secondary" (click)="save()">Save changes</button></div>
+    </div>
+  </div>
+  <!-- List of the abilities of the meta -->
+  <div class="card mb-5" *ngIf="meta.abilities">
+    <div class="card-header">Abilities</div>
+      <div class="card-body">
+        <a routerLink="/metas/{{meta.id}}/add">Add ability</a>
+        <table *ngIf="meta.abilities.length > 0" class="table table-striped table-hover">
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>description</th>
+              <th>#</th>
+            </tr>
+            <tr *ngFor="let ability of meta.abilities">
+              <td routerLink="/abilities/{{ability.id}}/detail">
+                {{ability.id}}
+              </td>
+              <td>
+                {{ability.name}}
+              </td>
+              <td>
+                {{ability.description}}
+              </td>
+              <td>
+                <button class="btn btn-danger btn-sm" title="remove ability"
+                  (click)="remove(ability)"><i class="fa fa-trash"></i></button>
+              </td>
+            </tr>
+        </table>
+        <div *ngIf="meta.abilities == undefined && meta.abilities.length == 0">
+          This meta has no abilities (yet). Feel free to <a routerLink="/metas/{{meta.id}}/add">add</a> one.
         </div>
       </div>
     </div>
-    <div class="form-group text-right">
-    <button class="btn btn-primary" (click)="save()">Save changes</button></div>
-  </div>
-</div>
-<!-- List of the abilities of the meta -->
-<div class="card mb-5">
-  <div class="card-header">Abilities</div>
-  <div class="card-body">
-    <a routerLink="/metas/{{meta.id}}/add">Add ability</a>
-    <table *ngIf="meta.abilities != undefined && meta.abilities.length > 0" class="table table-striped table-hover">
-        <tr>
-          <th>Id</th>
-          <th>Name</th>
-          <th>description</th>
-          <th>#</th>
-        </tr>
-        <tr *ngFor="let ability of meta.abilities">
-          <td routerLink="/abilities/{{ability.id}}/detail">
-              {{ability.id}}
-          </td>
-          <td>
-              {{ability.name}}
-          </td>
-          <td>
-              {{ability.description}}
-          </td>
-          <td>
-          <button class="btn btn-danger btn-sm" title="remove ability"
-            (click)="remove(ability)"><i class="fa fa-trash"></i></button>
-          </td>
-        </tr>
-    </table>
-    <div *ngIf="meta.abilities == undefined && meta.abilities.length == 0">
-      This meta has no abilities (yet). Feel free to <a routerLink="/metas/{{meta.id}}/add">add</a> one.
-    </div>
-  </div>  
 </div>
 <button class="btn btn-primary" (click)="goBack()"><i class="fa fa-arrow-left"></i> Back</button>

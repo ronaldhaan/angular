@@ -6,15 +6,16 @@
     <div class="form-group">
         <ul class="list-group">
           <li class="list-group-item" *ngIf="chosenAbilities.length == 0">No abilities chosen yet</li>
-          <li *ngFor="let ability of chosenAbilities" class="list-group-item" >              
-            <div class="text-align-right" >{{ability.name}} <i class="fa fa-trash" (click)="remove(ability)"></i> </div>
+          <li *ngFor="let ability of chosenAbilities" class="list-group-item" >
+            <button class="btn btn-sm btn-danger" (click)="remove(ability)"><i class="fa fa-trash" ></i></button>
+            {{ability.name}}
           </li>
         </ul>
     </div>
     <div class="form-group" *ngIf="abilities.length > 0">
         <div *ngIf="abilities.length == 0" class="spinner-border"></div>
       <div class="dropdown">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
           Choose ability
         </button>
         <div class="dropdown-menu">
@@ -25,7 +26,7 @@
       </div>
     </div>
     <div class="form-group">
-    <button class="btn btn-primary" (click)="add()">Add abilities to this meta</button>
+    <button class="btn btn-secondary" (click)="add()">Add abilities to this meta</button>
     </div>
   </div>
   <div class="form-group">

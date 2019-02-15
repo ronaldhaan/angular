@@ -33,7 +33,7 @@ export class MetahumanSearchComponent implements OnInit {
       distinctUntilChanged(),
 
       // switch to new search observable each time the term changes
-      switchMap((term: string) => this.metaService.searchMetas(term)),
+      switchMap((term: string) => this.metaService.searchMetas('name', term)),
     );
   }
 }

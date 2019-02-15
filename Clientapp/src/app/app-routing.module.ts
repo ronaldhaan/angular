@@ -12,9 +12,10 @@ import { MetahumanAbilityAddComponent } from './components/metahumans/metahuman-
 import {TeamIndexComponent} from './components/teams/team-index/team-index.component';
 import {TeamDetailsComponent} from './components/teams/team-details/team-details.component';
 import {TeamCreateComponent} from './components/teams/team-create/team-create.component';
+import {TeamMetahumanAddComponent} from './components/teams/team-metahuman-add/team-metahuman-add.component';
 
 const routes: Routes = [
-    { path: 'dashboard', component: DashboardComponent },
+    { path: 'dashboard', component: DashboardComponent,  },
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
     // Metas routes
     { path: 'metas', children: [
@@ -22,7 +23,7 @@ const routes: Routes = [
             { path: 'create', component: MetahumanCreateComponent },
             { path: ':id/detail', component: MetahumanDetailComponent },
             { path: ':id/add', component: MetahumanAbilityAddComponent },
-        ]
+        ],
     },
     // abilities routes
     { path: 'abilities', children: [
@@ -37,6 +38,7 @@ const routes: Routes = [
             { path: '', component: TeamIndexComponent },
             { path: ':id/detail', component: TeamDetailsComponent },
             { path: 'add', component: TeamCreateComponent },
+            { path: ':id/add', component: TeamMetahumanAddComponent },
         ]
     }
 

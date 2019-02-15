@@ -7,6 +7,11 @@ export class Ability {
     metas: Metahuman[];
 
     public static Empty(): Ability {
-        return {} as Ability;
+        return {
+            id: '',
+            name: '',
+            description: '',
+            metas: [],
+        };
     }
 }

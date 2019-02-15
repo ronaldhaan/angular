@@ -85,7 +85,6 @@ export class MetahumanAbilityAddComponent extends BaseComponent implements OnIni
     this.abilityService.getAbilities().subscribe(abilities => {
         abilities.forEach(ability => {
           let hasAbility = false;
-          console.log('meta', this.meta);
           this.meta.abilities.forEach(metaAbility => {
             if (ability.id === metaAbility.id) {
               hasAbility = true;

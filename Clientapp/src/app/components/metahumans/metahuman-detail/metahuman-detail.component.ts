@@ -16,6 +16,7 @@ import {MessageService} from '../../../services/message-service/message.service'
 })
 export class MetahumanDetailComponent extends BaseComponent implements OnInit {
   @Input() public meta: Metahuman;
+
   private metaService: MetahumanService;
   private metaAbilityService: MetahumanAbilityService;
   public metaStatus: string[] = ['hero', 'villain', 'antihero'];
@@ -33,8 +34,12 @@ export class MetahumanDetailComponent extends BaseComponent implements OnInit {
     this.meta = Metahuman.Empty();
   }
 
+
   ngOnInit(): void {
     this.getMeta();
+    this.location.subscribe(x => {
+      this.getMeta();
+    });
   }
 
   /**
@@ -44,7 +49,7 @@ export class MetahumanDetailComponent extends BaseComponent implements OnInit {
     const id = this.getParam('id');
 
     this.metaService.getMeta(id)
-      .subscribe(meta => { console.log('meta: ', meta); this.meta = meta; });
+          .subscribe(meta => this.meta = meta);
   }
 
   /**
