@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { BaseComponent } from '../../base-component/base.component';
-import {ActivatedRoute, NavigationStart} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, NavigationStart} from '@angular/router';
 import { Location } from '@angular/common';
 
 import {Team} from '../../../models/team';
@@ -15,26 +15,22 @@ import {TeamMetahumanService} from '../../../services/team-metahuman-service/tea
   styleUrls: ['./team-details.component.css']
 })
 export class TeamDetailsComponent extends BaseComponent implements OnInit {
-  private teamService: TeamService;
-  private teamMetahumanService: TeamMetahumanService;
   @Input() team: Team;
 
   constructor(route: ActivatedRoute,
               location: Location,
-              service: TeamService,
               messageService: MessageService,
-              metaService: TeamMetahumanService) {
+              private teamService: TeamService,
+              private teamMetahumanService: TeamMetahumanService) {
     super(route, location, messageService);
-    this.teamService = service;
-    this.teamMetahumanService = metaService;
     this.team = Team.Empty();
   }
 
   ngOnInit() {
     this.getTeam();
-    this.location.subscribe(() => {
-      this.getTeam();
-    });
+    // this.location.subscribe(() => {
+    //   this.getTeam();
+    // });
   }
 
   getTeam() {
@@ -61,11 +57,7 @@ export class TeamDetailsComponent extends BaseComponent implements OnInit {
   hasChanged(): void {
     super.hasChanged();
     this.getTeam();
-  }
-
-  onPageReturn(event: NavigationStart): void {
-    super.onPageReturn(event);
-    console.log('overriding on page return in ', typeof this);
+    console.log('overriding hasChanged in', typeof this);
   }
 
 }

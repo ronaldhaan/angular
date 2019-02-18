@@ -15,15 +15,12 @@ import {MessageService} from '../../../services/message-service/message.service'
 })
 export class AbilityCreateComponent extends BaseComponent implements OnInit {
   @Input() public ability: Ability;
-  private abilityService: AbilityService;
 
-  constructor(
-    abilityService: AbilityService,
-    messageService: MessageService,
+  constructor(messageService: MessageService,
     route: ActivatedRoute,
-    location: Location) {
+    location: Location,
+    private abilityService: AbilityService) {
       super(route, location, messageService);
-      this.abilityService = abilityService;
       this.ability = Ability.Empty();
      }
 

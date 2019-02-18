@@ -14,7 +14,7 @@ import {MessageService} from '../../services/message-service/message.service';
 export class DashboardComponent extends BaseComponent implements OnInit {
   metahumen: Metahuman[] = [];
 
-  constructor( route: ActivatedRoute,
+  constructor(route: ActivatedRoute,
       location: Location,
       messageService: MessageService,
       private metahumanService: MetahumanService) {

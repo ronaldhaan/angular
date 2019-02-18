@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { Location } from '@angular/common';
 import { BaseComponent } from '../../base-component/base.component';
 import { ActivatedRoute } from '@angular/router';
@@ -12,16 +12,16 @@ import { Team } from '../../../models/team';
   styleUrls: ['./team-create.component.css']
 })
 export class TeamCreateComponent extends BaseComponent implements OnInit {
-  private teamService: TeamService;
+  @Input() public team: Team;
 
   constructor(
       route: ActivatedRoute,
       location: Location,
       messageService: MessageService,
-      teamService: TeamService
+      private teamService: TeamService
   ) {
     super(route, location, messageService);
-    this.teamService = teamService;
+    this.team = Team.Empty();
   }
 
   ngOnInit() {
@@ -31,26 +31,17 @@ export class TeamCreateComponent extends BaseComponent implements OnInit {
    * Creates a new `Team`.
    * @param team The name of the new `Team`.
    */
-  add(team: Team): void {
-    team.name = team.name.trim();
-    team.description = team.description.trim();
-    console.log(team);
-    this.teamService.add(team)
+  add(): void {
+    this.team.name = this.team.name.trim();
+    this.team.description = this.team.description.trim();
+
+
+    if (!this.team.name) { return; }
+    console.log(this.team);
+    this.teamService.add(this.team)
         .subscribe(() => {
           this.goBack();
         });
-  }
-
-  handleForm(name: string, description: string): void {
-
-    if (!name) { return; }
-
-    const team = {
-      name: name,
-      description: description
-    } as  Team;
-
-    this.add(team);
   }
 
 

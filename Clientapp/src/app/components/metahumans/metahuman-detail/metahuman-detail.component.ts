@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {ActivatedRoute, NavigationStart } from '@angular/router';
+import {ActivatedRoute, NavigationEnd, NavigationStart} from '@angular/router';
 import { Location } from '@angular/common';
 // components
 import { Metahuman } from 'src/app/models/metahuman';
@@ -37,18 +37,6 @@ export class MetahumanDetailComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMeta();
-    this.location.subscribe(() => {
-      this.getMeta();
-    }, () => {
-      this.getMeta();
-    }, () => {
-      this.getMeta();
-    });
-  }
-
-  onPageReturn(event: NavigationStart): void {
-    this.getMeta();
-    super.onPageReturn(event);
   }
 
   /**
@@ -58,7 +46,7 @@ export class MetahumanDetailComponent extends BaseComponent implements OnInit {
     const id = this.getParam('id');
 
     this.metaService.getMeta(id)
-          .subscribe(meta => this.meta = meta);
+          .subscribe(meta => { this.meta = meta; console.log('get metas'); });
   }
 
   /**
@@ -66,7 +54,7 @@ export class MetahumanDetailComponent extends BaseComponent implements OnInit {
    */
   save(): void {
     this.metaService.updateMeta(this.meta)
-      .subscribe(() => this.goBack());
+            .subscribe(() => this.goBack());
   }
 
   remove(ability: Ability): void {
@@ -75,8 +63,8 @@ export class MetahumanDetailComponent extends BaseComponent implements OnInit {
   }
 
   hasChanged(): void {
-      super.hasChanged();
-      this.getMeta();
-      console.log('overriding hasChanged');
+    super.hasChanged();
+    this.getMeta();
+    console.log('overriding hasChanged in', typeof this);
   }
 }

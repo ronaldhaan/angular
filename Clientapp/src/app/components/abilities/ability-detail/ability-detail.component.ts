@@ -7,7 +7,7 @@ import { BaseComponent } from 'src/app/components/base-component/base.component'
 import { Ability } from 'src/app/models/ability';
 import { AbilityService } from 'src/app/services/ability-service/ability.service';
 import {MessageService} from '../../../services/message-service/message.service';
-import {TruncatePipe} from '../../../Pipes/truncate-pipe';
+import {TruncatePipe} from '../../../pipes/truncate-pipe';
 
 @Component({
   selector: 'app-ability-detail',
@@ -17,16 +17,13 @@ import {TruncatePipe} from '../../../Pipes/truncate-pipe';
 export class AbilityDetailComponent extends BaseComponent implements OnInit {
   @Input() public ability: Ability;
 
-  private abilityService: AbilityService;
-
   constructor(
     route: ActivatedRoute,
-    abilityService: AbilityService,
     messageService: MessageService,
-    location: Location
+    location: Location,
+    private abilityService: AbilityService
   ) {
     super(route, location, messageService);
-    this.abilityService = abilityService;
     this.ability = Ability.Empty();
   }
 

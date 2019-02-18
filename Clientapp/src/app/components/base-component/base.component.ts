@@ -1,28 +1,16 @@
-import {Component, NgModule} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import { Location } from '@angular/common';
 import {MessageService} from '../../services/message-service/message.service';
-import { NavigationStart } from '@angular/router';
-import { TruncatePipe } from '../../Pipes/truncate-pipe';
-import {AppModule} from '../../app.module';
 
 /** The Base component */
 export class BaseComponent {
     protected static hasChanged: Boolean = false;
-    private route: ActivatedRoute;
-    protected location: Location;
-
-    protected messageService: MessageService;
 
     constructor(
-        route: ActivatedRoute,
-        location: Location,
-        messageService: MessageService
-    ) {
-        this.route = route;
-        this.location = location;
-        this.messageService = messageService;
-     }
+        private route: ActivatedRoute,
+        protected location: Location,
+        protected messageService: MessageService
+    ) {  }
 
     getParam(paramName: string): string {
         return this.route.snapshot.paramMap.get(paramName);
@@ -33,15 +21,14 @@ export class BaseComponent {
      */
     goBack(hasChanged: Boolean = false): void {
         BaseComponent.hasChanged = hasChanged;
-        this.hasChanged();
+        if (hasChanged) {
+            this.hasChanged();
+            BaseComponent.hasChanged = false;
+        }
         this.location.back();
     }
 
     hasChanged(): void {
         console.log('has changed');
-    }
-
-    onPageReturn(event: NavigationStart): void {
-        console.log('return to ', event.restoredState.navigationId);
     }
 }

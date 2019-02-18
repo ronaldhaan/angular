@@ -7,7 +7,7 @@ import { Ability } from 'src/app/models/ability';
 import { AbilityService } from 'src/app/services/ability-service/ability.service';
 import { MetahumanService } from 'src/app/services/metahuman-service/metahuman.service';
 import { MetahumanAbilityService } from 'src/app/services/metahuman-ability-service/metahuman-ability.service';
-import {MessageService} from '../../../services/message-service/message.service';
+import { MessageService } from '../../../services/message-service/message.service';
 
 @Component({
   selector: 'app-meta-ability-add',
@@ -15,13 +15,7 @@ import {MessageService} from '../../../services/message-service/message.service'
   styleUrls: ['./metahuman-ability-add.component.css']
 })
 export class MetahumanAbilityAddComponent extends BaseComponent implements OnInit {
-
-  public abilityService: AbilityService;
-  public metaService: MetahumanService;
-  public metaAbilityService: MetahumanAbilityService;
-
   public chosenAbilities: Ability[];
-
   public meta: Metahuman;
   public abilities: Ability[];
 
@@ -29,14 +23,11 @@ export class MetahumanAbilityAddComponent extends BaseComponent implements OnIni
     route: ActivatedRoute,
     location: Location,
     messageService: MessageService,
-    abilityService: AbilityService,
-    metaService: MetahumanService,
-    haService: MetahumanAbilityService
+    public abilityService: AbilityService,
+    public metaService: MetahumanService,
+    public metaAbilityService: MetahumanAbilityService
   ) {
     super(route, location, messageService);
-    this.abilityService = abilityService;
-    this.metaService = metaService;
-    this.metaAbilityService = haService;
 
     this.meta = Metahuman.Empty();
     this.abilities = [];
@@ -103,11 +94,16 @@ export class MetahumanAbilityAddComponent extends BaseComponent implements OnIni
   add(): void {
     if (this.chosenAbilities.length > 0) {
       const id = this.getParam('id');
+      let i = 1;
       this.chosenAbilities
-          .forEach(
-              ability => this.metaAbilityService.add(ability, id).subscribe()
+          .forEach(ability => this.metaAbilityService.add(ability, id)
+              .subscribe( () => {
+                if (i === this.chosenAbilities.length) {
+                  this.goBack(true);
+                }
+                i++;
+              })
           );
-      this.goBack();
     } else {
       this.messageService.add('First you need to choose an ability');
     }

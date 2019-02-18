@@ -12,18 +12,15 @@ import {MessageService} from '../../../services/message-service/message.service'
   styleUrls: ['./team-index.component.css']
 })
 export class TeamIndexComponent extends BaseComponent implements OnInit {
-
-  private service: TeamService;
   private teams: Team[];
 
   constructor(
       route: ActivatedRoute,
       location: Location,
       messageService: MessageService,
-      service: TeamService
+      private teamService: TeamService
   ) {
     super(route, location, messageService);
-    this.service = service;
     this.teams = [];
   }
 
@@ -35,7 +32,7 @@ export class TeamIndexComponent extends BaseComponent implements OnInit {
   }
 
   getTeams(): void {
-    this.service.getAll().subscribe(teams => {
+    this.teamService.getAll().subscribe(teams => {
       this.teams = teams;
       console.log(this.teams);
     });
@@ -44,7 +41,7 @@ export class TeamIndexComponent extends BaseComponent implements OnInit {
 
 
   delete(team: Team): void {
-    this.service.delete(team).subscribe( () => {
+    this.teamService.delete(team).subscribe( () => {
       this.getTeams();
     });
   }

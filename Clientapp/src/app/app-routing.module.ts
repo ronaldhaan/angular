@@ -9,10 +9,10 @@ import { AbilityDetailComponent } from './components/abilities/ability-detail/ab
 import { AbilityCreateComponent } from './components/abilities/ability-create/ability-create.component';
 import { AbilitiesIndexComponent } from './components/abilities/abilities-index/abilities-index.component';
 import { MetahumanAbilityAddComponent } from './components/metahumans/metahuman-ability-add/metahuman-ability-add.component';
-import {TeamIndexComponent} from './components/teams/team-index/team-index.component';
-import {TeamDetailsComponent} from './components/teams/team-details/team-details.component';
-import {TeamCreateComponent} from './components/teams/team-create/team-create.component';
-import {TeamMetahumanAddComponent} from './components/teams/team-metahuman-add/team-metahuman-add.component';
+import { TeamIndexComponent } from './components/teams/team-index/team-index.component';
+import { TeamDetailsComponent } from './components/teams/team-details/team-details.component';
+import { TeamCreateComponent } from './components/teams/team-create/team-create.component';
+import { TeamMetahumanAddComponent } from './components/teams/team-metahuman-add/team-metahuman-add.component';
 
 const routes: Routes = [
     { path: 'dashboard', component: DashboardComponent,  },

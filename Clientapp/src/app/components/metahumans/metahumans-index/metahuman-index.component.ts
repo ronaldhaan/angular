@@ -16,19 +16,16 @@ import {MessageService} from '../../../services/message-service/message.service'
 export class MetaHumanIndexComponent extends BaseComponent implements OnInit {
   private filteredMetas: Metahuman[];
   public metahumans: Metahuman[];
-
-  private metahumanService: MetahumanService;
   public metaStatus: string[] = ['All', 'Hero', 'Villain', 'Antihero'];
   public status = -1;
 
   constructor(
     route: ActivatedRoute,
-    metahumanService: MetahumanService,
     location: Location,
-    messageService: MessageService
+    messageService: MessageService,
+    private metahumanService: MetahumanService
   ) {
     super(route, location, messageService);
-    this.metahumanService = metahumanService;
     this.metahumans = [];
   }
 
