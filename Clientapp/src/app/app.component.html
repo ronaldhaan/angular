@@ -12,9 +12,11 @@
           <a class="nav-link" routerLink="/{{route.link}}">{{route.name}}</a>
         </li>
       </ul>
-    </div>  
+    </div>
   </nav>
-  <app-messages></app-messages>
+  <div class="sticky-top">
+    <app-messages></app-messages>
+  </div>
   <div class="container-fluid  py-5">
       <router-outlet></router-outlet>
   </div>

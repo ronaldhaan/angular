@@ -16,6 +16,7 @@ import {TruncatePipe} from '../../../pipes/truncate-pipe';
 })
 export class AbilityDetailComponent extends BaseComponent implements OnInit {
   @Input() public ability: Ability;
+  public showId: Boolean = false;
 
   constructor(
     route: ActivatedRoute,

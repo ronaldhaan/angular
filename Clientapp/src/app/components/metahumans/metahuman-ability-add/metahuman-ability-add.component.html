@@ -5,8 +5,8 @@
   <div class="card-body">
     <div class="form-group">
         <ul class="list-group">
-          <li class="list-group-item" *ngIf="chosenAbilities.length == 0">No abilities chosen yet</li>
-          <li *ngFor="let ability of chosenAbilities" class="list-group-item" >
+          <li class="list-group-item" *ngIf="abilities$.length == 0">No abilities chosen yet</li>
+          <li *ngFor="let ability of abilities$" class="list-group-item" >
             <button class="btn btn-sm btn-danger" (click)="remove(ability)"><i class="fa fa-trash" ></i></button>
             {{ability.name}}
           </li>
@@ -18,7 +18,7 @@
         <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
           Choose ability
         </button>
-        <div class="dropdown-menu">
+        <div class="dropdown-menu scrollable-menu">
           <div class="dropdown-item" (click)="push(ability)" *ngFor="let ability of abilities; let i = index">
             <span>{{i}} {{ability.name}}</span>
           </div>

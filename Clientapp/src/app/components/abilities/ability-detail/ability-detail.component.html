@@ -16,24 +16,24 @@
         </div>
     </div>
   <!-- List of the abilities of the ability -->
-    <div class="card mb-5" *ngIf="ability.metas">
+    <div class="card mb-5" >
         <div class="card-header">Metas with this ability</div>
         <div class="card-body">
-            <table *ngIf="ability.metas.length > 0" class="table table-striped table-hover">
+            <table *ngIf="ability.metas && ability.metas.length > 0" class="table table-striped table-hover">
                 <tr>
-                    <th>Id</th>
+                    <th>Id <button class="btn btn-secondary btn-sm text-right" (click)="showId = !showId">V</button></th>
                     <th>Name</th>
                 </tr>
-                <tr *ngFor="let meta of ability.metas" routerLink="/metas/{{meta.id}}/detail">
-                    <td>
-                        {{meta.id}}
+                <tr *ngFor="let meta of ability.metas" >
+                    <td routerLink="/metas/{{meta.id}}/detail" style="cursor: pointer;">
+                        {{meta.id | truncate:[5]}}
                     </td>
                     <td>
                         {{meta.name}}
                     </td>
                 </tr>
             </table>
-            <div *ngIf="ability.metas.length == 0">
+            <div *ngIf="!ability.metas || ability.metas.length == 0">
                 This ability has no metas (yet). Feel free to <a routerLink="/metas/create">add</a> one.
             </div>
         </div>

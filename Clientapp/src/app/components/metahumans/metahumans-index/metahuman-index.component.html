@@ -24,8 +24,8 @@
           <th>Status</th>
           <th>#</th>
         </tr>
-        <tr *ngFor="let meta of filteredMetas" routerLink="/metas/{{meta.id}}/detail">
-          <td>
+        <tr *ngFor="let meta of filteredMetas" >
+          <td routerLink="/metas/{{meta.id}}/detail" style="cursor: pointer">
               {{meta.id | truncate:[5]}}
           </td>
           <td>

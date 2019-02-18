@@ -1,0 +1,6 @@
+.message {
+    transition: all 1s ease;
+    position: absolute;
+    width: 100%;
+    z-index: 3;
+}

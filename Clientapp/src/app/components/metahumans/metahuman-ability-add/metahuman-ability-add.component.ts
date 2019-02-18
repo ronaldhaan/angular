@@ -15,7 +15,7 @@ import { MessageService } from '../../../services/message-service/message.servic
   styleUrls: ['./metahuman-ability-add.component.css']
 })
 export class MetahumanAbilityAddComponent extends BaseComponent implements OnInit {
-  public chosenAbilities: Ability[];
+  public abilities$: Ability[];
   public meta: Metahuman;
   public abilities: Ability[];
 
@@ -31,7 +31,7 @@ export class MetahumanAbilityAddComponent extends BaseComponent implements OnIni
 
     this.meta = Metahuman.Empty();
     this.abilities = [];
-    this.chosenAbilities = [];
+    this.abilities$ = [];
    }
 
   ngOnInit() {
@@ -43,22 +43,27 @@ export class MetahumanAbilityAddComponent extends BaseComponent implements OnIni
   }
 
   push(ability: Ability): void {
-    if (this.chosenAbilities.indexOf(ability) === -1) {
-      this.chosenAbilities.push(ability);
+    if (this.abilities$.indexOf(ability) === -1) {
+      this.abilities$.push(ability);
     } else {
-      // TODO give message back
+      this.messageService.add(`${ability.name} is already chosen.`, 2000);
     }
   }
 
+  /**
+   * Remove an ability from the list.
+   *
+   * @param ability the ability to be removed.
+   */
   remove(ability: Ability): void {
-    if (this.chosenAbilities.length === 1) {
-      if (this.chosenAbilities[0].id === ability.id) {
-        this.chosenAbilities = [];
+    if (this.abilities$.length === 1) {
+      if (this.abilities$[0].id === ability.id) {
+        this.abilities$ = [];
       }
     }
-    for ( let i = 0; i < this.chosenAbilities.length - 1; i++) {
-      if ( this.chosenAbilities[i].id === ability.id) {
-        this.chosenAbilities.splice(i, 1);
+    for (let i = 0; i < this.abilities$.length - 1; i++) {
+      if ( this.abilities$[i].id === ability.id) {
+        this.abilities$.splice(i, 1);
       }
     }
   }
@@ -92,20 +97,20 @@ export class MetahumanAbilityAddComponent extends BaseComponent implements OnIni
   }
 
   add(): void {
-    if (this.chosenAbilities.length > 0) {
+    if (this.abilities$.length > 0) {
       const id = this.getParam('id');
       let i = 1;
-      this.chosenAbilities
+      this.abilities$
           .forEach(ability => this.metaAbilityService.add(ability, id)
               .subscribe( () => {
-                if (i === this.chosenAbilities.length) {
-                  this.goBack(true);
+                if (i === this.abilities$.length) {
+                  this.goBack();
                 }
                 i++;
               })
           );
     } else {
-      this.messageService.add('First you need to choose an ability');
+      this.messageService.add('First you need to choose an ability', 2000);
     }
   }
 

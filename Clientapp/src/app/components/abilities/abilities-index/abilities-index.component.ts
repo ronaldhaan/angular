@@ -13,7 +13,8 @@ import {MessageService} from '../../../services/message-service/message.service'
   styleUrls: ['./abilities-index.component.css']
 })
 export class AbilitiesIndexComponent extends BaseComponent implements OnInit {
-  public abilities: Ability[];;
+  public abilities: Ability[];
+  public showId: Boolean = false;
 
   constructor(
     route: ActivatedRoute,

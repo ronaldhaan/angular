@@ -19,12 +19,7 @@ export class BaseComponent {
     /**
      * Redirects back to the previous page.
      */
-    goBack(hasChanged: Boolean = false): void {
-        BaseComponent.hasChanged = hasChanged;
-        if (hasChanged) {
-            this.hasChanged();
-            BaseComponent.hasChanged = false;
-        }
+    goBack(): void {
         this.location.back();
     }
 

@@ -37,6 +37,7 @@ export class MetahumanDetailComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMeta();
+    console.log('hoi');
   }
 
   /**

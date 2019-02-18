@@ -14,8 +14,8 @@
           <th>Description</th>
           <th>#</th>
         </tr>
-        <tr *ngFor="let team of teams" routerLink="/teams/{{team.id}}/detail">
-          <td>
+        <tr *ngFor="let team of teams">
+          <td routerLink="/teams/{{team.id}}/detail" style="cursor: pointer">
             {{team.id}}
           </td>
           <td>

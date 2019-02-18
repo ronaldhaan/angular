@@ -12,16 +12,16 @@
           <th>Description</th>
           <th>#</th>
         </tr>
-        <tr *ngFor="let ability of abilities" routerLink="/abilities/{{ability.id}}/detail">
-          <td>
-              {{ability.id}}
-          </td>
-          <td>
-              {{ability.name}}
-          </td>
-          <td>
-              {{ability.description | truncate:[20, '...']}}
-          </td>
+        <tr *ngFor="let ability of abilities">
+              <td routerLink="/abilities/{{ability.id}}/detail" style="cursor: pointer">
+                  {{ability.id | truncate:[5]}}
+              </td>
+              <td>
+                  {{ability.name}}
+              </td>
+              <td>
+                  {{ability.description | truncate:[20, '...']}}
+              </td>
           <td>
           <button class="btn btn-danger btn-sm" title="delete ability"
             (click)="delete(ability)"><i class="fa fa-trash"></i></button>
