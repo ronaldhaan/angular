@@ -2,13 +2,12 @@
     <div class="card mb-5">
         <div class="card-header">{{ability.name | uppercase}} Details</div>
         <div class="card-body">
-            <div><span>id: </span>{{ability.id}}</div>
             <div class="form-group">
-                <label for="abilityName">name</label>
+                <label for="abilityName">Name</label>
                 <input class="form-control" id="abilityName" [(ngModel)]="ability.name" placeholder="name"/>
             </div>
             <div class="form-group">
-                <label for="abilitydesc">name</label>
+                <label for="abilitydesc">Description</label>
                 <textarea class="form-control" id="abilitydesc" [(ngModel)]="ability.description" placeholder="name"></textarea>
             </div>
             <div class="form-group text-right">

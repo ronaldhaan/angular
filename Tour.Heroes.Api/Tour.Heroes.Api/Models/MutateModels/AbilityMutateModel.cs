@@ -7,5 +7,6 @@ namespace Tour.Heroes.Api.Models.MutateModels
 {
     public class AbilityMutateModel : BaseMutateModel
     {
+
     }
 }

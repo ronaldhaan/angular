@@ -38,7 +38,8 @@ export class AbilityCreateComponent extends BaseComponent implements OnInit {
     if (!this.ability.name) { return; }
 
     this.abilityService.addAbility(this.ability)
-      .subscribe(() => {
+      .subscribe(ability => {
+          console.log(this.ability, ability);
         this.ability = Ability.Empty();
         this.goBack();
       });

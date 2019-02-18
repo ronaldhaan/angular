@@ -15,6 +15,7 @@ import {MessageService} from '../../../services/message-service/message.service'
 export class MetahumanCreateComponent extends BaseComponent implements OnInit {
   @Input() metahuman: Metahuman;
   private MetahumanService: MetahumanService;
+  public metaStatus: string[] = ['hero', 'villain', 'antihero'];
 
   constructor(metaService: MetahumanService,
     route: ActivatedRoute,

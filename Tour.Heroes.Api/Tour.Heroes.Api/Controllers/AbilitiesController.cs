@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Tour.Heroes.Api.Models.Entities;
+using Tour.Heroes.Api.Models.MutateModels;
 using Tour.Heroes.Api.Models.RequestModels;
 using Tour.Heroes.Api.Models.ViewModels;
 using Tour.Heroes.Api.Repositories.EntityRepositories;
@@ -95,12 +96,19 @@ namespace Tour.Heroes.Api.Controllers
 
         // PUT: api/Abilities/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAbility([FromRoute] Guid id, [FromBody] Ability ability)
+        public async Task<IActionResult> PutAbility([FromRoute] Guid id, [FromBody] AbilityMutateModel abilityMutate)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            Ability ability = new Ability
+            {
+                Id = id,
+                Name = abilityMutate.Name,
+                Description = abilityMutate.Description,
+            };
 
             if (id != ability.Id)
             {
@@ -128,17 +136,24 @@ namespace Tour.Heroes.Api.Controllers
 
         // POST: api/Abilities
         [HttpPost]
-        public async Task<IActionResult> PostAbility([FromBody] Ability ability)
+        public async Task<IActionResult> PostAbility([FromBody] AbilityMutateModel abilityMutate)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            Ability ability = new Ability
+            {
+                Name = abilityMutate.Name,
+                Description = abilityMutate.Description,
+            };
+
             try
             {
                 await this.abilitiesRepository.AddAsync(ability);
 
-                return CreatedAtAction("GetAbility", new { id = ability.Id }, ability);
+                return Ok(ability);
             }
             catch(DbUpdateException ex)
             {
