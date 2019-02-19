@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute, Event as NavigationEvent, NavigationEnd} from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { NavigationStart } from '@angular/router';
 import { Router } from '@angular/router';
 import {BaseComponent} from './components/base-component/base.component';
 import {MessageService} from './services/message-service/message.service';

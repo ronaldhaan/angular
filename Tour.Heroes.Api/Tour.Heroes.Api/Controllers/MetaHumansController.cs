@@ -2,9 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Tour.Heroes.Api.Helpers;
 using Tour.Heroes.Api.Models.Entities;
 using Tour.Heroes.Api.Models.MutateModels;
 using Tour.Heroes.Api.Models.RequestModels;
@@ -13,25 +14,33 @@ using Tour.Heroes.Api.Repositories.EntityRepositories;
 
 namespace Tour.Heroes.Api.Controllers
 {
+    /// <summary>
+    /// Api controller responsable for the Http actions to the entity <see cref="Models.Entities.MetaHuman"/>.
+    /// </summary>    
     [Route("api/[controller]")]
     [ApiController]
     public class MetaHumansController : BaseController
     {
-        private readonly MetaHumansRepository heroesRepository;
+        private readonly MetaHumansRepository metasRepository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MetaHumansController"/> class.
+        /// </summary>
+        /// <param name="context">The database context</param>
+        /// <param name="mapper">auto mapper</param>
         public MetaHumansController(HeroDbContext context, IMapper mapper) : base(mapper)
         {
-            this.heroesRepository = new MetaHumansRepository(context);
+            this.metasRepository = new MetaHumansRepository(context);
         }
 
         #region Actions
         /// <summary>
-        /// GET: api/Heroes
+        /// GET: api/metahumans
         /// </summary>
         /// <param name="model">The optional get parameters</param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult GetHeroes([FromQuery]CollectionRequestModel model)
+        public IActionResult Get([FromQuery]CollectionRequestModel model)
         {
             try
             {
@@ -42,7 +51,7 @@ namespace Tour.Heroes.Api.Controllers
 
                 int skip = 0;
 
-                var query = this.heroesRepository.GetAll() as IQueryable<MetaHuman>;
+                var query = this.metasRepository.GetAll() as IQueryable<MetaHuman>;
 
                 if (model.Skip > 0)
                 {
@@ -59,7 +68,7 @@ namespace Tour.Heroes.Api.Controllers
                     .Skip(skip)
                     .Take(25);
 
-                query = this.heroesRepository.GetRelations(query) as IQueryable<MetaHuman>;
+                query = this.metasRepository.GetRelations(query) as IQueryable<MetaHuman>;
 
                 var viewQuery = query.Select(x => ViewModelHelper.BuildMetaViewModel(x, true));
 
@@ -70,9 +79,9 @@ namespace Tour.Heroes.Api.Controllers
                 return BadRequest(new JsonResult(ex.Message));
             }
         }
-                
+
         /// <summary>
-        /// GET: api/Heroes/{id}
+        /// GET: api/metahumans/{id}
         /// </summary>
         /// <param name="id">The id of the entity</param>
         /// <returns></returns>
@@ -86,9 +95,9 @@ namespace Tour.Heroes.Api.Controllers
                     return BadRequest(ModelState);
                 }
 
-                IQueryable<MetaHuman> query = this.heroesRepository.GetAll()
+                IQueryable<MetaHuman> query = this.metasRepository.GetAll()
                                                 .Where(x => x.Id.Equals(id));
-                query = this.heroesRepository.GetRelations(query) as IQueryable<MetaHuman>;
+                query = this.metasRepository.GetRelations(query) as IQueryable<MetaHuman>;
 
                 var viewQuery = query.Select(metaHuman => ViewModelHelper.BuildMetaViewModel(metaHuman, true));
 
@@ -108,40 +117,50 @@ namespace Tour.Heroes.Api.Controllers
         }
 
         /// <summary>
-        /// PUT: api/Heroes/{id}
+        /// PUT: api/metahumans/{id}
         /// </summary>
         /// <param name="id">The id of the entity</param>
         /// <param name="metaMutate">The changes</param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutHero([FromRoute] Guid id, [FromBody] MetaHumanMutateModel metaMutate)
+        public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] MetaHumanMutateModel metaMutate)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            MetaHuman meta = new MetaHuman
-            {
-                Id = id,
-                Name = metaMutate.Name,
-                Description = metaMutate.Description,
-                AlterEgo = metaMutate.AlterEgo,
-                Status = metaMutate.Status
-            };
+            MetaHuman metahuman = await this.metasRepository.GetOne(id);
 
-            if (id != meta.Id)
+            if (metahuman == null || id != metahuman.Id)
             {
                 return BadRequest();
             }
 
+            if(!string.IsNullOrEmpty(metaMutate.Name))
+            {
+                metahuman.Name = metaMutate.Name;
+            }
+
+            if (metaMutate.Description != null)
+            {
+                metahuman.Description = metaMutate.Description;
+            }
+
+            if (metaMutate.AlterEgo != null)
+            {
+                metahuman.AlterEgo = metaMutate.AlterEgo;
+            }
+
+            metahuman.UpdatedAt = metaMutate.UpdatedAt;
+
             try
             {
-                await this.heroesRepository.UpdateAsync(meta);
+                await this.metasRepository.UpdateAsync(metahuman);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await this.heroesRepository.EntityExists(id))
+                if (!await this.metasRepository.EntityExists(id))
                 {
                     return NotFound();
                 }
@@ -160,7 +179,7 @@ namespace Tour.Heroes.Api.Controllers
         /// <param name="hero">The new entity</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> PostHero([FromBody] MetaHumanMutateModel metaMutate)
+        public async Task<IActionResult> Post([FromBody] MetaHuman meta)
         {
             try
             {
@@ -169,15 +188,12 @@ namespace Tour.Heroes.Api.Controllers
                     return BadRequest(ModelState);
                 }
 
-                MetaHuman meta = new MetaHuman
+                if(!string.IsNullOrEmpty(meta.Name))
                 {
-                    Name = metaMutate.Name,
-                    Description = metaMutate.Description,
-                    AlterEgo = metaMutate.AlterEgo,
-                    Status = metaMutate.Status
-                };
+                    return BadRequest();
+                }
 
-                await this.heroesRepository.AddAsync(meta);
+                await this.metasRepository.AddAsync(meta);
 
 
                 return Ok(new { id = meta.Id });
@@ -189,12 +205,12 @@ namespace Tour.Heroes.Api.Controllers
         }
 
         /// <summary>
-        /// DELETE: api/Heroes/5
+        /// DELETE: api/metahumans/{guid}
         /// </summary>
         /// <param name="id">The id of the entity</param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteHero([FromRoute] Guid id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             try
             {
@@ -204,7 +220,7 @@ namespace Tour.Heroes.Api.Controllers
                 }
 
 
-                if (!(await this.heroesRepository.DeleteAsync(id) is MetaHuman hero))
+                if (!(await this.metasRepository.DeleteAsync(id) is MetaHuman hero))
                 {
                     return NotFound();
                 }

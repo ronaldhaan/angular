@@ -58,6 +58,7 @@ export class MetahumanService {
    * @param meta The new `Metahuman` to create
    */
   addMeta (meta: Metahuman): Observable<Metahuman> {
+    console.log('postmeta', meta);
     return this.http.post<Metahuman>(this.metasUrl, meta, Utilities.httpOptions);
   }
 

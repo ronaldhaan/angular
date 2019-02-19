@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Tour.Heroes.Api.Helpers;
 using Tour.Heroes.Api.Models.Entities;
 using Tour.Heroes.Api.Models.MutateModels;
 using Tour.Heroes.Api.Models.RequestModels;
@@ -24,9 +25,13 @@ namespace Tour.Heroes.Api.Controllers
         }
 
         #region Actions
-        // GET: api/Abilities
+        /// <summary>
+        /// GET: api/Abilities
+        /// </summary>
+        /// <param name="model">The collection of the available get queries.</param>
+        /// <returns></returns>        
         [HttpGet]
-        public ActionResult GetAbilities([FromQuery]CollectionRequestModel model)
+        public ActionResult Get([FromQuery]CollectionRequestModel model)
         {
             try
             {
@@ -60,7 +65,11 @@ namespace Tour.Heroes.Api.Controllers
             //return Ok(this.mapper.Map<AbilityViewModel>(query));
         }
 
-        // GET: api/Abilities/5
+        /// <summary>
+        /// GET: api/Abilities/5
+        /// </summary>
+        /// <param name="id">The id of the wanted entity</param>
+        /// <returns></returns>        
         [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
@@ -94,26 +103,39 @@ namespace Tour.Heroes.Api.Controllers
             }
         }
 
-        // PUT: api/Abilities/5
+        /// <summary>
+        /// PUT: api/Abilities/5
+        /// </summary>
+        /// <param name="id">The id of the entity</param>
+        /// <param name="abilityMutate">The values allowed to be changed.</param>
+        /// <returns></returns>        
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAbility([FromRoute] Guid id, [FromBody] AbilityMutateModel abilityMutate)
+        public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] AbilityMutateModel abilityMutate)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            Ability ability = new Ability
-            {
-                Id = id,
-                Name = abilityMutate.Name,
-                Description = abilityMutate.Description,
-            };
+            Ability ability = await this.abilitiesRepository.GetOne(id);
 
-            if (id != ability.Id)
+            if (ability == null || id != ability.Id)
             {
                 return BadRequest();
             }
+
+            if(!string.IsNullOrEmpty(abilityMutate.Name))
+            {
+                ability.Name = abilityMutate.Name;
+
+            }
+
+            if (abilityMutate.Description != null)
+            {
+                ability.Description = abilityMutate.Description;
+            }
+
+            ability.UpdatedAt = abilityMutate.UpdatedAt;
             
             try
             {
@@ -134,9 +156,13 @@ namespace Tour.Heroes.Api.Controllers
             return NoContent();
         }
 
-        // POST: api/Abilities
+        /// <summary>
+        /// POST: api/Abilities
+        /// </summary>
+        /// <param name="abilityMutate">The values allowed to be changed.</param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> PostAbility([FromBody] AbilityMutateModel abilityMutate)
+        public async Task<IActionResult> Post([FromBody] AbilityMutateModel abilityMutate)
         {
             if (!ModelState.IsValid)
             {
@@ -161,9 +187,13 @@ namespace Tour.Heroes.Api.Controllers
             }
         }
 
-        // DELETE: api/Abilities/5
+        /// <summary>
+        /// DELETE: api/Abilities/5
+        /// </summary>
+        /// <param name="id">The id of the entity</param>
+        /// <returns></returns>        
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAbility([FromRoute] Guid id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             try
             {

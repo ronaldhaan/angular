@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Text;
 using Tour.Heroes.Api.Models.Entities;
 using Tour.Heroes.Api.Models.Entities.LinkEntities;
 
@@ -12,6 +13,8 @@ namespace Tour.Heroes.Api
         public DbSet<MetaHuman> Metahumans { get; set; }
         public DbSet<MetaHumanAbility> MetahumansAbilities { get; set; }
         public DbSet<Ability> Abilities { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<MetaHumanTeam> MetaHumanTeams { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -168,9 +171,5 @@ namespace Tour.Heroes.Api
                 .HasData(metaHumanTeams);
 
         }
-
-        public DbSet<Tour.Heroes.Api.Models.Entities.Team> Team { get; set; }
-
-        public DbSet<Tour.Heroes.Api.Models.Entities.LinkEntities.MetaHumanTeam> MetaHumanTeam { get; set; }
     }
 }

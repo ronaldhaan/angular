@@ -32,17 +32,21 @@
     <Compile Remove="Migrations\20190213133521_InitializeDatabase.Designer.cs" />
     <Compile Remove="Migrations\20190214093624_InitializeDatabase.cs" />
     <Compile Remove="Migrations\20190214093624_InitializeDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20190214144241_InitializeDatabase.cs" />
+    <Compile Remove="Migrations\20190214144241_InitializeDatabase.Designer.cs" />
+    <Compile Remove="Migrations\20190219095126_InitializeDatabase.cs" />
+    <Compile Remove="Migrations\20190219095126_InitializeDatabase.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="8.0.0" />
+  <ItemGroup> 
+	<PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>

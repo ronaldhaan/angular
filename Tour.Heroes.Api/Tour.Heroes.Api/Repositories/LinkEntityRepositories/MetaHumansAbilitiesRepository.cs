@@ -14,6 +14,7 @@ namespace Tour.Heroes.Api.Repositories.LinkEntityRepositories
         {
             this.context = context;
         }
+
         public IQueryable<ITourLinkModel> GetRelations(IQueryable<ITourLinkModel> query)
         {
             if (query == null)

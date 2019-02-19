@@ -17,6 +17,12 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Tour.Heroes.Api.Helpers;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Tour.Heroes.Api.Repositories.EntityRepositories;
+using Tour.Heroes.Api.Models.Entities;
 
 namespace Tour.Heroes.Api
 {
@@ -56,7 +62,7 @@ namespace Tour.Heroes.Api
             });
 
             IMapper mapper = mappingConfig.CreateMapper();
-            services.AddSingleton(mapper);
+            services.AddSingleton(mapper);            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,7 +79,9 @@ namespace Tour.Heroes.Api
             else
             {
                 app.UseHsts();
-            }            
+            }
+
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
             //Note, the localization middleware must be configured before any middleware which might check the request culture

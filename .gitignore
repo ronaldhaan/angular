@@ -1,4 +1,8 @@
-./.vs/
-./*/.vs/
-./Tour.Heroes.Api/Tour.Heroes.Api/obj/
-./Tour.Heroes.Api/Tour.Heroes.Api/bin/
+.vs/
+*/.vs/
+*/*/obj/
+*/*/bin/
+*/obj/
+*/bin/
+obj/
+bin/

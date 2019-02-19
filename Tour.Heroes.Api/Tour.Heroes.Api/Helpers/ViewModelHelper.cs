@@ -2,7 +2,7 @@
 using Tour.Heroes.Api.Models.Entities;
 using Tour.Heroes.Api.Models.ViewModels;
 
-namespace Tour.Heroes.Api.Controllers
+namespace Tour.Heroes.Api.Helpers
 {
     public class ViewModelHelper
     {
@@ -58,6 +58,6 @@ namespace Tour.Heroes.Api.Controllers
             }
 
             return viewmodel;
-        }
+        }        
     }
 }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Tour.Heroes.Api.Helpers;
 using Tour.Heroes.Api.Models.Entities;
 using Tour.Heroes.Api.Models.MutateModels;
 using Tour.Heroes.Api.Models.ViewModels;
@@ -22,9 +23,12 @@ namespace Tour.Heroes.Api.Controllers
             teamsRepository = new TeamsRepository(context);
         }
 
-        // GET: api/Teams
+        /// <summary>
+        /// GET: api/Teams
+        /// </summary>
+        /// <returns></returns>        
         [HttpGet]
-        public IActionResult GetTeam()
+        public IActionResult Get()
         {
             try
             {
@@ -43,10 +47,14 @@ namespace Tour.Heroes.Api.Controllers
                 return BadRequest(new JsonResult(ex.Message));
             }
         }
-        
-        // GET: api/Teams/5
+
+        /// <summary>
+        /// GET: api/Teams/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>        
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTeam([FromRoute] Guid id)
+        public async Task<IActionResult> Get([FromRoute] Guid id)
         {
             try
             {
@@ -77,26 +85,38 @@ namespace Tour.Heroes.Api.Controllers
             }
 }
 
-        // PUT: api/Teams/5
+        /// <summary>
+        /// PUT: api/Teams/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="teamMutate"></param>
+        /// <returns></returns>        
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTeam([FromRoute] Guid id, [FromBody] TeamMutateModel teamMutate)
+        public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] TeamMutateModel teamMutate)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            Team team = new Team
-            {
-                Id = id,
-                Name = teamMutate.Name,
-                Description = teamMutate.Description,
-            };
+            Team team = await this.teamsRepository.GetOne(id);
 
-            if (id != team.Id)
+            if (team == null || id != team.Id)
             {
                 return BadRequest();
             }
+
+            if (!string.IsNullOrEmpty(teamMutate.Name))
+            {
+                team.Name = teamMutate.Name;
+            }
+
+            if (teamMutate.Description != null)
+            {
+                team.Description = teamMutate.Description;
+            }
+            
+            team.UpdatedAt = teamMutate.UpdatedAt;
 
             try
             {
@@ -117,9 +137,13 @@ namespace Tour.Heroes.Api.Controllers
             return NoContent();
         }
 
-        // POST: api/Teams
+        /// <summary>
+        /// POST: api/Teams
+        /// </summary>
+        /// <param name="teamMutate"></param>
+        /// <returns></returns>        
         [HttpPost]
-        public async Task<IActionResult> PostTeam([FromBody] TeamMutateModel teamMutate)
+        public async Task<IActionResult> Post([FromBody] TeamMutateModel teamMutate)
         {
             try
             {
@@ -144,9 +168,13 @@ namespace Tour.Heroes.Api.Controllers
             }
         }
 
-        // DELETE: api/Teams/5
+        /// <summary>
+        /// DELETE: api/Teams/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>        
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTeam([FromRoute] Guid id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             try
             {

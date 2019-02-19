@@ -9,13 +9,9 @@ namespace Tour.Heroes.Api.Models.MutateModels
     {
         public BaseMutateModel()
         {
-            this.UpdatedAt = DateTime.Now;
+            this.UpdatedAt = DateTimeOffset.UtcNow;
         }
 
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public DateTime UpdatedAt { get; set; }
+        public DateTimeOffset UpdatedAt { get; set; }
     }
 }
