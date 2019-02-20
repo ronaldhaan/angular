@@ -43,7 +43,9 @@ namespace Tour.Heroes.Api.Controllers
 
             try
             {
-                await this.metahumanAbilitiesRepository.AddAsync(ma);
+                var stored = await this.metahumanAbilitiesRepository.AddAsync(ma);
+
+                return Ok(new { id = new { stored.MetaHumanId, stored.AbilityId } });
             }
             catch (DbUpdateException)
             {
@@ -56,8 +58,6 @@ namespace Tour.Heroes.Api.Controllers
                     throw;
                 }
             }
-
-            return Ok(ma);
         }
 
         /// <summary>
@@ -75,9 +75,9 @@ namespace Tour.Heroes.Api.Controllers
 
             try
             {
-                MetaHumanAbility ha = await this.metahumanAbilitiesRepository.DeleteAsync(ma.MetaHumanId, ma.AbilityId);
+                var ha = await this.metahumanAbilitiesRepository.DeleteAsync(ma.MetaHumanId, ma.AbilityId);
 
-                return Ok(ha);
+                return Ok(new { id = new { ha.MetaHumanId, ha.AbilityId } });
             }
             catch (DbUpdateException ex)
             {

@@ -38,7 +38,9 @@ namespace Tour.Heroes.Api.Controllers
 
                 try
                 {
-                    await metaHumansTeamsRepository.AddAsync(metaHumanTeam);
+                    var stored = await metaHumansTeamsRepository.AddAsync(metaHumanTeam);
+
+                    return Ok(new { id = new { stored.MetaHumanId, stored.TeamId } });
                 }
                 catch (DbUpdateException)
                 {
@@ -51,8 +53,6 @@ namespace Tour.Heroes.Api.Controllers
                         throw;
                     }
                 }
-
-                return Ok(metaHumanTeam);
             }
             catch(Exception ex)
             {
@@ -77,7 +77,7 @@ namespace Tour.Heroes.Api.Controllers
                     return NotFound();
                 }
 
-                return Ok(metaHumanTeam);
+                return Ok(new { id = new { metaHumanTeam.MetaHumanId, metaHumanTeam.TeamId } });
             }
             catch(Exception ex)
             {

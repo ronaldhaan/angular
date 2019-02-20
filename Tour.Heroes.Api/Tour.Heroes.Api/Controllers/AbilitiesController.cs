@@ -37,7 +37,8 @@ namespace Tour.Heroes.Api.Controllers
             {
                 int skip = 0;
                 var query = this.abilitiesRepository.GetAll() as IQueryable<Ability>;
-                query = this.abilitiesRepository.GetRelations(query) as IQueryable<Ability>;
+
+                
 
                 if (!string.IsNullOrEmpty(model.Name))
                 {
@@ -46,7 +47,7 @@ namespace Tour.Heroes.Api.Controllers
 
                 if (model.Skip > 0)
                 {
-                    skip = (int)model.Skip;
+                    skip = model.Skip;
                 }
 
                 query = query
@@ -54,7 +55,14 @@ namespace Tour.Heroes.Api.Controllers
                     .Skip(skip)
                     .Take(25);
 
-                IQueryable<AbilityViewModel> viewQuery = query.Select(x => ViewModelHelper.BuildAbilityViewModel(x, true));
+                bool withRelations = !model.NoRelations;
+
+                if (withRelations)
+                {
+                    query = this.abilitiesRepository.GetRelations(query) as IQueryable<Ability>;
+                }
+
+                IQueryable<AbilityViewModel> viewQuery = query.Select(x => ViewModelHelper.BuildAbilityViewModel(x, withRelations));
 
                 return Ok(viewQuery.ToList());
             }
@@ -71,7 +79,7 @@ namespace Tour.Heroes.Api.Controllers
         /// <param name="id">The id of the wanted entity</param>
         /// <returns></returns>        
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute] Guid id)
+        public async Task<IActionResult> Get([FromRoute] Guid id, [FromQuery] CollectionRequestModel model)
         {
             try
             {
@@ -84,9 +92,14 @@ namespace Tour.Heroes.Api.Controllers
                                 .Where(x => x.Id.Equals(id)) 
                             as IQueryable<Ability>;
 
-                query = this.abilitiesRepository.GetRelations(query) as IQueryable<Ability>;
+                bool withRelations = !model.NoRelations;
 
-                var viewModel = await query.Select(x => ViewModelHelper.BuildAbilityViewModel(x, true))
+                if (withRelations)
+                {
+                    query = this.abilitiesRepository.GetRelations(query) as IQueryable<Ability>;
+                }
+
+                var viewModel = await query.Select(x => ViewModelHelper.BuildAbilityViewModel(x, withRelations))
                                             .FirstOrDefaultAsync();
                 //this.mapper.Map<AbilityViewModel>(query);
 
@@ -129,7 +142,7 @@ namespace Tour.Heroes.Api.Controllers
                 ability.Name = abilityMutate.Name;
 
             }
-
+            
             if (abilityMutate.Description != null)
             {
                 ability.Description = abilityMutate.Description;
@@ -162,24 +175,18 @@ namespace Tour.Heroes.Api.Controllers
         /// <param name="abilityMutate">The values allowed to be changed.</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] AbilityMutateModel abilityMutate)
+        public async Task<IActionResult> Post([FromBody] Ability ability)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            Ability ability = new Ability
-            {
-                Name = abilityMutate.Name,
-                Description = abilityMutate.Description,
-            };
-
             try
             {
-                await this.abilitiesRepository.AddAsync(ability);
+                Ability stored = await this.abilitiesRepository.AddAsync(ability);
 
-                return Ok(ability);
+                return Ok(new { id = stored.Id });
             }
             catch(DbUpdateException ex)
             {

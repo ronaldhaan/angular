@@ -14,7 +14,21 @@ namespace Tour.Heroes.Api
         public HeroDbContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<HeroDbContext>();
-            var connectionString = Utility.GetConnectionString("DefaultConnection");
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+             .SetBasePath(Directory.GetCurrentDirectory())
+             .AddJsonFile("appsettings.json")
+             .Build();
+
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            builder.UseSqlServer(connectionString);
+
+            return new HeroDbContext(builder.Options);
+        }
+
+        public HeroDbContext CreateDbContextByConnectionString(string connectionString)
+        {
+            var builder = new DbContextOptionsBuilder<HeroDbContext>();
 
             builder.UseSqlServer(connectionString);
 

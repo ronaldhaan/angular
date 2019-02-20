@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Tour.Heroes.Api.Helpers;
 using Tour.Heroes.Api.Models.Entities;
 using Tour.Heroes.Api.Models.MutateModels;
+using Tour.Heroes.Api.Models.RequestModels;
 using Tour.Heroes.Api.Models.ViewModels;
 using Tour.Heroes.Api.Repositories.EntityRepositories;
 
@@ -28,17 +29,27 @@ namespace Tour.Heroes.Api.Controllers
         /// </summary>
         /// <returns></returns>        
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery] CollectionRequestModel model)
         {
             try
             {
                 var query = teamsRepository.GetAll();
 
-                query = teamsRepository.GetRelations(query) as IQueryable<Team>;
+                if(!string.IsNullOrEmpty(model.Name))
+                {
+                    query = query.Where(x => x.Name.Contains(model.Name));
+                }
+
+                bool withRelations = !model.NoRelations;
+
+                if (withRelations)
+                {
+                    query = this.teamsRepository.GetRelations(query) as IQueryable<Team>;
+                }
 
                 //var response = mapper.Map<Collection<TeamViewModel>>(query);
 
-                var viewModel = query.Select(x => ViewModelHelper.BuildTeamViewModel(x, true));
+                var viewModel = query.Select(x => ViewModelHelper.BuildTeamViewModel(x, withRelations));
 
                 return Ok(viewModel.ToList());
             }
@@ -54,7 +65,7 @@ namespace Tour.Heroes.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>        
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute] Guid id)
+        public async Task<IActionResult> Get([FromRoute] Guid id, [FromQuery] CollectionRequestModel model)
         {
             try
             {
@@ -66,9 +77,14 @@ namespace Tour.Heroes.Api.Controllers
                 var query = teamsRepository.GetAll()
                                     .Where(x => x.Id.Equals(id));
 
-                query = this.teamsRepository.GetRelations(query) as IQueryable<Team>;
+                bool withRelations = !model.NoRelations;
 
-                var viewQuery = query.Select(x => ViewModelHelper.BuildTeamViewModel(x, true));
+                if (withRelations)
+                {
+                    query = this.teamsRepository.GetRelations(query) as IQueryable<Team>;
+                }
+
+                var viewQuery = query.Select(x => ViewModelHelper.BuildTeamViewModel(x, withRelations));
 
                 TeamViewModel team = await viewQuery.FirstOrDefaultAsync();
 
@@ -140,10 +156,10 @@ namespace Tour.Heroes.Api.Controllers
         /// <summary>
         /// POST: api/Teams
         /// </summary>
-        /// <param name="teamMutate"></param>
+        /// <param name="team"></param>
         /// <returns></returns>        
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] TeamMutateModel teamMutate)
+        public async Task<IActionResult> Post([FromBody] Team team)
         {
             try
             {
@@ -152,15 +168,14 @@ namespace Tour.Heroes.Api.Controllers
                     return BadRequest(ModelState);
                 }
 
-                Team team = new Team
+                if(string.IsNullOrEmpty(team.Name))
                 {
-                    Name = teamMutate.Name,
-                    Description = teamMutate.Description,
-                };
+                    return BadRequest();
+                }
 
-                await teamsRepository.AddAsync(team);
+                Team stored = await teamsRepository.AddAsync(team);
 
-                return Ok(team);
+                return Ok(new { id = stored.Id });
             }
             catch (Exception ex)
             {

@@ -49,10 +49,11 @@ namespace Tour.Heroes.Api.Repositories
         /// <returns>void</returns>
         /// <exception cref = "DbUpdateException" ></exception>
         /// <exception cref = "DbUpdateConcurrencyException" ></exception>
-        public virtual async Task<int> AddAsync(T entity)
+        public virtual async Task<T> AddAsync(T entity)
         {
-            var result = DataSet.AddAsync(entity);
-            return await this.SaveChangesAsync();
+            var result = await DataSet.AddAsync(entity);
+            await this.SaveChangesAsync();
+            return result.Entity;
         }
 
         private Task<int> SaveChangesAsync()

@@ -40,7 +40,7 @@ namespace Tour.Heroes.Api.Controllers
         /// <param name="model">The optional get parameters</param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Get([FromQuery]CollectionRequestModel model)
+        public IActionResult Get([FromQuery] CollectionRequestModel model)
         {
             try
             {
@@ -68,9 +68,14 @@ namespace Tour.Heroes.Api.Controllers
                     .Skip(skip)
                     .Take(25);
 
-                query = this.metasRepository.GetRelations(query) as IQueryable<MetaHuman>;
+                bool withRelations = !model.NoRelations;
 
-                var viewQuery = query.Select(x => ViewModelHelper.BuildMetaViewModel(x, true));
+                if(withRelations)
+                {
+                    query = this.metasRepository.GetRelations(query) as IQueryable<MetaHuman>;
+                }
+
+                var viewQuery = query.Select(x => ViewModelHelper.BuildMetaViewModel(x, withRelations));
 
                 return Ok(viewQuery.ToList());
             }
@@ -86,7 +91,7 @@ namespace Tour.Heroes.Api.Controllers
         /// <param name="id">The id of the entity</param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute] Guid id)
+        public async Task<IActionResult> Get([FromRoute] Guid id, [FromQuery] CollectionRequestModel model)
         {
             try
             {
@@ -97,9 +102,15 @@ namespace Tour.Heroes.Api.Controllers
 
                 IQueryable<MetaHuman> query = this.metasRepository.GetAll()
                                                 .Where(x => x.Id.Equals(id));
-                query = this.metasRepository.GetRelations(query) as IQueryable<MetaHuman>;
 
-                var viewQuery = query.Select(metaHuman => ViewModelHelper.BuildMetaViewModel(metaHuman, true));
+                bool withRelations = model.NoRelations;
+
+                if (withRelations)
+                {
+                    query = this.metasRepository.GetRelations(query) as IQueryable<MetaHuman>;
+                }
+
+                var viewQuery = query.Select(metaHuman => ViewModelHelper.BuildMetaViewModel(metaHuman, withRelations));
 
                 MetaHumanViewModel meta = await viewQuery.FirstOrDefaultAsync();
 
@@ -188,15 +199,15 @@ namespace Tour.Heroes.Api.Controllers
                     return BadRequest(ModelState);
                 }
 
-                if(!string.IsNullOrEmpty(meta.Name))
+                if(string.IsNullOrEmpty(meta.Name))
                 {
                     return BadRequest();
                 }
 
-                await this.metasRepository.AddAsync(meta);
+                MetaHuman stored = await this.metasRepository.AddAsync(meta);
 
 
-                return Ok(new { id = meta.Id });
+                return Ok(new { id = stored.Id });
             }
             catch (Exception ex)
             {

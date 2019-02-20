@@ -11,5 +11,7 @@ namespace Tour.Heroes.Api.Models.RequestModels
 
         public string Name { get; set; }
 
+        public bool NoRelations { get; set; }
+
     }
 }
