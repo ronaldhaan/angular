@@ -1,0 +1,32 @@
+<div class="card mb-5">
+  <div class="card-header">
+    <h3>Add Ability to {{team.name}}</h3>
+  </div>
+  <div class="card-body">
+    <div class="form-group">
+      <ul class="list-group">
+        <li class="list-group-item" *ngIf="metahumen$.length == 0">No metahumans chosen yet</li>
+        <li *ngFor="let ability of metahumen$" class="list-group-item" >
+          <div class="text-align-right" ><button class="btn btn-secondary btn-sm" (click)="remove(ability)"><i class="fa fa-trash"></i></button>  {{ability.name}}  </div>
+        </li>
+      </ul>
+    </div>
+    <div class="form-group" *ngIf="metas.length > 0">
+      <div *ngIf="metas.length == 0" class="spinner-border"></div>
+      <div class="dropdown">
+        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+          Choose metahuman
+        </button>
+        <div class="dropdown-menu scrollable-menu">
+          <div class="dropdown-item" (click)="push(meta)" *ngFor="let meta of metas; let i = index">
+            <span>{{i}} {{meta.name}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-secondary" (click)="add()">Add metahumans to this team</button>
+    </div>
+  </div>
+</div>
+<button class="btn btn-primary" (click)="goBack()">Go Back</button>

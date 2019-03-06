@@ -1,0 +1,35 @@
+<div class="card">
+  <div class="card-header">
+    <h2>My Teams</h2>
+  </div>
+  <div class="card-body">
+    <div *ngIf="teams.length == 0" class="spinner-border"></div>
+    <div *ngIf="teams.length > 0" class="form-group">
+      <a routerLink="/teams/add">Create Team</a>
+
+      <table class="table table-striped table-hover">
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>#</th>
+        </tr>
+        <tr *ngFor="let team of teams">
+          <td routerLink="/teams/{{team.id}}/detail" style="cursor: pointer">
+            {{team.id}}
+          </td>
+          <td>
+            {{team.name}}
+          </td>
+          <td>
+            {{team.description | truncate}}
+          </td>
+          <td>
+            <button class="btn btn-danger btn-sm" title="delete meta"
+                    (click)="delete(team)"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

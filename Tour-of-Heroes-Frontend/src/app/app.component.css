@@ -1,0 +1,53 @@
+/* AppComponent's private CSS styles */
+  .header {
+    color: #fff;
+    margin-bottom:0;
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-image: url('../assets/img/meta_banner.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 30vh;
+    /* background-size:  */
+  }
+
+  nav.navbar, footer {
+    background-image: linear-gradient(to right, #af0001 ,#fe0000);
+  }
+
+  .content {
+    margin-top: 25vh;
+    background-color: white;
+    z-index: 2;
+    min-height: 80vh;
+    margin-bottom: 400px;
+  }
+
+  /* if screen >  576px and screen < 688px */
+  @media all and (min-width: 576px) and (max-width: 688px) {
+    .content {
+      margin-top: 30vh;
+    }
+  }
+
+  /* if screen < 373 */
+  @media all and (max-width: 373px) {
+    .content {
+      margin-top: 30vh;
+    }
+  }
+
+  .footer {
+    margin-bottom:0;
+    position: fixed;
+    z-index: -1;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  

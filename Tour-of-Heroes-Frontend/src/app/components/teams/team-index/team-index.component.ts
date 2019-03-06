@@ -1,0 +1,49 @@
+import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import {BaseComponent} from '../../base-component/base.component';
+import {ActivatedRoute} from '@angular/router';
+import {TeamService} from '../../../services/team-service/team.service';
+import {Team} from '../../../models/team';
+import {MessageService} from '../../../services/message-service/message.service';
+
+@Component({
+  selector: 'app-team-index',
+  templateUrl: './team-index.component.html',
+  styleUrls: ['./team-index.component.css']
+})
+export class TeamIndexComponent extends BaseComponent implements OnInit {
+  private teams: Team[];
+
+  constructor(
+      route: ActivatedRoute,
+      location: Location,
+      messageService: MessageService,
+      private teamService: TeamService
+  ) {
+    super(route, location, messageService);
+    this.teams = [];
+  }
+
+  ngOnInit() {
+    this.getTeams();
+    this.location.subscribe(() => {
+      this.getTeams();
+    });
+  }
+
+  getTeams(): void {
+    this.teamService.getAll().subscribe(teams => {
+      this.teams = teams;
+      console.log(this.teams);
+    });
+  }
+
+
+
+  delete(team: Team): void {
+    this.teamService.delete(team).subscribe( () => {
+      this.getTeams();
+    });
+  }
+
+}

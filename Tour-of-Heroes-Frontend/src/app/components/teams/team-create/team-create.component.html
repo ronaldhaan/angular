@@ -1,0 +1,24 @@
+<div class="card mb-5">
+  <div class="card-header"> Add Team </div>
+  <div class="card-body">
+    <div class="form-group">
+      <label for="teamName">name:</label>
+      <input class="form-control" id="teamName" [ngModel]="team.name" />
+      <!-- (click) passes input value to add() and then clears the input -->
+    </div>
+    <div class="form-group">
+      <label for="teamDescription">Description:</label>
+      <textarea class="form-control" id="teamDescription" [ngModel]="team.description"></textarea>
+      <!-- (click) passes input value to add() and then clears the input -->
+    </div>
+
+    <div class="form-group text-right">
+      <button class="btn btn-secondary"
+              (click)="add()">
+        add Team
+      </button>
+    </div>
+  </div>
+</div>
+
+<button class="btn btn-primary" (click)="goBack()"><i class="fa fa-arrow-left"></i> Back</button>

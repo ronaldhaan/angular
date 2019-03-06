@@ -1,0 +1,41 @@
+<div class="card mb-5">
+    <div class="card-header"> Add Meta </div>
+    <div class="card-body">
+      <div class="form-group">
+        <label for="metaName">name:</label>
+          <input class="form-control" id="metaName" [(ngModel)]="metahuman.name"/>
+        <!-- (click) passes input value to add() and then clears the input -->
+      </div>
+        <div class="form-group">
+            <label for="metaDescription">Description:</label>
+            <input class="form-control" id="metaDescription" [(ngModel)]="metahuman.description"/>
+            <!-- (click) passes input value to add() and then clears the input -->
+        </div>
+        <div class="form-group">
+            <label for="metaEgo">alter ego:</label>
+            <input class="form-control" id="metaEgo" [(ngModel)]="metahuman.alterEgo" />
+            <!-- (click) passes input value to add() and then clears the input -->
+        </div>
+        <div class="form-group">
+            <div class="dropdown">
+                <span visible="false" [(ngModel)]="metahuman.status"></span>
+                <button type="button" class="btn btn-secondary dropdown-toggle" value="Kies een status" #status data-toggle="dropdown">
+                    {{status.value}}
+                </button>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item" *ngFor="let status of metaStatus; let i = index" (click)="status.value = metaStatus[i];">
+                        <div>{{status | uppercase}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group text-right">
+          <button class="btn btn-secondary"
+                  (click)="add()">
+                  add Meta
+          </button>
+        </div>
+  </div>
+</div>
+
+<button class="btn btn-primary" (click)="goBack()"><i class="fa fa-arrow-left"></i> Back</button>

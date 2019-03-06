@@ -1,0 +1,24 @@
+/* DashboardComponent's private CSS styles */
+  .module > a {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .module {
+    padding: 20px;
+    text-align: center;
+    color: #eee;
+    max-height: 120px;
+    min-width: 120px;
+    background-color: #af0001;
+    border-radius: 2px;
+    margin: 5px;
+  }
+  .module:hover {
+    background-color: #fe0000;
+    cursor: pointer;
+  }
+  
+  /* .module:hover > a {
+    color: #000;
+  } */

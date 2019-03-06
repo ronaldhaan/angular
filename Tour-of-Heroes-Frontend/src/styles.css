@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+.btn-secondary {
+    background-color: #af0001;
+    border: 1px solid #fe0000;
+}
+
+.btn-secondary:hover {
+    background-color: #fe0000;
+    border: 1px solid #af0001;
+}
+
+textarea {
+    min-height: 150px;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
